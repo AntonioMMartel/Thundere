@@ -1,18 +1,6 @@
-<template> 
-    <button v-on:click="count++">You clicked me {{ count }} times.</button>
+<template>
+    <div>
+        Funciona porfin'nt
+    </div>
 </template>
-
-<script>
-
-export default {
-    
-    name: 'prueba',
-    data: function () {
-        return {
-            count: 0
-        }
-    }
-
-}
-</script>
 
