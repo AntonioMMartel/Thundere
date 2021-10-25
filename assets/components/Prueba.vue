@@ -1,6 +1,6 @@
 <template>
     <div>
-        Funciona porfin'nt
+        Funciona cremita crema
     </div>
 </template>
 
