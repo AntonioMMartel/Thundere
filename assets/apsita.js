@@ -5,6 +5,8 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
+console.log("Hola soy app.js")
+
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
@@ -13,16 +15,12 @@ import './bootstrap';
 
 import Vue from 'vue';
 
-import App from './components/App'
+import Prueba from './components/Prueba.vue';
 
 new Vue({
     el: '#app',
-    render: h => h(App),
-    components: {
-        'nav': Nav,
-        'article': Article,
-        'footer': Footer
-    }
+    template: '<Prueba/>',
+    components: {Prueba}
 });
 
 
