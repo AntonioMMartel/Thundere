@@ -1,6 +1,11 @@
 <template>
     <div>
-        Funciona cremita crema
+        Funciona cremita cremaaa
     </div>
 </template>
 
+<script>
+    export default {
+        name: 'prueba'
+    }
+</script>

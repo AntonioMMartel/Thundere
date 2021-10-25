@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
-{% block body %}
-    <h3>Buenas que tal jefe</h3>
+
+{% block title %} Ciudades {% endblock %}
+
+{% block header %}
+    <div id="app_header"> <Header1></div>
 {% endblock %}
 
-{% block javascripts %}
-{{ encore_entry_script_tags('app') }}
+{% block article %}
+    <div id="app_article"> <Article1></div>
+{% endblock %}
+
+{% block footer %}
+<div id="app_footer"> <Footer1></div>
 {% endblock %}
