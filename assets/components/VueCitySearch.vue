@@ -1,17 +1,15 @@
 <template>
     <div>
-        
+        <input type="text">    
     </div>
 </template>
 
 <script>
     export default {
-        name: 'VueHeader'
+        name: "VueCitySearch"
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
-
-    
 </style>

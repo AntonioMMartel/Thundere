@@ -10,7 +10,7 @@
     } 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .contenedor-footer{
         display: flex;
         flex-direction: column-reverse;
@@ -21,7 +21,7 @@
     }
 
     .footer-text {
-        color: white;
-        padding: 1em
+        color: white; 
+        padding: 1em;
     }
 </style>

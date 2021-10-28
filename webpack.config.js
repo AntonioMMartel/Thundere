@@ -56,7 +56,9 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader(options => {
+        options.additionalData = '@import "./assets/styles/_variables.scss";' // Para poder usar variables de estilo globales
+    })
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -73,7 +75,6 @@ Encore
 
     .enableVueLoader()
 
-    .enableSassLoader()
 ;
 
 module.exports = Encore.getWebpackConfig();

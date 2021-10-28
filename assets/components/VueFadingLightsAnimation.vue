@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="animation-container">
         <div v-for="n in 100" :key="n" class="circle-container">
                     <div class="circle"></div>
         </div>
-    </div> 
+    </div>
 </template>
 
 <script>
@@ -19,6 +19,11 @@
 
 <style lang="scss" scoped>
 
+    .animation-container {
+        width: 0%;
+    }
+
+    // Animation
     $particleBaseSize: 16;
 
     .circle-container {

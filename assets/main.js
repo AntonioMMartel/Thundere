@@ -11,7 +11,7 @@ const imagesContext = require.context('./images', true, /\.(png|jpg|jpeg|gif|ico
 imagesContext.keys().forEach(imagesContext);
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import './styles/main.scss';
 
 // start the Stimulus application
 import './bootstrap';

@@ -14,7 +14,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
     .contenedor-nav{
         display: flex;
@@ -22,7 +22,7 @@
         height: 10vh;
         justify-content: center;
         align-items: center;
-        color: white;
+        color: $primary-color;
     }
 
     .contenedor-nav-item {
