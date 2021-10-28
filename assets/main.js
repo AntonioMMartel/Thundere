@@ -19,28 +19,30 @@ import './bootstrap';
 import Vue from 'vue';
 
 // Header
-import Header1 from './components/Header1.vue';
+import VueHeader from './components/VueHeader.vue';
 
 new Vue({
     el: '#app_header',
-    components: {Header1}
+    components: {VueHeader}
 });
 
 // Article
-import Article1 from './components/Article1.vue';
+import VueArticle from './components/VueArticle.vue';
 
 new Vue({
     el: '#app_article',
-    components: {Article1}
+    components: {VueArticle}
 });
 
 // Footer
-import Footer1 from './components/Footer1.vue';
+import VueFooter from './components/VueFooter.vue';
 
 new Vue({
     el: '#app_footer',
-    components: {Footer1}
+    components: {VueFooter}
 });
+
+// ----
 
 import Prueba from './components/Prueba.vue';
 

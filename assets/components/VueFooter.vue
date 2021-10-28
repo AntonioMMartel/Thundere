@@ -1,23 +1,27 @@
 <template>
     <footer class="contenedor-footer">
-        <div>©2021 Gofio SA ™ - Todos los derechos reservados</div>
+        <div class="footer-text">©2021 Gofio SA ™ - Todos los derechos reservados</div>
     </footer>
 </template>
 
 <script>
     export default {
-        name: 'footer1'
-    }
+        name: 'VueFooter'
+    } 
 </script>
 
 <style scoped>
     .contenedor-footer{
         display: flex;
+        flex-direction: column-reverse;
         width: 100%;
-        justify-content: center;
         align-items: center;
-        background: black;
-        color: white;
+        
         height: 10vh;
+    }
+
+    .footer-text {
+        color: white;
+        padding: 1em
     }
 </style>

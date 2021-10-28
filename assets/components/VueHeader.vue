@@ -1,16 +1,16 @@
 <template>
         <header>
             <nav class="contenedor-nav">
-                <div class="contenedor-nav-item">History</div>
-                <div class="contenedor-nav-item">Logo</div>
-                <div class="contenedor-nav-item">Bookmarks</div>
+                <div class="contenedor-nav-item nav-text">History</div>
+                <div class="contenedor-nav-item nav-text">Logo</div>
+                <div class="contenedor-nav-item nav-text">Bookmarks</div>
             </nav>
         </header>
 </template>
 
 <script>
     export default {
-        name: 'header1'
+        name: 'VueHeader'
     }
 </script>
 
@@ -19,10 +19,9 @@
     .contenedor-nav{
         display: flex;
         width: 100%;
-        height: 7vh;
+        height: 10vh;
         justify-content: center;
         align-items: center;
-        background: #00235c;
         color: white;
     }
 
@@ -30,6 +29,12 @@
 
         padding: 1em;
 
+    }
+
+    .nav-text {
+
+        font-size: 2em;
+        
     }
 
 </style>
