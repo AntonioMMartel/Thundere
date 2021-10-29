@@ -5,7 +5,6 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
-console.log("Hola soy apsita.js");
 
 const imagesContext = require.context('./images', true, /\.(png|jpg|jpeg|gif|ico|svg|webp)$/);
 imagesContext.keys().forEach(imagesContext);
@@ -27,11 +26,11 @@ new Vue({
 });
 
 // Article
-import VueArticle from './components/VueArticle.vue';
+import VueArticleSearch from './components/VueArticleSearch.vue';
 
 new Vue({
     el: '#app_article',
-    components: {VueArticle}
+    components: {VueArticleSearch}
 });
 
 // Footer
@@ -40,14 +39,4 @@ import VueFooter from './components/VueFooter.vue';
 new Vue({
     el: '#app_footer',
     components: {VueFooter}
-});
-
-// ----
-
-import Prueba from './components/Prueba.vue';
-
-// Pruebas
-new Vue({
-    el: '#app_prueba',
-    components: {Prueba}
 });

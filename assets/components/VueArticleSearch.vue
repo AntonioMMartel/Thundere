@@ -4,18 +4,18 @@
             <vue-fading-lights-animation/>
             <div class="container-ui">
                 <div class="title">Pon una ciudad</div>
-                <vue-city-search/>
+                <vue-text-search/>
             </div>
         </div>
     </article>
 </template>
 
 <script>
-import VueCitySearch from './VueCitySearch.vue'
+import VueTextSearch from './VueTextSearch.vue'
 import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
     export default {
-        name: 'VueArticle',
-        components: { VueFadingLightsAnimation, VueCitySearch }
+        name: 'VueArticleSearch',
+        components: { VueFadingLightsAnimation, VueTextSearch }
         
     }
 </script>
@@ -23,8 +23,9 @@ import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
 <style lang="scss" scoped>
 
     .title {
-        font-size: 9em;   
-        color: $primary-color;     
+        font-size: 7rem;   
+        color: white;  
+        text-align: center;
     }
 
     .container-main {
@@ -36,11 +37,15 @@ import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
     .container-ui {
         width: 100%;
         height: 80vh;
-
+        
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
+
+        div:first-child{
+            padding-bottom: 0.3em ;
+            padding-top: 1.2em;
+        }
         
     }
 
