@@ -18,7 +18,12 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "encore production --progress",
+        "doctriMakeEntity": "php bin/console make:entity",
+        "doctriMakeMigration": "php bin/console make:migration",
+        "doctriMigrate":"php bin/console doctrine:migrations:migrate",
+        "sqlQuery":"php bin/console doctrine:query:sql",
+        "makeController":"php bin/console make:controller"
     },
     "dependencies": {
         "vue-tools": "^0.0.49"

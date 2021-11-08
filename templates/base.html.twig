@@ -11,10 +11,16 @@
 
         {% block javascripts %} {% endblock %}
     </head>
+    
     <body>
-        {% block header %}{% endblock %}
+        {% block header %}
+                <div id="app_header"> <Vue-Header></div>
+        {% endblock %}
         {% block article %}{% endblock %}
-        {% block footer %}{% endblock %}
+        {% block footer %}
+            <div id="app_footer"> <Vue-Footer></div>
+        {% endblock %}
         {{ encore_entry_script_tags('main') }}
     </body>
+
 </html>

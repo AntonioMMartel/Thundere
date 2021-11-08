@@ -1,9 +1,11 @@
 <template>
         <header>
             <nav class="contenedor-nav">
-                <div class="contenedor-nav-item nav-text">History</div>
+                <!-- Te haces un controlador pa los hrefs: 
+                https://symfony.com/doc/current/routing.html#creating-routes-as-attributes-or-annotations -->
+                <a href="./" class="contenedor-nav-item nav-text">History</a>
                 <div class="contenedor-nav-item nav-text">Logo</div>
-                <div class="contenedor-nav-item nav-text">Bookmarks</div>
+                <a class="contenedor-nav-item nav-text">Bookmarks</a>
             </nav>
         </header>
 </template>

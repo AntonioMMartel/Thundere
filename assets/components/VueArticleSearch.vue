@@ -23,8 +23,7 @@ import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
 <style lang="scss" scoped>
 
     .title {
-        font-size: 7rem;   
-        color: white;  
+        font-size: 7rem;     
         text-align: center;
     }
 
@@ -32,6 +31,7 @@ import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
         display:flex;
         height: 80vh;
         flex-wrap: wrap;
+        color: $primary-color;
     }
 
     .container-ui {
