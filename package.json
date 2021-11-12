@@ -22,6 +22,7 @@
         "doctriMakeEntity": "php bin/console make:entity",
         "doctriMakeMigration": "php bin/console make:migration",
         "doctriMigrate":"php bin/console doctrine:migrations:migrate",
+        "doctriMigrationHistory":"php bin/console doctrine:migrations:status",
         "sqlQuery":"php bin/console doctrine:query:sql",
         "makeController":"php bin/console make:controller"
     },

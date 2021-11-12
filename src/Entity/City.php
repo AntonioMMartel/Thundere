@@ -25,18 +25,18 @@ class City
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=20)
      */
     private $id_iso;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="user_favs_city")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="points_to", orphanRemoval=true)
      */
-    private $users;
+    private $comments;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,27 +69,30 @@ class City
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Comment[]
      */
-    public function getUsers(): Collection
+    public function getComments(): Collection
     {
-        return $this->users;
+        return $this->comments;
     }
 
-    public function addUser(User $user): self
+    public function addComment(Comment $comment): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addUserFavsCity($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setPointsTo($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeComment(Comment $comment): self
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeUserFavsCity($this);
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPointsTo() === $this) {
+                $comment->setPointsTo(null);
+            }
         }
 
         return $this;
