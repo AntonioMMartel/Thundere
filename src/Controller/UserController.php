@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -23,7 +24,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{name}", name="userShowByname")
+     * @Route("/user/login/{name}", name="userShowByname")
     */
     public function showByName(String $name): Response
     {   
@@ -47,29 +48,26 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/make/{nombre}", name="createUser")
+     * @Route("/user/create", name="createUser", methods={"POST"})
+     * 
     */
-    public function createUser($nombre, UserPasswordHasherInterface $passwordHasher): Response
+    public function createUser(Request $request,  UserPasswordHasherInterface $passwordHasher): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $user = new User();
-        $user->setName($nombre);
-        $user->setEmail($nombre."@email.com");
+        $data = $request->toArray();
 
+        $user = new User();
+        $user->setName($data['name']);
+        $user->setEmail($data['email']);
         // Contraseña:
-        $plaintextPassword = "meteoro";
-        $hashedPassword = $passwordHasher->hashPassword(
-            $user,
-            $plaintextPassword
-        );
+        $plaintextPassword = $data['password'];
+        $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
 
         $user->setPassword($hashedPassword);
-
         $entityManager->persist($user);
+        $entityManager->flush(); 
 
-        $entityManager->flush();
-
-        return new Response('Saved new user with id '.$user->getId());
+        return new Response('Saved new user with email '.$user->getEmail());
     }
 
 }

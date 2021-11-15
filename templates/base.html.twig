@@ -13,13 +13,19 @@
     </head>
     
     <body>
+        <header>
         {% block header %}
-                <div id="app_header"> <Vue-Header></div>
+            <div id="app_header"> <Vue-Header></div>
         {% endblock %}
+        </header>
+        <article>
         {% block article %}{% endblock %}
+        </article>
+        <footer>
         {% block footer %}
             <div id="app_footer"> <Vue-Footer></div>
         {% endblock %}
+        </footer>
         {{ encore_entry_script_tags('main') }}
     </body>
 

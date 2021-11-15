@@ -5,17 +5,11 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
-
-const imagesContext = require.context('./images', true, /\.(png|jpg|jpeg|gif|ico|svg|webp)$/);
-imagesContext.keys().forEach(imagesContext);
-
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/main.scss';
-
-// start the Stimulus application
-import './bootstrap';
-
 import Vue from 'vue';
+import axios from "axios";
+
 
 // Header
 import VueHeader from './components/VueHeader.vue';
@@ -27,10 +21,11 @@ new Vue({
 
 // Article
 import VueArticleSearch from './components/VueArticleSearch.vue';
-
+import VueLogin from './components/VueLogin.vue';
+import VueRegister from './components/VueRegister.vue';
 new Vue({
     el: '#app_article',
-    components: {VueArticleSearch}
+    components: {VueArticleSearch, VueLogin, VueRegister}
 });
 
 // Footer

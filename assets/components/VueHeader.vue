@@ -1,11 +1,8 @@
 <template>
         <header>
             <nav class="contenedor-nav">
-                <!-- Te haces un controlador pa los hrefs: 
-                https://symfony.com/doc/current/routing.html#creating-routes-as-attributes-or-annotations -->
-                <a href="./" class="contenedor-nav-item nav-text">History</a>
-                <div class="contenedor-nav-item nav-text">Logo</div>
-                <a class="contenedor-nav-item nav-text">Bookmarks</a>
+                <a href="./" class="contenedor-nav-item">History</a>
+                <a class="contenedor-nav-item">Bookmarks</a>
             </nav>
         </header>
 </template>
@@ -25,6 +22,8 @@
         justify-content: center;
         align-items: center;
         color: $primary-color;
+
+        font-size: 2em;
     }
 
     .contenedor-nav-item {
@@ -33,10 +32,5 @@
 
     }
 
-    .nav-text {
-
-        font-size: 2em;
-        
-    }
 
 </style>
