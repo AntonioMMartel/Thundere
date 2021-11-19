@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -35,6 +36,28 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
+    public function loadUserByIdentifier(string $nameOrEmail): ?User
+    {
+        $entityManager = $this->getEntityManager();
+
+        return $entityManager->createQuery(
+                'SELECT user
+                FROM App\Entity\User user
+                WHERE user.email = :query
+                OR u.name = :query'
+            )
+            ->setParameter('query', $nameOrEmail)
+            ->getOneOrNullResult();
+    }
+
+    public function loadUserByUsername(string $nameOrEmail): ?User
+    {
+        return $this->loadUserByIdentifier($nameOrEmail);
+    }
+
+
+
 
     // /**
     //  * @return User[] Returns an array of User objects

@@ -8,8 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
+use App\Repository\UserRepository;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class UserController extends AbstractController
 {
@@ -48,6 +49,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * Débil a: Contraseñas enormes -> bcrypt se queda F
      * @Route("/user/create", name="createUser", methods={"POST"})
      * 
     */
@@ -69,5 +71,27 @@ class UserController extends AbstractController
 
         return new Response('Saved new user with email '.$user->getEmail());
     }
+
+    /**
+     * Debil a: CSFR attacks
+     * @Route("/user/login", name="userLogin")
+    */
+    public function login(Request $request, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository){
+
+        // Request con email y contraseña
+        $data = $request->toArray();
+
+        // Me pillas de doctrine al usuario
+        $user = $userRepository::loadUserByIdentifier($data['email']);
+
+        // Lo comparas
+        if($passwordHasher->isPasswordValid($user, $data['password']))
+
+        // Devuelves token
+        $session = new Session();
+        $session -> start();
+
+    }
+
 
 }

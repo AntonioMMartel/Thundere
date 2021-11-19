@@ -20,12 +20,23 @@
         data: () => ({
             email: "",
             password: "",
-            error: false
+            error: false,
+            loginSuccess: null
         }),
         methods: {
             login() {
-            console.log(this.email);
-            console.log(this.password);
+              const auth = { username: this.username, password: this.password };
+              // Correct username is 'foo' and password is 'bar'
+              const url = 'https://httpbin.org/basic-auth/foo/bar';
+              this.success = false;
+              this.error = null;
+
+              try {
+                const res = axios.get(url, { auth }).then(res => res.data);
+                this.success = true;
+              } catch (err) {
+                this.error = err.message;
+              }
             }
         }
     };
