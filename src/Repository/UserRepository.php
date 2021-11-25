@@ -59,6 +59,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
     /**
      * @return User
+     * 
+     * @Route("/user/create", name="createUser", methods={"POST"})
      */
     public function createUser(Array $data, UserPasswordHasherInterface $passwordHasher): User {
         $entityManager = $this->getDoctrine()->getManager();

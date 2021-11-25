@@ -38,7 +38,7 @@
             register(this.email, this.username, this.password)
             .then(response => {console.log(response)})
             .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
-            // Deberia redirigir a algo de confirmar usuario con su codigo wapo
+            // Deberia redirigir a algo de confirmar usuario con su codigo que le llega al email
             window.location.href = '/login';
           }
         }

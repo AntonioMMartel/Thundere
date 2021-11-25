@@ -280,25 +280,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->userTokens;
     }
 
-    public function addUserToken(UserToken $userToken): self
-    {
-        if (!$this->userTokens->contains($userToken)) {
-            $this->userTokens[] = $userToken;
-            $userToken->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserToken(UserToken $userToken): self
-    {
-        if ($this->userTokens->removeElement($userToken)) {
-            // set the owning side to null (unless already changed)
-            if ($userToken->getUser() === $this) {
-                $userToken->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }
