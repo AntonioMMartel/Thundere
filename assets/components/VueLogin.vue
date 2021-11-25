@@ -1,13 +1,13 @@
 <template>
     <div class="login">
         <h1 class="title">Login in the page</h1>
-        <form action class="form">
+        <form class="form" action="/login" method="post" @submit.prevent="login">
 
-            <label class="form-label" for="#email">Email:</label>
-            <input v-model="email" class="form-input" type="email" id="email" required placeholder="Email">
+            <label class="form-label" for="#email">Email BLABLABLA:</label>
+            <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email">
 
             <label class="form-label" for="#password">Password:</label>
-            <input v-model="password" class="form-input" type="password" id="password" placeholder="Password">
+            <input v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password">
 
             <p v-if="error" class="error"> {{ errorMessage }} </p>
             <input class="form-submit" type="submit" value="Login">
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import login from "../facade/AuthorizationFacade";
+  import {login} from "../facade/AuthorizationFacade";
     export default {
         data: () => ({
             email: "",
@@ -28,11 +28,12 @@
         methods: {
           
             login() {
+              console.log("Gerundio",this.email, this.password);
               login(this.email, this.password)
               .then(response => {console.log(response)})
               .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
               // Deberia redirigir a algo de confirmar usuario con su codigo wapo
-              window.location.href = '/';
+              
             }
         }
     };

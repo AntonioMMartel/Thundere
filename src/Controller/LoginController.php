@@ -27,31 +27,23 @@ class LoginController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function index(): Response
+    public function index(AuthenticationUtils $authenticationUtils): Response
     {   
- 
-        return $this->render('login/index.html.twig', []);
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        // Las variables se pasaran al componente de vue que gestiona el login
+        // Leete https://symfony.com/doc/current/security.html#form-login que hay vulnerabilidades
+        // si haces esto mal xd
+        return $this->render('login/index.html.twig', 
+        [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
     }
 
-    /**
-     * Returns the current user.
-     *
-     * @Route(
-     *     "user",
-     *     methods={"GET"}
-     * )
-     *
-     * @Security("has_role('ROLE_USER')")
-     *
-     * @return Response
-     */
-    public function getUserAction(): Response
-    {
-        return new Response(
-            $this->serializer->serialize(
-                $this->getUser(),
-                'json', array('groups' => array('default'))
-            )
-        );
-    }
+    // El autenticador de forms de symfony hace el login automaticamente
 }

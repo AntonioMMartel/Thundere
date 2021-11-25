@@ -62,9 +62,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * 
      * @Route("/user/create", name="createUser", methods={"POST"})
      */
-    public function createUser(Array $data, UserPasswordHasherInterface $passwordHasher): User {
-        $entityManager = $this->getDoctrine()->getManager();
-
+    public function createUser(Array $data, UserPasswordHasherInterface $passwordHasher): User 
+    {   /*
         // Array vacio
         if(!$data) return null;
         
@@ -72,8 +71,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         // El orden no importa
         $filter = ["name" => "", "email" => "", "password" => ""];
         if (!array_diff_key($data, $filter) && !array_diff_key($filter, $data)) return null;
-
-        // Creamos user
+        */
+        // Creamos objeto del usuario
         $user = new User();
         $user->setName($data['name']);
         $user->setEmail($data['email']);
@@ -87,6 +86,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $date = new \DateTime('@'.strtotime('now'));
         $user->setCreatedTime($date);
 
+        // Creamos el usuario en la bd
+        $entityManager = $this->getEntityManager();
         $entityManager->persist($user);
         $entityManager->flush(); 
 

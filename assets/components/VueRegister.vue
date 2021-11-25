@@ -1,9 +1,9 @@
 <template>
     <div class="login">
         <h1 class="title"> Make an account</h1>
-        <form action class="form" @submit.prevent="register">
+        <form class="form" @submit.prevent="register">
 
-            <label class="form-label" for="#username">Username:</label>
+            <label class="form-label" for="#username">Username AAAA:</label>
             <input v-model="username" class="form-input" id="username" required placeholder="Username">
 
             <label class="form-label" for="#email">Email:</label>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import register from "../facade/AuthorizationFacade";
+    import {register} from "../facade/AuthorizationFacade";
 
     export default {
         data: () => ({
@@ -36,10 +36,10 @@
         methods: {
           register() {
             register(this.email, this.username, this.password)
-            .then(response => {console.log(response)})
-            .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
+            .then(response => {console.log(response); window.location.href = '/login';})
+            .catch((error) => {console.log(error); this.error=true; this.errorMessage=error.message});
             // Deberia redirigir a algo de confirmar usuario con su codigo que le llega al email
-            window.location.href = '/login';
+            
           }
         }
     };

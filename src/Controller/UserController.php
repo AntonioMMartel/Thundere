@@ -49,19 +49,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * Débil a: Contraseñas enormes -> bcrypt se queda F
-     * @Route("/user/create", name="createUser", methods={"POST"})
-     * 
-    */
-    public function createUser(Request $request, UserRepository $userRepository)//: Response
-    {
-        /*
-        $userRepository->createUser($request->toArray());
-
-        return new Response('Saved new user with email '.$user->getEmail()); */
-    }
-
-    /**
      * Debil a: CSFR attacks
      * @Route("/user/login", name="userLogin")
     */

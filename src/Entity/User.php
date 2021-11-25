@@ -69,16 +69,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $created_time;
 
-    /**
-     * @ORM\OneToMany(targetEntity=UserToken::class, mappedBy="user", orphanRemoval=true)
-     */
-    private $userTokens;
 
     public function __construct()
     {
         $this->user_creates_comment = new ArrayCollection();
         $this->user_bookmarks_city = new ArrayCollection();
-        $this->userTokens = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -272,12 +268,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|UserToken[]
-     */
-    public function getUserTokens(): Collection
-    {
-        return $this->userTokens;
-    }
 
 }
