@@ -17,4 +17,17 @@ class TestController extends AbstractController
             'controller_name' => 'TestController',
         ]);
     }
+    /**
+     * Prueba para comparar si dos arrays tienen las mismas claves
+     * 
+     * @Route("/test/arrayTest/", name="test")
+     */
+    public function arrayTest(): Response
+    {   
+        $arrayBien = ["1" => "33", "2" => 43, "3" => 22, "5"=> 43];
+        $array = ["2" => 1, "1" => 2, "3"=>21, "5" => 213];
+        $resultado = array_diff_key($arrayBien,$array);
+        return new Response(!array_diff_key($arrayBien, $array) && !array_diff_key($array, $arrayBien) ? 'true' : 'false');
+    }
+
 }

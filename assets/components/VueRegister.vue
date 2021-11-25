@@ -15,7 +15,7 @@
             <label class="form-label" for="#password-repeat"> Repeat your password:</label>
             <input v-model="passwordRepeat" class="form-input" type="password" id="password-repeat" placeholder="Password">
 
-            <p v-if="error" class="error"> You must put an email and username </p>
+            <p v-if="error" class="error"> {{ errorMessage }} </p>
             <input class="form-submit" type="submit" value="Register">
         </form>
     </div>
@@ -30,12 +30,17 @@
             password: "",
             passwordRepeat: "",
             username: "",
-            error: false
+            error: false,
+            errorMessage: ""
         }),
         methods: {
-            register() {
-                register(this.email, this.username, this.password).then(response => {console.log(response)}).catch((error) => {console.log(error)});
-            }
+          register() {
+            register(this.email, this.username, this.password)
+            .then(response => {console.log(response)})
+            .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
+            // Deberia redirigir a algo de confirmar usuario con su codigo wapo
+            window.location.href = '/login';
+          }
         }
     };
 </script>

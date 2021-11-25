@@ -2,7 +2,8 @@
         <header>
             <nav class="contenedor-nav">
                 <a href="./" class="contenedor-nav-item">History</a>
-                <a class="contenedor-nav-item">Bookmarks</a>
+                <a href="./" class="contenedor-nav-item">Bookmarks</a>
+                <a href="./login" class="contenedor-nav-item">Login</a>            
             </nav>
         </header>
 </template>

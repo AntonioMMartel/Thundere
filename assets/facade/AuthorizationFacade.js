@@ -1,14 +1,11 @@
 import axios from "axios";
 
-export default function register(email, name, password) {
-
-  return axios.post('/user/register', {
+function register(email, name, password) {
+  return axios.post('/user/create', {
       email,
       name,
       password
     })
-
-
 }
 
 function login(email, password) {
@@ -19,3 +16,5 @@ function login(email, password) {
     }
   })
 }
+
+export default [register, login];

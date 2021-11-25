@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
@@ -55,7 +57,39 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         return $this->loadUserByIdentifier($nameOrEmail);
     }
+    /**
+     * @return User
+     */
+    public function createUser(Array $data, UserPasswordHasherInterface $passwordHasher): User {
+        $entityManager = $this->getDoctrine()->getManager();
 
+        // Array vacio
+        if(!$data) return null;
+        
+        // Faltan o sobran datos
+        // El orden no importa
+        $filter = ["name" => "", "email" => "", "password" => ""];
+        if (!array_diff_key($data, $filter) && !array_diff_key($filter, $data)) return null;
+
+        // Creamos user
+        $user = new User();
+        $user->setName($data['name']);
+        $user->setEmail($data['email']);
+
+        // Contraseña:
+        $plaintextPassword = $data['password'];
+        $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
+        $user->setPassword($hashedPassword);
+
+        // Fecha creacion
+        $date = new \DateTime('@'.strtotime('now'));
+        $user->setCreatedTime($date);
+
+        $entityManager->persist($user);
+        $entityManager->flush(); 
+
+        return $user;
+    }
 
 
 

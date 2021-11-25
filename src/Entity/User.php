@@ -69,10 +69,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $created_time;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserToken::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $userTokens;
+
     public function __construct()
     {
         $this->user_creates_comment = new ArrayCollection();
         $this->user_bookmarks_city = new ArrayCollection();
+        $this->userTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -262,6 +268,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedTime(\DateTimeInterface $created_time): self
     {
         $this->created_time = $created_time;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserToken[]
+     */
+    public function getUserTokens(): Collection
+    {
+        return $this->userTokens;
+    }
+
+    public function addUserToken(UserToken $userToken): self
+    {
+        if (!$this->userTokens->contains($userToken)) {
+            $this->userTokens[] = $userToken;
+            $userToken->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserToken(UserToken $userToken): self
+    {
+        if ($this->userTokens->removeElement($userToken)) {
+            // set the owning side to null (unless already changed)
+            if ($userToken->getUser() === $this) {
+                $userToken->setUser(null);
+            }
+        }
 
         return $this;
     }

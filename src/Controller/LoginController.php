@@ -7,39 +7,51 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+
+use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class LoginController extends AbstractController
 {
     /**
-     * @Route("/login", name="login")
+     * @var SerializerInterface
      */
-    public function index(AuthenticationUtils $authenticationUtils): Response
-    {   
-        // get the login error if there is one
-+       $error = $authenticationUtils->getLastAuthenticationError();
+    private $serializer;
 
-        // last username entered by the user
-+       $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('login/index.html.twig', [
-            'last_username' => $lastUsername,
-+           'error'         => $error,
-        ]);
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
     }
 
     /**
-     * @Route("/login/createSessionDb", name="createSession")
+     * @Route("/login", name="login")
      */
-    public function createSessionTable(PdoSessionHandler $sessionHandlerService): Response
+    public function index(): Response
+    {   
+ 
+        return $this->render('login/index.html.twig', []);
+    }
+
+    /**
+     * Returns the current user.
+     *
+     * @Route(
+     *     "user",
+     *     methods={"GET"}
+     * )
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @return Response
+     */
+    public function getUserAction(): Response
     {
-        try {
-            $sessionHandlerService->createTable();
-        } catch (\PDOException $exception) {
-            // the table could not be created for some reason
-        }
-        // Ponte a intentar hacer que las sesiones funciones con sqlite.
-        return new Response('Db creada con exito');
+        return new Response(
+            $this->serializer->serialize(
+                $this->getUser(),
+                'json', array('groups' => array('default'))
+            )
+        );
     }
 }

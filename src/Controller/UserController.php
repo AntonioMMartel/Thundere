@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 use App\Repository\UserRepository;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -53,44 +53,38 @@ class UserController extends AbstractController
      * @Route("/user/create", name="createUser", methods={"POST"})
      * 
     */
-    public function createUser(Request $request,  UserPasswordHasherInterface $passwordHasher): Response
+    public function createUser(Request $request, UserRepository $userRepository)//: Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $data = $request->toArray();
+        /*
+        $userRepository->createUser($request->toArray());
 
-        $user = new User();
-        $user->setName($data['name']);
-        $user->setEmail($data['email']);
-        // Contraseña:
-        $plaintextPassword = $data['password'];
-        $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
-
-        $user->setPassword($hashedPassword);
-        $entityManager->persist($user);
-        $entityManager->flush(); 
-
-        return new Response('Saved new user with email '.$user->getEmail());
+        return new Response('Saved new user with email '.$user->getEmail()); */
     }
 
     /**
      * Debil a: CSFR attacks
      * @Route("/user/login", name="userLogin")
     */
-    public function login(Request $request, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository){
+    public function login(Request $request, UserRepository $userRepository){
 
         // Request con email y contraseña
         $data = $request->toArray();
 
         // Me pillas de doctrine al usuario
-        $user = $userRepository::loadUserByIdentifier($data['email']);
+        $user = $userRepository->loadUserByIdentifier($data['email']);
 
+        /*
         // Lo comparas
-        if($passwordHasher->isPasswordValid($user, $data['password']))
-
+        if($passwordHasher->isPasswordValid($user, $data['password'])){
+            return new Response("Todo crema");
+        }
+        */
+        
+        /*
         // Devuelves token
         $session = new Session();
         $session -> start();
-
+        */
     }
 
 

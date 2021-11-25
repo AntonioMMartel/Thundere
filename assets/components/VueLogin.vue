@@ -9,34 +9,30 @@
             <label class="form-label" for="#password">Password:</label>
             <input v-model="password" class="form-input" type="password" id="password" placeholder="Password">
 
-            <p v-if="error" class="error"> You must put an email. </p>
+            <p v-if="error" class="error"> {{ errorMessage }} </p>
             <input class="form-submit" type="submit" value="Login">
         </form>
     </div>
 </template>
 
 <script>
+  import login from "../facade/AuthorizationFacade";
     export default {
         data: () => ({
             email: "",
             password: "",
             error: false,
+            errorMessage: "",
             loginSuccess: null
         }),
         methods: {
+          
             login() {
-              const auth = { username: this.username, password: this.password };
-              // Correct username is 'foo' and password is 'bar'
-              const url = 'https://httpbin.org/basic-auth/foo/bar';
-              this.success = false;
-              this.error = null;
-
-              try {
-                const res = axios.get(url, { auth }).then(res => res.data);
-                this.success = true;
-              } catch (err) {
-                this.error = err.message;
-              }
+              login(this.email, this.password)
+              .then(response => {console.log(response)})
+              .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
+              // Deberia redirigir a algo de confirmar usuario con su codigo wapo
+              window.location.href = '/';
             }
         }
     };
@@ -48,6 +44,7 @@
 }
 .title {
   text-align: center;
+  color: $primary-color;
 }
 .form {
   margin: 3rem auto;
