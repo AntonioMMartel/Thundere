@@ -3,7 +3,7 @@
         <h1 class="title">Login in the page</h1>
         <form class="form" action="/login" method="post" @submit.prevent="login">
 
-            <label class="form-label" for="#email">Email BLABLABLA:</label>
+            <label class="form-label" for="#email">Email:</label>
             <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email">
 
             <label class="form-label" for="#password">Password:</label>
@@ -11,6 +11,8 @@
 
             <p v-if="error" class="error"> {{ errorMessage }} </p>
             <input class="form-submit" type="submit" value="Login">
+
+            <!-- <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"> -->
         </form>
     </div>
 </template>
@@ -28,9 +30,8 @@
         methods: {
           
             login() {
-              console.log("Gerundio",this.email, this.password);
               login(this.email, this.password)
-              .then(response => {console.log(response)})
+              .then(response => {console.log(response); window.location.href = '/';})
               .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
               // Deberia redirigir a algo de confirmar usuario con su codigo wapo
               
