@@ -3,11 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Controlador base{% endblock %}</title>
+        {% block head %}
+            {# Vas a poner el csfr token aqui y se lo vas a inyectar a Vue.js
+            https://stackoverflow.com/questions/41409893/csrf-token-in-vue-component #}
+        {% endblock %}
+
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('main') }}
         {% endblock %}
+        
 
         {% block javascripts %} {% endblock %}
     </head>

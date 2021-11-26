@@ -12,7 +12,7 @@
             <p v-if="error" class="error"> {{ errorMessage }} </p>
             <input class="form-submit" type="submit" value="Login">
 
-            <!-- <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"> -->
+            <input type="hidden" name="_csrf_token">
         </form>
     </div>
 </template>
@@ -25,12 +25,12 @@
             password: "",
             error: false,
             errorMessage: "",
-            loginSuccess: null
+            loginSuccess: null,
         }),
         methods: {
           
             login() {
-              login(this.email, this.password)
+              login(this.email, this.password, this._csrf_token)
               .then(response => {console.log(response); window.location.href = '/';})
               .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
               // Deberia redirigir a algo de confirmar usuario con su codigo wapo

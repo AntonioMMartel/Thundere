@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %} Login {% endblock %}
-
+{% block head %} {{ csrf_token('authenticate') }} {% endblock %}
 {% block article %}
     <div id="app_article"> <Vue-Login> </div>
 {% endblock %}
