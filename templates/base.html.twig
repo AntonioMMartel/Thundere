@@ -21,7 +21,13 @@
     <body>
         <header>
         {% block header %}
-            <div id="app_header"> <Vue-Header></div>
+        {# Si esta logeado ve otras cosas.
+           Mandamos el parametro a Vue con v-bind #}
+            {% if is_granted('ROLE_USER') %}
+                <header id="app_header"> <Vue-Header user-Role="user"></header>
+            {% else %}
+                <header id="app_header"> <Vue-Header user-Role="none"></header>
+            {% endif %}
         {% endblock %}
         </header>
         <article>

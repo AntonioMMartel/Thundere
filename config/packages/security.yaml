@@ -29,7 +29,7 @@ security:
                 # "login" is the name of the route created previously
                 login_path: login
                 check_path: login
-                enable_csrf: true
+                # enable_csrf: true
                 username_parameter: email
                 password_parameter: password
 

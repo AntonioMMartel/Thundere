@@ -38,6 +38,7 @@ class LoginController extends AbstractController
         // Las variables se pasaran al componente de vue que gestiona el login
         // Leete https://symfony.com/doc/current/security.html#form-login que hay vulnerabilidades
         // si haces esto mal xd
+        // En symfony casts hay cosas de como hacer el login
         return $this->render('login/index.html.twig', 
         [
             'last_username' => $lastUsername,

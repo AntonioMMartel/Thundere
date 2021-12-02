@@ -12,7 +12,7 @@
             <p v-if="error" class="error"> {{ errorMessage }} </p>
             <input class="form-submit" type="submit" value="Login">
 
-            <input type="hidden" name="_csrf_token">
+            <!-- <input type="hidden" name="_csrf_token"> -->
         </form>
     </div>
 </template>
