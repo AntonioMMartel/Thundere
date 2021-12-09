@@ -37,26 +37,22 @@
 
             updateInputHeight() {
                 if (this.textRows <= 6) this.textRows = this.input.length / 16 + 1;
-                /* Lee ancho de las letras en pixeles
-                    Inutil porque:
-                        1. Diferente en cada browser
-                        2. Las mayusculas se toman en minusculas
-                let inputElement = document.getElementById("text-input");
-                this.textRows = Math.trunc(this.getInputTextWidth() / (inputElement.clientWidth)) + 1;
-                if(this.input.length == 0){
-                    this.textRows = 1;
-                } */
             },
-            preventMultipleWhitespaces() {
-                if (this.input.slice(-2) == "  "){
-                    this.input= this.input.slice(0,-1)
+            preventUselessWhitespaces() {
+                // Al final 1 espacio
+                if (this.input.slice(-2) === "  "){
+                    this.input= this.input.slice(0,-1);
+                }
+                // Al principio ningun espacio
+                if (this.input.charAt(0) === " "){
+                    this.input= this.input.slice(1);
                 }
             }
 
         },
         updated () {
             this.updateInputHeight();
-            this.preventMultipleWhitespaces(); // Solo un espacio
+            this.preventUselessWhitespaces(); 
         }
     }
 </script>
