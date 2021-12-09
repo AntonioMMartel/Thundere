@@ -19,15 +19,14 @@
     </head>
     
     <body>
-        <header>
+        <header id="app_header">
         {% block header %}
-        {# Si esta logeado ve otras cosas.
-           Mandamos el parametro a Vue con v-bind #}
-            {% if is_granted('ROLE_USER') %}
-                <header id="app_header"> <Vue-Header user-Role="user"></header>
-            {% else %}
-                <header id="app_header"> <Vue-Header user-Role="none"></header>
-            {% endif %}
+            {# Si esta logeado ve otras cosas.
+            Mandamos el parametro a Vue con v-bind 
+            Podría usar isAuthenticated y pasar true o false
+            Y ya en el componente si es true pillar el usuario
+            con una peticion al back #}
+            {{ (is_granted('ROLE_USER')) ? '<vue-header user-role="user"/>' : '<vue-header user-role="none"/>' }}
         {% endblock %}
         </header>
         <article>
