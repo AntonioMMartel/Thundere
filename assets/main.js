@@ -35,3 +35,11 @@ new Vue({
     el: '#app_footer',
     components: {VueFooter}
 });
+
+// Test
+import VueTest from './components/VueTest.vue';
+
+new Vue({
+    el: '#app_test',
+    components: {VueTest}
+});

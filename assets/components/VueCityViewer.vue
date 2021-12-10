@@ -21,5 +21,11 @@ import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
 </script>
 
 <style lang="scss" scoped>
-
+    .container-ui {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    }
 </style>
