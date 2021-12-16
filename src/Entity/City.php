@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Entity;
-
-use App\Repository\CityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,6 +31,16 @@ class City
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="points_to", orphanRemoval=true)
      */
     private $comments;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $json_data = [];
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date_added;
 
     public function __construct()
     {
@@ -97,4 +105,29 @@ class City
 
         return $this;
     }
+
+    public function getJsonData(): ?array
+    {
+        return $this->json_data;
+    }
+
+    public function setJsonData(array $json_data): self
+    {
+        $this->json_data = $json_data;
+
+        return $this;
+    }
+
+    public function getDateAdded(): ?\DateTimeInterface
+    {
+        return $this->date_added;
+    }
+
+    public function setDateAdded(\DateTimeInterface $date_added): self
+    {
+        $this->date_added = $date_added;
+
+        return $this;
+    }
+
 }

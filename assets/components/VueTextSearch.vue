@@ -11,7 +11,7 @@
         data () {
             return {
                 input: "",
-                ciudadNoExiste: false,
+                ciudadNoExiste: true,
                 errorMessage:"Esa ciudad no existe",
                 textRows: 1,
             }
@@ -20,19 +20,13 @@
 
             submit() {
                 console.log(this.input)
-            },
+                // Vue llama al endpoint con un post
 
-            getInputTextWidth() {
+                // El endpoint responde que si yes o no
 
-                let inputElement = document.getElementById("text-input");
-                // Canvas para determinar el ancho que ocupa cada letra en el input
-                let canvas = document.createElement("canvas");
-                let context = canvas.getContext("2d");
-                context.font = "1.5rem Helvetica" // inputElement.style.fontSize + inputElement.font;
-                let contextWidth = context.measureText(this.input).width;
-                console.log(contextWidth)
-                return Math.ceil(contextWidth);
-                
+                // Vue muestra mensaje de error
+
+                // Vue llama a controlador de cityViewer
             },
 
             updateInputHeight() {
@@ -76,7 +70,6 @@
         width: 12em;
 
         &:hover {
-
             border: 2px solid rgb(0, 255, 255);
         }
 
@@ -86,16 +79,14 @@
     }
 
     .contenedor-flex{
-
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
     .texto-error{
-
         padding: 1em;
-        color: darkred;
+        color: red;
     }
 
 </style>

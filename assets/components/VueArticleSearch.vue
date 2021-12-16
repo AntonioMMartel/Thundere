@@ -3,7 +3,7 @@
         <div class="container-main">
             <vue-fading-lights-animation/>
             <div class="container-ui">
-                <div class="title">Pon una ciudad</div>
+                <div class="title">Pon un país</div>
                 <vue-text-search/>
             </div>
         </div>
@@ -15,8 +15,7 @@ import VueTextSearch from './VueTextSearch.vue'
 import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
     export default {
         name: 'VueArticleSearch',
-        components: { VueFadingLightsAnimation, VueTextSearch }
-        
+        components: { VueFadingLightsAnimation, VueTextSearch } 
     }
 </script>
 

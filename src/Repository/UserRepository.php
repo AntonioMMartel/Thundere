@@ -86,6 +86,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $date = new \DateTime('@'.strtotime('now'));
         $user->setCreatedTime($date);
 
+        // Enviamos email de confirmación
+        $user->setConfirmationTime($date);
+        $user->setConfirmationCode("temp");
+
         // Creamos el usuario en la bd
         $entityManager = $this->getEntityManager();
         $entityManager->persist($user);

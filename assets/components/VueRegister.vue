@@ -3,7 +3,7 @@
         <h1 class="title"> Make an account</h1>
         <form class="form" @submit.prevent="register">
 
-            <label class="form-label" for="#username">Username AAAA:</label>
+            <label class="form-label" for="#username">Username:</label>
             <input v-model="username" class="form-input" id="username" required placeholder="Username">
 
             <label class="form-label" for="#email">Email:</label>
