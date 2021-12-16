@@ -45,16 +45,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
-     */
-    private $user_creates_comment;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=City::class)
-     */
-    private $user_bookmarks_city;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $confirmation_code;
@@ -72,8 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->user_creates_comment = new ArrayCollection();
-        $this->user_bookmarks_city = new ArrayCollection();
 
     }
 
@@ -174,60 +162,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getUserCreatesComment(): Collection
-    {
-        return $this->user_creates_comment;
-    }
-
-    public function addUserCreatesComment(Comment $userCreatesComment): self
-    {
-        if (!$this->user_creates_comment->contains($userCreatesComment)) {
-            $this->user_creates_comment[] = $userCreatesComment;
-            $userCreatesComment->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserCreatesComment(Comment $userCreatesComment): self
-    {
-        if ($this->user_creates_comment->removeElement($userCreatesComment)) {
-            // set the owning side to null (unless already changed)
-            if ($userCreatesComment->getUser() === $this) {
-                $userCreatesComment->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|City[]
-     */
-    public function getUserBookmarksCity(): Collection
-    {
-        return $this->user_bookmarks_city;
-    }
-
-    public function addUserBookmarksCity(City $userBookmarksCity): self
-    {
-        if (!$this->user_bookmarks_city->contains($userBookmarksCity)) {
-            $this->user_bookmarks_city[] = $userBookmarksCity;
-        }
-
-        return $this;
-    }
-
-    public function removeUserBookmarksCity(City $userBookmarksCity): self
-    {
-        $this->user_bookmarks_city->removeElement($userBookmarksCity);
 
         return $this;
     }

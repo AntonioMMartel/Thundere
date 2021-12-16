@@ -20,9 +20,9 @@
 
             submit() {
                 console.log(this.input)
-                // Vue llama al endpoint con un post
+                // Vue llama al endpoint con un post del nombre introducido
 
-                // El endpoint responde que si yes o no
+                // El endpoint responde que si existe o no
 
                 // Vue muestra mensaje de error
 

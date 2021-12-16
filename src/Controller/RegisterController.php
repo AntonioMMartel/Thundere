@@ -20,7 +20,7 @@ class RegisterController extends AbstractController
     }
 
     /**
-     * @Route("/register/user", name="registerUser")
+     * @Route("/register/user", name="registerUser", methods="POST")
      */
     public function registerUser(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {   
@@ -38,7 +38,7 @@ class RegisterController extends AbstractController
         $userRepository = $this->getDoctrine()->getRepository(User::class);
 
         if ($userRepository->findOneBy(['email' => $email])) {
-            return new Response('This e-mail is already used !');
+            return new Response('This e-mail is already used!');
         }
 
         // Lo creamos

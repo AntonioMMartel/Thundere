@@ -2,25 +2,34 @@
 
 namespace App\Repository;
 
-use App\Entity\City;
+use App\Entity\CountryData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method City|null find($id, $lockMode = null, $lockVersion = null)
- * @method City|null findOneBy(array $criteria, array $orderBy = null)
- * @method City[]    findAll()
- * @method City[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CountryData|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CountryData|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CountryData[]    findAll()
+ * @method CountryData[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CityRepository extends ServiceEntityRepository
+class CountryDataRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, City::class);
+        parent::__construct($registry, CountryData::class);
+    }
+
+    /**
+     * @return CountryData Devuelve objeto CountryData
+     */
+    public function createCountryData($json){
+        $countryData = new CountryData();
+        $countryData->setJsonData($json);
+        return $countryData;
     }
 
     // /**
-    //  * @return City[] Returns an array of City objects
+    //  * @return CountryData[] Returns an array of CountryData objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +46,7 @@ class CityRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?City
+    public function findOneBySomeField($value): ?CountryData
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
