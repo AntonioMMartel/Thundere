@@ -34,9 +34,14 @@ class CountryDataController extends AbstractController
         $countryDataRepository = $this->getDoctrine()->getRepository(CountryData::class);
 
         // Mira si existe en la db
-        if ($countryRepository->findOneBy(['name' => $input])){
-            // Mira si tiene todos los datos que se necesitan
-            throw new BadRequestHttpException("Lo encontre :)");
+        if ($foundCountry = $countryRepository->findOneBy(['name' => $input])){
+            // Mira si tiene todos los datos que se necesitan. A lo mejor interesa tener una columna con las apis de datos recogidas.
+            
+            return new Response(
+                json_encode($foundCountry->getCountryData()->getJsonData()),
+                Response::HTTP_OK,
+                ['content-type' => 'application/json']
+            );
             // Si no se tienen todos los datos que se necesitan se llama a las apis que faltan
 
         } else {
