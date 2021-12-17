@@ -6,6 +6,7 @@
 </template>
 
 <script>
+    import {search} from "../facade/SearchFacade";
     export default {
         name: "VueTextSearch",
         data () {
@@ -21,7 +22,9 @@
             submit() {
                 console.log(this.input)
                 // Vue llama al endpoint con un post del nombre introducido
-
+                search(this.input)
+                .then(response => {console.log(response);})
+                .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
                 // El endpoint responde que si existe o no
 
                 // Vue muestra mensaje de error

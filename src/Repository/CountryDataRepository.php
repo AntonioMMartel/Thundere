@@ -25,6 +25,11 @@ class CountryDataRepository extends ServiceEntityRepository
     public function createCountryData($json){
         $countryData = new CountryData();
         $countryData->setJsonData($json);
+        
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($countryData);
+        $entityManager->flush(); 
+
         return $countryData;
     }
 

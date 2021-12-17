@@ -3,18 +3,26 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use App\Entity\Country;
+use App\Entity\CountryData;
+
+
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
 
 class CountryDataController extends AbstractController
 {   
     /**
      * Devuelve los datos de un país al front
-     * @Route("/data/iso/", name="city_data")
+     * @Route("/data/country", name="country_data")
      */
-    public function fetchCountryData(String $input): Response
+    public function fetchCountryData(Request $request): Response
     {
-        
+        $input = $request->toArray()['input'];
         /** 
         * @var CountryRepository 
         */
@@ -28,36 +36,59 @@ class CountryDataController extends AbstractController
         // Mira si existe en la db
         if ($countryRepository->findOneBy(['name' => $input])){
             // Mira si tiene todos los datos que se necesitan
-
+            throw new BadRequestHttpException("Lo encontre :)");
             // Si no se tienen todos los datos que se necesitan se llama a las apis que faltan
 
         } else {
         
             // Si no existe llama a todas las apis y creamos los datos de dicho país
 
-            $restCountriesRawData =json_decode(file_get_contents('https://restcountries.com/v3.1/name/'.$input), false);
-
+            /* ----------------- Rest Countries -------------------------- */
+            $restCountriesRawData = file_get_contents('https://restcountries.com/v3.1/name/'.$input);
+            $restCountriesData = json_decode($restCountriesRawData, true);
+            if(is_null($restCountriesData)) return null; // No se encuentra nada (API caida)
+            if(is_array($restCountriesData)) { // Si no llega un array ha fallado
+                $restCountriesData = array_pop($restCountriesData);
+            } else {
+                return $restCountriesData->message;
+            }
+            
             // Obtenemos todas las traducciones.
-            $translations = $restCountriesRawData->translations;
-            $officialTranslationsRaw = json_decode($restCountriesRawData->name);
-            $officialTranslationsNatives = json_decode($officialTranslationsRaw->nativeName);
-            $officialTranslations = '{"name": {
-                                      "official":'.'"'.$officialTranslationsRaw->official.'",'.'
-                                      "common":'.'"'.$officialTranslationsRaw->common.'"'.'
-                                    },'.$officialTranslationsNatives.",".$translations."}";
+            // Array (Mucho más eficiente que con json)
+            $names = array();
+            
+            foreach ($restCountriesData['translations'] as $entry) {
+                $names= array_merge($names, array_values($entry));
+            } 
+            array_push($names, $restCountriesData['name']['common']);
+            array_push($names, $restCountriesData['name']['official']);
 
+            foreach ($restCountriesData['name']['nativeName'] as $entry) {
+                $names= array_merge($names, array_values($entry));
+            } 
+
+            // Quita los repes.
+            $names = array_unique($names);
+
+            // Obtenemos el código ISO. Usaremos alpha-2
+            // Según iso.org: alpha-2 para uso general
+            // alpha-3 se asemeja más al nombre del pais 
+            // numeric-3 si no se usan caracteres del latin
+            $iso = $restCountriesData['cca2'];
+
+            /* ----------------- Tomorrowio -------------------------- */
             $tomorrowioData= "";
 
-            // Aqui habrá que hacer un for o algo.
-            $jsonCountryData = "{restCountries:".$restCountriesData."}";
+            /* -------------------- Unificamos todos los datos de las apis ------------------------*/
+            $arrayCountryData = $restCountriesData;
             
-            // Obtienes todos los nombres que tiene dicho pais en todos los idiomas posibles
-
             // Guardamos datos en la db
-            $countryData = $countryDataRepository->createCountryData($jsonCountryData);
+            // ES UNA LOCURA GUARDAR JSONs con datos desestructurados EN UNA DB RELACIONAL -> Por temas de denormalización
+            // Para mi caso de uso no influye -> No se harán búsquedas en función de dichos datos.
+            $countryData = $countryDataRepository->createCountryData($arrayCountryData);
 
-            // Registras nombres en la db
-            // $countryNames = $countryRepository->createCountries($names, $iso, $countryData);
+            // Registras nombres en la db y los vincula a dichos datos.
+            $countryNames = $countryRepository->createCountries($names, $iso, $countryData);
 
 
         }

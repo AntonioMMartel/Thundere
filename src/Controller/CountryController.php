@@ -6,14 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CityViewerController extends AbstractController
+class CountryController extends AbstractController
 {
     /**
-     * @Route("/city/{name}", name="city_viewer")
+     * @Route("/country", name="country")
      */
     public function index(): Response
-    {   
-        return $this->render('city_viewer/index.html.twig', [
+    {
+        return $this->render('country/index.html.twig', [
+            'controller_name' => 'CountryController',
         ]);
     }
 }
