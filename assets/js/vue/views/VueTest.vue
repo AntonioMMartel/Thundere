@@ -1,7 +1,7 @@
 <template>
     <article>
         <div class="container-main">
-            <vue-fading-lights-animation/>
+            <FadingLightsAnimation/>
             <div class="container-ui">
                 <div class="title">{{ testResponse.title}}</div> 
                 <div class="texto"> {{ testResponse.data }} </div>
@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
+import FadingLightsAnimation from '../components/FadingLightsAnimation.vue'
     export default {
         name: 'VueTest',
-        components: {VueFadingLightsAnimation},
+        components: {FadingLightsAnimation},
         props : ["entrada"],
         data(){
             return {

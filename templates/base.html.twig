@@ -19,24 +19,8 @@
     </head>
     
     <body>
-        <header id="app_header">
-        {% block header %}
-            {# Si esta logeado ve otras cosas.
-            Mandamos el parametro a Vue con v-bind 
-            Podría usar isAuthenticated y pasar true o false
-            Y ya en el componente si es true pillar el usuario
-            con una peticion al back #}
-            {{ (is_granted('ROLE_USER')) ? '<vue-header user-role="user"/>' : '<vue-header user-role="none"/>' }}
-        {% endblock %}
-        </header>
-        <article>
-        {% block article %}{% endblock %}
-        </article>
-        <footer>
-        {% block footer %}
-            <div id="app_footer"> <Vue-Footer></div>
-        {% endblock %}
-        </footer>
+        {% set role = is_granted('ROLE_USER') ? 'user' : 'none' %}
+        <div id="app" > <app user-role="{{ role }}"/> </div>
         {{ encore_entry_script_tags('main') }}
     </body>
 

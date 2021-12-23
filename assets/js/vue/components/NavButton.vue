@@ -1,10 +1,9 @@
 <template>
-        <a :href="href" class="contenedor-nav-item"> {{ label }} </a>
+        <router-link :to="href" class="contenedor-nav-item"> {{ label }} </router-link>
 </template>
 
 <script>
     export default {
-        name: 'VueHeader',
         props: ['label','href','user-role']
     }
 </script>

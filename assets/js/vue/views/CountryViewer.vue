@@ -1,21 +1,21 @@
 <template>
     <article>
         <div class="container-main">
-            <vue-fading-lights-animation/>
+            <FadingLightsAnimation/>
             <div class="container-ui">
                 <div class="title">Pon una ciudad</div>
-                <vue-text-search/>
+                <CountrySearchInput/>
             </div>
         </div>
     </article>
 </template>
 
 <script>
-import VueTextSearch from './VueTextSearch.vue'
-import VueFadingLightsAnimation from './VueFadingLightsAnimation.vue'
+import CountrySearchInput from '../components/CountrySearchInput.vue'
+import FadingLightsAnimation from '../components/FadingLightsAnimation.vue'
     export default {
-        name: 'VueArticleSearch',
-        components: { VueFadingLightsAnimation, VueTextSearch }
+        name: 'CountryViewer',
+        components: { FadingLightsAnimation, CountrySearchInput }
         
     }
 </script>

@@ -1,18 +1,18 @@
 <template>
     <nav class="contenedor-nav">
-        <vue-nav-button
+        <NavButton
         v-for="navButton in navButtonsDisplay"
         :key="navButton.id"
         :label="navButton.label"
         :href="navButton.href"
-        ></vue-nav-button>            
+        ></NavButton>            
     </nav>
 </template>
 
 <script>
-import VueNavButton from './VueNavButton.vue'
+import NavButton from './NavButton.vue'
     export default {
-        name: 'VueHeader',
+        name: 'Header',
         data: () => ({
             navButtons: [
                 {id: 1, label: "History", href:"/history", forRole:"user" },
@@ -20,12 +20,14 @@ import VueNavButton from './VueNavButton.vue'
                 {id: 3, label: "Home", href:"/", forRole:"all" },
                 {id: 4, label: "Bookmarks", href:"/bookmarks", forRole:"user" },
                 {id: 5, label: "Sign up", href:"/register", forRole:"none" },
+                {id: 6, label: "Sign out", href:"/logout", forRole:"user" },
+
             ],
         }),
         methods: {
             
         },
-        components: { VueNavButton },
+        components: { NavButton },
         props:["userRole"],
         computed: {
             navButtonsDisplay: function() {

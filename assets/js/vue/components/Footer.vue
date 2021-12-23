@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: 'VueFooter'
+        name: 'Footer'
     } 
 </script>
 

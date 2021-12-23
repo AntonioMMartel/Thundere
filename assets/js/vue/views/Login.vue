@@ -18,7 +18,8 @@
 </template>
 
 <script>
-  import {login} from "../facade/AuthorizationFacade";
+  import {login} from "../../facade/AuthorizationFacade";
+  import router from "../../router"
     export default {
         data: () => ({
             email: "",
@@ -28,14 +29,21 @@
             loginSuccess: null,
         }),
         methods: {
-          
-            login() {
-              login(this.email, this.password, this._csrf_token)
-              .then(response => {console.log(response); window.location.href = '/';})
-              .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
-              // Deberia redirigir a algo de confirmar usuario con su codigo wapo
-              
-            }
+          // Pq funciona esto?
+          // Symfony no está renderizando vue. Solo renderiza la primera pg y desde ahi vue se busca la vida
+          // La autenticación en Symfony funciona con eventos QUE SE EJECUTAN CUANDO SE RENDERIZAN PAGS EN SYMFONY
+          // Basicamente cuando la autenticación es exitosa recargamos el componente llamando a symfony de nuevo.
+          login() {
+            login(this.email, this.password, this._csrf_token)
+            .then(response => {this.reloadComponent(); window.location.replace('/') })
+            .catch((error) => {this.error=true; this.errorMessage=error});
+            // Deberia redirigir a algo de confirmar usuario con su codigo wapo
+            
+          },
+
+          reloadComponent() {
+            this.$forceUpdate(); // Recargamos el componente -> Se vuelve a llamar a symfony
+          }
         }
     };
 </script>

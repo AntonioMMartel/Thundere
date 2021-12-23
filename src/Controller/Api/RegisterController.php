@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,13 +11,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterController extends AbstractController
 {
-    /**
-     * @Route("/register", name="register")
-     */
-    public function index(): Response
-    {
-        return $this->render('register/index.html.twig', []);
-    }
 
     /**
      * @Route("/register/user", name="registerUser", methods="POST")

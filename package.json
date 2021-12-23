@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "axios": "^0.24.0",
+        "vue-router": "^3.5.3",
         "vue-tools": "^0.0.49"
     }
 }

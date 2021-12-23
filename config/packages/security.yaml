@@ -23,16 +23,18 @@ security:
             provider: app_user_provider
             # entry_point = punto de entrada. Redirigue a gente sin privilegios al login
             entry_point: form_login 
-
+            logout: true
+            
             # Autenticador base de symfony. https://symfonycasts.com/screencast/symfony-security/form-login
             form_login:
                 # "login" is the name of the route created previously
-                login_path: login
-                check_path: login
+                login_path: /login
+                check_path: /login
                 # enable_csrf: true
                 username_parameter: email
                 password_parameter: password
 
+            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

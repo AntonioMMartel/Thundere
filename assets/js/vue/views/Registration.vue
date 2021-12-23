@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import {register} from "../facade/AuthorizationFacade";
+    import {register} from "../../facade/AuthorizationFacade";
 
     export default {
         data: () => ({
@@ -36,7 +36,7 @@
         methods: {
           register() {
             register(this.email, this.username, this.password)
-            .then(response => {console.log(response); window.location.href = '/login';})
+            .then(response => {console.log(response); window.location.replace('/login');})
             .catch((error) => {console.log(error); this.error=true; this.errorMessage=error.message});
             // Deberia redirigir a algo de confirmar usuario con su codigo que le llega al email
             

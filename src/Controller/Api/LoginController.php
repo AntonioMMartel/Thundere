@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,6 +12,8 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class LoginController extends AbstractController
 {
@@ -27,7 +30,7 @@ class LoginController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function index(AuthenticationUtils $authenticationUtils): Response
+    public function index(AuthenticationUtils $authenticationUtils, Request $request): Response
     {   
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

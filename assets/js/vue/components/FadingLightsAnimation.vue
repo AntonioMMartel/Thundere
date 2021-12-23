@@ -8,7 +8,7 @@
 
 <script>
     export default {
-        name: 'VueFadingLightsAnimation',
+        name: 'FadingLightsAnimation',
         data () {
             return {
                 color: "hsl(180, 100%, 40%)"
