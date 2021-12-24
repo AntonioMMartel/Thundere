@@ -9,6 +9,7 @@ import CountryViewer from './vue/views/CountryViewer'
 import Home from './vue/views/Home'
 import Login from './vue/views/Login'
 import Registration from './vue/views/Registration'
+import Logout from './vue/views/Logout'
 import VueTest from './vue/views/VueTest'
 
 const router = new VueRouter({
@@ -19,6 +20,7 @@ const router = new VueRouter({
         { path: '/login', component: Login },
         { path: '/countries', component: CountryViewer },
         { path: '/register', component: Registration },
+        { path: '/logout', component: Logout },
         { path: '/test', component: VueTest },   
     ]
 })

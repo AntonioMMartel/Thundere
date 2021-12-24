@@ -22,8 +22,8 @@
             submit() {
                 // Vue llama al endpoint con un post del nombre introducido
                 search(this.input)
-                .then(response => {window.location.href = '/peru';})
-                .catch((error) => {console.log(error); this.error=true; this.errorMessage=error});
+                .then(response => {window.location.replace('/');})
+                .catch((error) => { this.error=true; this.errorMessage=error});
                 // El endpoint responde que si existe o no
 
                 // Vue muestra mensaje de error

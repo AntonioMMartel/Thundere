@@ -19,8 +19,8 @@
 
 <script>
   import {login} from "../../facade/AuthorizationFacade";
-  import router from "../../router"
     export default {
+        name: "Login",
         data: () => ({
             email: "",
             password: "",
