@@ -19,6 +19,20 @@ class CountryDataRepository extends ServiceEntityRepository
         parent::__construct($registry, CountryData::class);
     }
 
+    /**
+     * @return CountryData Devuelve objeto CountryData
+     */
+    public function createCountryData($json){
+        $countryData = new CountryData();
+        $countryData->setJsonData($json);
+        
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($countryData);
+        $entityManager->flush(); 
+
+        return $countryData;
+    }
+
     // /**
     //  * @return CountryData[] Returns an array of CountryData objects
     //  */
