@@ -10,54 +10,60 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Country;
 use App\Entity\CountryData;
 
-
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+use Symfony\Component\Mime\Message;
 
-class CountryDataController extends AbstractController
+class CountrySearchController extends AbstractController
 {   
     /**
-     * Devuelve los datos de un país al front
-     * Lo usa /country/{nombre_pais} para mostrar los datos
-     * @Route("/data/country", name="country_data")
+     * Busca si un país existe. Lo usa / para buscar un país y luego redirigir a la página de ver país
+     * 
+     * @Route("/data/search", name="country_search")
      */
     public function fetchCountryData(Request $request): Response
-    {
+    {   
+        
+        throw new BadRequestHttpException("Esa ciudad no existe");
+   
         $input = $request->toArray()['input'];
         /** 
         * @var CountryRepository 
         */
         $countryRepository = $this->getDoctrine()->getRepository(Country::class);
 
-        /** 
-        * @var DataCountryRepository 
-        */
-        $countryDataRepository = $this->getDoctrine()->getRepository(CountryData::class);
-
         // Mira si existe en la db
         if ($foundCountry = $countryRepository->findOneBy(['name' => $input])){
             // Mira si tiene todos los datos que se necesitan. A lo mejor interesa tener una columna con las apis de datos recogidas.
-            return new Response(
-                json_encode($foundCountry->getCountryData()->getJsonData()),
-                Response::HTTP_OK,
-                ['content-type' => 'application/json']
-            );
+            return new Response(Response::HTTP_OK);
             // Si no se tienen todos los datos que se necesitan se llama a las apis que faltan
 
         } else {
-        
-            // Si no existe llama a todas las apis y creamos los datos de dicho país
+            
+            // db->searchForCountry()
+
+            // $data = api->get($api,$input)
+
+            // db->write($class,$json)
+
+            /** 
+            * @var DataCountryRepository 
+            */
+            $countryDataRepository = $this->getDoctrine()->getRepository(CountryData::class);
+            
+            // Si no existe preguntale a la api
 
             /* ----------------- Rest Countries -------------------------- */
             $restCountriesRawData = file_get_contents('https://restcountries.com/v3.1/name/'.$input);
             $restCountriesData = json_decode($restCountriesRawData, true);
-            if(is_null($restCountriesData)) return null; // No se encuentra nada (API caida)
-            if(is_array($restCountriesData)) { // Si no llega un array ha fallado
+
+            if (is_array($restCountriesData))
                 $restCountriesData = array_pop($restCountriesData);
-            } else {
-                return $restCountriesData->message;
-            }
-            
+            else 
+                return new Response( "Esa ciudad no existe.",
+                    Response::HTTP_BAD_REQUEST,
+                    ['content-type' => 'application/json']
+                ); // No se encuentra nada (API caida o no existe la ciudad)
             // Obtenemos todas las traducciones.
             // Array (Mucho más eficiente que con json)
             $names = array();
@@ -81,9 +87,6 @@ class CountryDataController extends AbstractController
             // numeric-3 si no se usan caracteres del latin
             $iso = $restCountriesData['cca2'];
 
-            /* ----------------- Tomorrowio -------------------------- */
-            $tomorrowioData= "";
-
             /* -------------------- Unificamos todos los datos de las apis ------------------------*/
             $arrayCountryData = $restCountriesData;
             
@@ -98,15 +101,5 @@ class CountryDataController extends AbstractController
         }
         // Prepara los datos pal front
         return new Response("");
-    }
-
-    /**
-     * Obtenemos el nombre de un país en multiples idiomas
-     *  1. El código iso de dicho país
-     *  2. Todos los nombres de ese país con ese código ISO 
-     */
-    public function getAllCountryNames(String $json): String
-    {
-        return $json;
     }
 }

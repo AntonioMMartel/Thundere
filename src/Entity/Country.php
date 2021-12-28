@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CountryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,15 +25,19 @@ class Country
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      */
     private $isoCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CountryData::class, inversedBy="country")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToMany(targetEntity=countryData::class, inversedBy="countries")
      */
     private $countryData;
+
+    public function __construct()
+    {
+        $this->countryData = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -62,14 +68,26 @@ class Country
         return $this;
     }
 
-    public function getCountryData(): ?CountryData
+    /**
+     * @return Collection|countryData[]
+     */
+    public function getCountryData(): Collection
     {
         return $this->countryData;
     }
 
-    public function setCountryData(?CountryData $countryData): self
+    public function addCountryData(countryData $countryData): self
     {
-        $this->countryData = $countryData;
+        if (!$this->countryData->contains($countryData)) {
+            $this->countryData[] = $countryData;
+        }
+
+        return $this;
+    }
+
+    public function removeCountryData(countryData $countryData): self
+    {
+        $this->countryData->removeElement($countryData);
 
         return $this;
     }

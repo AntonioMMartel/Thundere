@@ -1,7 +1,7 @@
 import axios from "axios";
 
 function search(input) {
-  return axios.post('/data/country', {
+  return axios.post('/api/data/search', {
       input
     })
 }

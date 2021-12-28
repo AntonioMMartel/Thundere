@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Country;
-use App\Entity\CountryData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,26 +17,6 @@ class CountryRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Country::class);
-    }
-
-    public function createCountries(array $names, string $iso, CountryData $countryData): array {
-        
-        $countries = array();
-        foreach($names as $name){
-            $country = new Country();
-            $country->setName($name);
-            $country->setIsoCode($iso);
-            $country->setCountryData($countryData);
-
-            array_push($countries, $country);
-
-            $entityManager = $this->getEntityManager();
-            $entityManager->persist($country);
-            $entityManager->flush(); 
-        }
-        
-        return $countries;
-        
     }
 
     // /**

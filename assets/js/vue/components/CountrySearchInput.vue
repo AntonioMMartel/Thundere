@@ -1,7 +1,7 @@
 <template>
     <div class="contenedor-flex">
         <textarea id="text-input" maxlength="74" :rows=textRows  @keydown.enter.prevent="submit" v-model="input"></textarea>
-        <div class="texto-error" v-if="ciudadNoExiste"> {{errorMessage}} </div>    
+        <div class="texto-error" v-if="error"> {{errorMessage}} </div>    
     </div>
 </template>
 
@@ -12,8 +12,8 @@
         data () {
             return {
                 input: "",
-                ciudadNoExiste: true,
-                errorMessage:"Esa ciudad no existe",
+                error: false,
+                errorMessage:"Ha habido un error inesperado",
                 textRows: 1,
             }
         },
@@ -23,7 +23,10 @@
                 // Vue llama al endpoint con un post del nombre introducido
                 search(this.input)
                 .then(response => {window.location.replace('/');})
-                .catch((error) => { this.error=true; this.errorMessage=error});
+                .catch((error) => {
+                    error = true;
+                    errorMessage = error.response.data.detail
+                }); // error.response
                 // El endpoint responde que si existe o no
 
                 // Vue muestra mensaje de error
