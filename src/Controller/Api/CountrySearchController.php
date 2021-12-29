@@ -40,11 +40,12 @@ class CountrySearchController extends AbstractController
 
         } else {
             
-            // db->searchForCountry()
+            // dataManager->countryDataExists($input)
 
-            // $data = api->get($api,$input)
+            // Llama al manager de datos y le manda un array de tipos de datos que se buscan
+            // dataManager->getData(array(tipos), $input)
 
-            // db->write($class,$json)
+
 
             /** 
             * @var DataCountryRepository 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CountryData;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,9 +23,12 @@ class CountryDataRepository extends ServiceEntityRepository
     /**
      * @return CountryData Devuelve objeto CountryData
      */
-    public function createCountryData($json){
+    public function createCountryData(array $json, String $dataType){
+    
         $countryData = new CountryData();
         $countryData->setJsonData($json);
+        $countryData->setDataType($dataType);
+        $countryData->setCreatedAt(new \DateTimeImmutable('@'.strtotime('now')));
         
         $entityManager = $this->getEntityManager();
         $entityManager->persist($countryData);

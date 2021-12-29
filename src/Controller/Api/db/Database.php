@@ -7,14 +7,11 @@ use App\Entity\CountryData;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * 
- * 
+ * Guarda toda la lógica de base de datos que necesitan los endpoints
  */
 class Database extends AbstractController
-{   
-
-
-    public function searchForCountry(String $country): bool
+{
+    public function countryExists(String $country): bool
     {   
         /** 
         * @var CountryRepository 
@@ -27,19 +24,34 @@ class Database extends AbstractController
         return false;
     }
 
+
+    public function countryDataExists(String $country, String $type): bool
+    {
+        /** 
+        * @var CountryRepository 
+        */
+        $countryRepository = $this->getDoctrine()->getRepository(Country::class);
+        $foundCountry = $countryRepository->findOneBy(['name' => $country]);
+        // Mira si existe dicho dato con dicho tipo.
+        if ($foundCountry->getCountryData()->getDataType() == $type) return true;
+
+        return false;
+   
+    }
+
     /**
      * Guarda datos de pais en la db
      */     
-    public function createCountryData(String $json) : bool
+    public function createCountryData(array $json, String $type) : CountryData
     {
         /** 
-            * @var DataCountryRepository 
+        * @var DataCountryRepository 
         */
         $countryDataRepository = $this->getDoctrine()->getRepository(CountryData::class);
 
-        $countryData = $countryDataRepository->createCountryData($json);
+        $countryData = $countryDataRepository->createCountryData($json, $type);
 
-        return true;
+        return $countryData;
 
     }
 
@@ -56,4 +68,5 @@ class Database extends AbstractController
         return true;
 
     }
+
 }
