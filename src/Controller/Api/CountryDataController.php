@@ -2,6 +2,8 @@
 
 namespace App\Controller\Api;
 
+
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Country;
 use App\Entity\CountryData;
 
-use App\Controller\Api\Database;
+use Api\Data\Database;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

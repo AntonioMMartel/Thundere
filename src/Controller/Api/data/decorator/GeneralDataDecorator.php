@@ -1,6 +1,6 @@
 <?php
+namespace Api\Data;
 
-namespace App\Controller\Api;
 
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\HttpFoundation\Response;

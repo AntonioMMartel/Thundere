@@ -30,7 +30,7 @@ class Country
     private $isoCode;
 
     /**
-     * @ORM\ManyToMany(targetEntity=countryData::class, inversedBy="countries")
+     * @ORM\ManyToMany(targetEntity=CountryData::class, inversedBy="countries")
      */
     private $countryData;
 

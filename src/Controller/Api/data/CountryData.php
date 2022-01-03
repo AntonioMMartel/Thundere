@@ -1,8 +1,8 @@
 <?php
-namespace App\Controller\Api;
+namespace Api\Data;
 
 
-class Data implements DataInterface
+class CountryData 
 {   
     protected Database $db;
 

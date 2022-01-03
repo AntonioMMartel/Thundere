@@ -35,7 +35,7 @@ class CountryData
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Country::class, mappedBy="countryData")
+     * @ORM\ManyToMany(targetEntity=Country::class, mappedBy="CountryData")
      */
     private $countries;
 

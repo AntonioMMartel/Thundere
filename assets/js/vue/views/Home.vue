@@ -1,5 +1,4 @@
 <template>
-    <article>
         <div class="container-main">
             <FadingLightsAnimation/>
             <div class="container-ui">
@@ -7,7 +6,6 @@
                 <CountrySearchInput/>
             </div>
         </div>
-    </article>
 </template>
 
 <script>

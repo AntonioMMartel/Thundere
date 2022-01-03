@@ -46,14 +46,17 @@
 
 <style lang="scss" scoped>
 .login {
-  padding: 2rem;
+  height: 77.5vh;
+  color: $primary-color;
 }
+
 .title {
+  padding-top: 2rem;
   text-align: center;
   color: $primary-color;
 }
 .form {
-  margin: 3rem auto;
+  margin: 3rem auto 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
