@@ -1,9 +1,13 @@
 <template>
-    <div>
-        <Header :user-role="userRole" />
-        <RouterView/>
-        <Footer/>
-    </div>
+    <body>
+        <div>
+            <Header :user-role="userRole" />
+            <article>
+                <RouterView/>
+            </article>
+            <Footer/>
+        </div>
+    </body>
 </template>
 
 <script>
@@ -17,5 +21,6 @@
 </script>
 
 <style lang="scss" scoped>
+
 
 </style>

@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Controller\Api;
+namespace Api\Data;
+
 
 use App\Entity\Country;
 use App\Entity\CountryData;

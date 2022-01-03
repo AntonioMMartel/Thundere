@@ -1,5 +1,6 @@
 <?php
-namespace App\Controller\Api;
+namespace Api\Data;
+
 
 /**
  * La operación getData() es manejada por los Decorators

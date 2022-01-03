@@ -6,4 +6,3 @@ api:
 web:
   resource: ../src/Controller/Web
   type: annotation
-  

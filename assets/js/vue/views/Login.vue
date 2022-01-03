@@ -1,18 +1,18 @@
 <template>
     <div class="login">
-        <h1 class="title">Login in the page</h1>
-        <form class="form" action="/login" method="post" @submit.prevent="login">
+      <h1 class="title">Login in to the page</h1>
+      <form class="form" action="/login" method="post" @submit.prevent="login">
 
-            <label class="form-label" for="#email">Email:</label>
-            <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email">
+          <label class="form-label" for="#email">Email:</label>
+          <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email">
 
-            <label class="form-label" for="#password">Password:</label>
-            <input v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password">
+          <label class="form-label" for="#password">Password:</label>
+          <input v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password">
 
-            <p v-if="error" class="error"> {{ errorMessage }} </p>
-            <input class="form-submit" type="submit" value="Login">
+          <p v-if="error" class="error"> {{ errorMessage }} </p>
+          <input class="form-submit" type="submit" value="Login">
 
-            <!-- <input type="hidden" name="_csrf_token"> -->
+          <!-- <input type="hidden" name="_csrf_token"> -->
         </form>
     </div>
 </template>
@@ -50,14 +50,17 @@
 
 <style lang="scss" scoped>
 .login {
-  padding: 2rem;
+  height: 77.5vh;
+  color: $primary-color;
 }
+
 .title {
+  padding-top: 2rem;
   text-align: center;
   color: $primary-color;
 }
 .form {
-  margin: 3rem auto;
+  margin: 3rem auto 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
