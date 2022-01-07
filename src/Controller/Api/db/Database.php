@@ -2,42 +2,49 @@
 
 namespace Api\Data;
 
-
 use App\Entity\Country;
 use App\Entity\CountryData;
+use App\Repository\CountryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Guarda toda la lógica de base de datos que necesitan los endpoints
  */
 class Database extends AbstractController
-{
-    public function countryExists(String $country): bool
+{   
+    /** 
+    * @var CountryRepository 
+    */
+    private CountryRepository $countryRepository;
+
+    public function __construct()
     {   
         /** 
         * @var CountryRepository 
         */
-        $countryRepository = $this->getDoctrine()->getRepository(Country::class);
+        $this->countryRepository =  $this->getDoctrine()->getRepository(Country::class);
+    }
 
+    public function fetchCountry(String $country): Country
+    {   
         // Mira si existe en la db
-        if ($foundCountry = $countryRepository->findOneBy(['name' => $country])) return true;
+        if ($foundCountry = $this->countryRepository->findOneBy(['name' => $country])) 
+            return $foundCountry;
 
-        return false;
+        return null;
     }
 
 
-    public function countryDataExists(String $country, String $type): bool
-    {
-        /** 
-        * @var CountryRepository 
-        */
-        $countryRepository = $this->getDoctrine()->getRepository(Country::class);
-        $foundCountry = $countryRepository->findOneBy(['name' => $country]);
-        // Mira si existe dicho dato con dicho tipo.
-        if ($foundCountry->getCountryData()->getDataType() == $type) return true;
+    public function fetchCountryData(String $country, String $type): array
+    {   
+        $foundCountryData = $this->countryRepository->findOneBy(['name' => $country])->getCountryData();
 
-        return false;
-   
+        // Mira si existe dicho dato con dicho tipo.
+        foreach ($foundCountryData as $countryData)
+            if ($countryData->getDataType() == $type) 
+                return $countryData->getJsonData();
+
+        return null;
     }
 
     /**
@@ -45,29 +52,20 @@ class Database extends AbstractController
      */     
     public function createCountryData(array $json, String $type) : CountryData
     {
-        /** 
-        * @var DataCountryRepository 
-        */
-        $countryDataRepository = $this->getDoctrine()->getRepository(CountryData::class);
+        if ($countryData = $this->countryDataRepository->createCountryData($json, $type)) 
+            return $countryData;
 
-        $countryData = $countryDataRepository->createCountryData($json, $type);
-
-        return $countryData;
-
+        return null;
     }
 
     /**
      * Guarda todos los nombres de un pais en la db
      */     
-    public function createCountries(String $iso, array $names, String $countryData): bool
-    {   
-        /** 
-        * @var CountryRepository 
-        */
-        $countryRepository = $this->getDoctrine()->getRepository(Country::class);
-        $countryRepository->createCountries($names, $iso, $countryData);
-        return true;
+    public function createCountries(String $iso, array $names, CountryData $countryData): array
+    {     
+        if ($countries = $this->countryRepository->createCountries($names, $iso, $countryData)) 
+            return $countries;
 
+        return null;
     }
-
 }

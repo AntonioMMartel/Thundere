@@ -39,6 +39,8 @@ class DataManager {
     // Llama a los decoradores de los tipos que queremos
     public function getData(array $types, String $input): String{
 
+        // private array $apis = array(RestCountriesDataRetriever::class);
+     
 
         return "";
     }

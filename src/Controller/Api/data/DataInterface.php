@@ -7,5 +7,5 @@ namespace Api\Data;
  */
 interface DataInterface
 {
-    public function getData(String $input): String;
+    public function getData(String $input): array;
 }

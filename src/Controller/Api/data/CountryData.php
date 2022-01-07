@@ -2,17 +2,11 @@
 namespace Api\Data;
 
 
-class CountryData 
+class Data 
 {   
-    protected Database $db;
 
-    public function __construct()
+    public function getData(String $input): array
     {
-        $this->db = new Database();
-    }
-
-    public function getData(String $input): String
-    {
-        return "";
+        return array();
     }
 }

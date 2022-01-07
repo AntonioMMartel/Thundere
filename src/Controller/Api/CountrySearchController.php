@@ -40,7 +40,9 @@ class CountrySearchController extends AbstractController
 
         } else {
             
-            // dataManager->countryDataExists($input)
+            // El data manager nos da los datos y punto
+            // si hay algun error el mismo data manager lo gestiona.
+            // dataManager->getCountryData($input, $type)
 
             // Llama al manager de datos y le manda un array de tipos de datos que se buscan
             // dataManager->getData(array(tipos), $input)
@@ -65,8 +67,8 @@ class CountrySearchController extends AbstractController
                     Response::HTTP_BAD_REQUEST,
                     ['content-type' => 'application/json']
                 ); // No se encuentra nada (API caida o no existe la ciudad)
+                
             // Obtenemos todas las traducciones.
-            // Array (Mucho más eficiente que con json)
             $names = array();
             
             foreach ($restCountriesData['translations'] as $entry) {

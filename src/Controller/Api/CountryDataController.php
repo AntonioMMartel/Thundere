@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Country;
 use App\Entity\CountryData;
 
-use Api\Data\Database;
+use Api\Data\Database as Database;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -27,20 +27,9 @@ class CountryDataController extends AbstractController
     public function fetchCountryData(Request $request): Response
     {
         $input = $request->toArray()['input'];
-        $db = new Database();
+        $database = new Database();
 
-        // Existe en la db?
-        if ($db->countryExists($input)){
-            return new Response(Response::HTTP_OK);
-        } 
-        else {
-            // Existe en la api?
-
-            // Busca datos de identificación del país
-            // $api->manageCountryIdentificationData($input)
-
-        }
-
+        // Existe?
 
         return new Response("");
     }
