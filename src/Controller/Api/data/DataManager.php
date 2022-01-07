@@ -29,24 +29,16 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class DataManager {
 
-    private Database $db;
-
-    public function __construct()
-    {
-        $this->db = new Database();
-    }
-
+    private array $decorators = array("General" => GeneralDataDecorator::class);
     // Llama a los decoradores de los tipos que queremos
-    public function getData(array $types, String $input): String{
-
-        // private array $apis = array(RestCountriesDataRetriever::class);
-     
-
-        return "";
-    }
-
-    public function countryDataExists(){
-        return false;
+    public function getData(array $types, String $input): String
+    {
+        $data = new Data();
+        foreach ($types as $type){
+            $data = new $this->decorators[$type]($data) ?? null;
+        }
+    
+        return $data->getData();
     }
 
 }
