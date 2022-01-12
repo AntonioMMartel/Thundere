@@ -20,7 +20,7 @@ import FadingLightsAnimation from '../components/FadingLightsAnimation.vue'
             return {
                 testResponse: {
                     title: "Error",
-                    data: "No ha llegado nada"
+                    data: window.location.href
                 }
             }
         }, 

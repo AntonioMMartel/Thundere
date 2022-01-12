@@ -1,5 +1,5 @@
 <?php
-namespace Api\Data;
+namespace App\Data;
 
 
 /**

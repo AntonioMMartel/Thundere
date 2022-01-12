@@ -3,29 +3,75 @@
         <div class="container-main">
             <FadingLightsAnimation/>
             <div class="container-ui">
-                <div class="title">Pon una ciudad</div>
-                <CountrySearchInput/>
+                <div class="title capitalize">{{ country }}</div> 
+                <div class="texto"> {{ error || data }} </div>
             </div>
         </div>
     </article>
 </template>
 
 <script>
-import CountrySearchInput from '../components/CountrySearchInput.vue'
 import FadingLightsAnimation from '../components/FadingLightsAnimation.vue'
+import {search} from "../../facade/SearchFacade";
+
     export default {
         name: 'CountryViewer',
-        components: { FadingLightsAnimation, CountrySearchInput }
-        
+        components: {FadingLightsAnimation},
+        data(){
+            return {
+                data: "",
+                error: "Loading data..."
+            }
+        }, 
+        props: ['country'],
+        beforeMount (){
+            console.log(this.country)
+            search(this.country)
+                .then(response => {
+                    this.data = JSON.parse(this.response);
+                })
+                .catch((error) => {
+                    this.error = "Error"
+                });
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-    .container-ui {
-            width: 100%;
-            height: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+    .title {
+        font-size: 7rem;     
+        text-align: center;
     }
+
+    .capitalize {
+        text-transform: capitalize;
+    }   
+
+    .container-main {
+        display:flex;
+        min-height: 80vh;
+        height:auto;
+        flex-wrap: wrap;
+        color: $primary-color;
+    }
+
+    .container-ui {
+        width: 100%;
+        height: 80vh;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        div:first-child{
+            padding-bottom: 0.3em ;
+            padding-top: 1.2em;
+        }
+        
+    }
+
+    .texto {
+        font-size: 2rem;
+    }
+
 </style>

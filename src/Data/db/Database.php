@@ -1,28 +1,38 @@
 <?php
 
-namespace Api\Data;
+namespace App\Data;
 
 use App\Entity\Country;
 use App\Entity\CountryData;
 use App\Repository\CountryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\CountryDataRepository;
+
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Guarda toda la lógica de base de datos que necesitan los endpoints
  */
-class Database extends AbstractController
+class Database
 {   
-    /** 
-    * @var CountryRepository 
-    */
     private CountryRepository $countryRepository;
 
-    public function __construct()
+    private CountryDataRepository $countryDataRepository;
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {   
-        /** 
-        * @var CountryRepository 
+        $this->entityManager = $entityManager;
+
+        /*
+            @var CountryRepository
         */
-        $this->countryRepository =  $this->getDoctrine()->getRepository(Country::class);
+        $this->countryRepository =  $this->entityManager->getRepository(Country::class);
+
+
+        
+        $this->countryDataRepository =  $this->entityManager->getRepository(CountryData::class);
+        
     }
 
     public function fetchCountry(String $country): Country

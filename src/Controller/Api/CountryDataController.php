@@ -2,36 +2,35 @@
 
 namespace App\Controller\Api;
 
-
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Entity\Country;
-use App\Entity\CountryData;
-
-use Api\Data\Database as Database;
-
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+use Doctrine\ORM\EntityManagerInterface;
+use App\Data\DataManager;
 
 class CountryDataController extends AbstractController
 {   
     /**
-     * Devuelve los datos de un país al front
-     * Lo usa /country/{nombre_pais} para mostrar los datos
-     * @Route("/data/country", name="country_data")
+     * @Route("/data/country", name="country_data", methods="POST")
      */
-    public function fetchCountryData(Request $request): Response
-    {
+    public function fetchCountryData(Request $request, DataManager $dataManager): Response
+    {   
         $input = $request->toArray()['input'];
-        $database = new Database();
 
-        // Existe?
+        // $types se extraerá de la configuración del usuario. Por ahora: solo generales
+        $types = array("General");
 
-        return new Response("");
+        $data = $dataManager->getData($types, $input);
+
+        return new Response(
+            json_encode($data),
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
+        );
     }
 
 }

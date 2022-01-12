@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Data;
+namespace App\Data;
 
 
 abstract class DataDecorator implements DataInterface
@@ -12,11 +12,10 @@ abstract class DataDecorator implements DataInterface
      */
     private array $apis;
 
-    public function __construct(Data $data, array $apis)
+    public function __construct(Data $data, Database $database)
     {
         $this->data = $data;
-        $this->database = new Database();
-        $this->apis = $apis;
+        $this->database = $database;
     }
 
     public function getData(String $input): array

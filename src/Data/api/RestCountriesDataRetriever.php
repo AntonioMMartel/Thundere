@@ -1,6 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
-namespace Api\Data;
+namespace App\Data;
 
 class RestCountriesDataRetriever implements DataRetriever 
 {

@@ -18,7 +18,7 @@ const router = new VueRouter({
         { path: '/bookmarks', component: Bookmarks },
         { path: '/', component: Home },
         { path: '/login', component: Login },
-        { path: '/countries', component: CountryViewer },
+        { path: '/countries/:country', component: CountryViewer, props: true },
         { path: '/register', component: Registration },
         { path: '/logout', component: Logout },
         { path: '/test', component: VueTest },   
