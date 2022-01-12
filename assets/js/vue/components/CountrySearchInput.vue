@@ -6,7 +6,6 @@
 </template>
 
 <script>
-    import {search} from "../../facade/SearchFacade";
     export default {
         name: "CountrySearchInput",
         data () {
@@ -21,12 +20,7 @@
 
             submit() {
                 // Vue llama al endpoint con un post del nombre introducido
-                search(this.input)
-                .then(response => {window.location.replace('/');})
-                .catch((error) => {
-                    error = true;
-                    errorMessage = error.response.data.detail
-                }); // error.response
+                window.location.replace('/country/'+ input) // error.response
                 // El endpoint responde que si existe o no
 
                 // Vue muestra mensaje de error

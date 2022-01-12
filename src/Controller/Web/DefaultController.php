@@ -15,13 +15,13 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/{route}", name="default")
-     * @Route("/{route}/{route2}", name="default")
      */
     public function route(): Response
     {
         return $this->render('index.html.twig');
     }
 
+    
 
     /**
      * @Route("/", name="index")
