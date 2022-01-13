@@ -10,7 +10,10 @@ import Home from './vue/views/Home'
 import Login from './vue/views/Login'
 import Registration from './vue/views/Registration'
 import Logout from './vue/views/Logout'
+import History from './vue/views/History'
+import Admin from './vue/views/Admin'
 import VueTest from './vue/views/VueTest'
+import NotFound from './vue/views/NotFound'
 
 const router = new VueRouter({
     mode: 'history',
@@ -21,7 +24,12 @@ const router = new VueRouter({
         { path: '/country/:country', component: CountryViewer, props: true },
         { path: '/register', component: Registration },
         { path: '/logout', component: Logout },
-        { path: '/test', component: VueTest },   
+        { path: '/history', component: History },
+        { path: '/admin', component: Admin },
+        { path: '/test', component: VueTest },
+        
+        { path: '*', component: NotFound },   
+        
     ]
 })
 

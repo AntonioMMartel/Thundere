@@ -24,7 +24,8 @@ security:
             # entry_point = punto de entrada. Redirigue a gente sin privilegios al login
             entry_point: form_login 
             logout: true
-            
+            # access_denied_handler: App\Security\AccessDeniedHandler
+
             # Autenticador base de symfony. https://symfonycasts.com/screencast/symfony-security/form-login
             form_login:
                 # "login" is the name of the route created previously
@@ -44,5 +45,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/bookmarks, roles: ROLE_USER }
+         - { path: ^/history, roles: ROLE_USER }
+         - { path: ^/country, roles: ROLE_USER }
+
+

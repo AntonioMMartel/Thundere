@@ -13,7 +13,7 @@ function login(email, password, _csrf_token) {
     params.append('email', email)
     params.append('password', password)
     params.append('csrf_token', _csrf_token)
-  return axios.post('/api/login', params,
+  return axios.post('/login', params,
   {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
 }
 

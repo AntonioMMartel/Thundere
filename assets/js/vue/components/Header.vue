@@ -21,6 +21,10 @@ import NavButton from './NavButton.vue'
                 {id: 4, label: "Bookmarks", href:"/bookmarks", forRole:"user" },
                 {id: 5, label: "Sign up", href:"/register", forRole:"none" },
                 {id: 6, label: "Sign out", href:"/logout", forRole:"user" },
+                {id: 7, label: "Sign out", href:"/logout", forRole:"admin" },
+                {id: 8, label: "Admin", href:"/admin", forRole:"admin" },
+
+
 
             ],
         }),

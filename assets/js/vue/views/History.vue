@@ -3,7 +3,7 @@
         <div class="container-main">
             <FadingLightsAnimation/>
             <div class="container-ui">
-                <div class="title capitalize"> Bookmarks </div> 
+                <div class="title capitalize"> Historial </div> 
                 <div class="texto"> Texto de ejemplo </div>
             </div>
         </div>
@@ -14,7 +14,7 @@
 import FadingLightsAnimation from '../components/FadingLightsAnimation.vue'
 
     export default {
-        name: 'Bookmarks',
+        name: 'History',
         components: {FadingLightsAnimation},
     }
 </script>
