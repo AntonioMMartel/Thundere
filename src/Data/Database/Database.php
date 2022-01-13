@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Database;
 
 use App\Entity\Country;
 use App\Entity\CountryData;
@@ -47,14 +47,17 @@ class Database
 
     public function fetchCountryData(String $country, String $type): array
     {   
-        $foundCountryData = $this->countryRepository->findOneBy(['name' => $country])->getCountryData();
+        if (!$foundCountry = $this->countryRepository->findOneBy(['name' => $country]))
+            return array();
+        
+        $foundCountryData = $foundCountry->getCountryData();
 
         // Mira si existe dicho dato con dicho tipo.
         foreach ($foundCountryData as $countryData)
             if ($countryData->getDataType() == $type) 
                 return $countryData->getJsonData();
 
-        return null;
+        return array();
     }
 
     /**
@@ -72,7 +75,7 @@ class Database
      * Guarda todos los nombres de un pais en la db
      */     
     public function createCountries(String $iso, array $names, CountryData $countryData): array
-    {     
+    {
         if ($countries = $this->countryRepository->createCountries($names, $iso, $countryData)) 
             return $countries;
 

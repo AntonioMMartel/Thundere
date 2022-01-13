@@ -21,7 +21,13 @@ class DefaultController extends AbstractController
         return $this->render('index.html.twig');
     }
 
-    
+    /**
+     * @Route("/country/{route2}", name="default")
+     */
+    public function route2(): Response
+    {
+        return $this->render('index.html.twig');
+    }
 
     /**
      * @Route("/", name="index")

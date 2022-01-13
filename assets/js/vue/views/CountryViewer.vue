@@ -4,7 +4,7 @@
             <FadingLightsAnimation/>
             <div class="container-ui">
                 <div class="title capitalize">{{ country }}</div> 
-                <div class="texto"> {{ error || data }} </div>
+                <div class="texto"> {{ message }} </div>
             </div>
         </div>
     </article>
@@ -20,7 +20,7 @@ import {search} from "../../facade/SearchFacade";
         data(){
             return {
                 data: "",
-                error: "Loading data..."
+                message: "Loading data..."
             }
         }, 
         props: ['country'],
@@ -28,9 +28,12 @@ import {search} from "../../facade/SearchFacade";
             console.log(this.country)
             search(this.country)
                 .then(response => {
-                    this.data = JSON.parse(this.response);
+                    //console.log(response);
+                    this.data = response.data;
+                    this.message = this.data.cca2
                 })
                 .catch((error) => {
+                    console.log(error);
                     this.error = "Error"
                 });
         }

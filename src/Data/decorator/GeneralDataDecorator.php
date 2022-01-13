@@ -1,8 +1,13 @@
 <?php
-namespace App\Data;
+namespace App\Data\Decorator;
 
 
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
+
+use App\Data\Api\RestCountriesDataRetriever;
+use App\Data\Api\DataRetriever;
+
 
 /**
  * Obtiene datos generales del país.
@@ -33,7 +38,6 @@ class GeneralDataDecorator extends DataDecorator
             $this->saveDataInDb($data, $translations, $iso);
 
         }
-
         return array_merge(parent::getData($input), $data);
     }
 
@@ -42,13 +46,13 @@ class GeneralDataDecorator extends DataDecorator
     {
         if ($databaseData = $this->database->fetchCountryData($input, $this->type))
             return $databaseData;
-        return null;
+        return array();
     }
 
-    private function fetchDataFromApi(String $input, DataRetriever $api): array
+    private function fetchDataFromApi(String $input, String $api): array
     {
 
-        $rawData = $api->fetchData($input);
+        $rawData = $api::fetchData($input);
         $data = json_decode($rawData, true);
 
         if (is_array($data)) {
@@ -97,11 +101,11 @@ class GeneralDataDecorator extends DataDecorator
         // Guardamos datos en la db
         // ES UNA LOCURA GUARDAR JSONs con datos desestructurados EN UNA DB RELACIONAL -> Por temas de denormalización
         // Para mi caso de uso no influye -> No se harán búsquedas en función de dichos datos.
-        if (!$countryData = $this->data->db->createCountryData($data, $this->type)) 
+        if (!$countryData = $this->database->createCountryData($data, $this->type)) 
             return null;
 
         // Registras nombres en la db y los vincula a dichos datos.
-        if (!$countryNames = $this->data->db->createCountries($names, $iso, $data)) 
+        if (!$countryNames = $this->database->createCountries($iso, $names, $countryData)) 
             return null;
             
         return array($countryData, $countryNames);

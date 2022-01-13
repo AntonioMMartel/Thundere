@@ -11,6 +11,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Data\DataManager;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class CountryDataController extends AbstractController
 {   

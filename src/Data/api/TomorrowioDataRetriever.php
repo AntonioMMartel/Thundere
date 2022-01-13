@@ -1,10 +1,11 @@
 <?php
 use Symfony\Component\HttpFoundation\Response;
-namespace App\Data;
+namespace App\Data\Api;
+
 
 class TomorrowioDataRetriever implements DataRetriever 
 {
-    public function fetchData($input): string
+    public static function fetchData($input): string
     {
         return "";
     }

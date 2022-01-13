@@ -19,13 +19,7 @@
         methods: {
 
             submit() {
-                // Vue llama al endpoint con un post del nombre introducido
-                window.location.replace('/country/'+ input) // error.response
-                // El endpoint responde que si existe o no
-
-                // Vue muestra mensaje de error
-
-                // Vue llama a controlador de cityViewer
+                window.location.replace('/country/'+ this.input) 
             },
 
             updateInputHeight() {

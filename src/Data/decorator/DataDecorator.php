@@ -1,6 +1,10 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Decorator;
+
+use App\Data\Data;
+use App\Data\Database\Database;
+use App\Data\DataInterface;
 
 
 abstract class DataDecorator implements DataInterface

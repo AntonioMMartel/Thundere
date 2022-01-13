@@ -1,8 +1,8 @@
 <?php
-namespace Api\Data;
+namespace App\Data\Api;
 
 
 interface DataRetriever
 {
-    public function fetchData($input): String;
+    public static function fetchData($input): String;
 }
