@@ -28,7 +28,6 @@ import {search} from "../../facade/SearchFacade";
             console.log(this.country)
             search(this.country)
                 .then(response => {
-                    //console.log(response);
                     this.data = response.data;
                     this.message = this.data.cca2
                 })
