@@ -8,6 +8,7 @@ use App\Repository\CountryRepository;
 use App\Repository\CountryDataRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 /**
  * Guarda toda la lógica de base de datos que necesitan los endpoints
@@ -38,7 +39,7 @@ class Database
     public function fetchCountry(String $country): Country
     {   
         // Mira si existe en la db
-        if ($foundCountry = $this->countryRepository->findOneBy(['name' => $country])) 
+        if ($foundCountry = $this->countryRepository->findOneBy(['name' => ucwords($country)])) 
             return $foundCountry;
 
         return null;
@@ -47,15 +48,17 @@ class Database
 
     public function fetchCountryData(String $country, String $type): array
     {   
-        if (!$foundCountry = $this->countryRepository->findOneBy(['name' => $country]))
+
+        if (!$foundCountry = $this->countryRepository->findOneBy(['name' =>ucwords($country)]))
             return array();
         
         $foundCountryData = $foundCountry->getCountryData();
-
+        
         // Mira si existe dicho dato con dicho tipo.
         foreach ($foundCountryData as $countryData)
             if ($countryData->getDataType() == $type) 
                 return $countryData->getJsonData();
+
 
         return array();
     }

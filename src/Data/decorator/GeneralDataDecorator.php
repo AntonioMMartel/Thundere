@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use App\Data\Api\RestCountriesDataRetriever;
 use App\Data\Api\DataRetriever;
-
+use App\Data\Api\TomorrowioDataRetriever;
 
 /**
  * Obtiene datos generales del país.
@@ -19,13 +19,16 @@ class GeneralDataDecorator extends DataDecorator
      */
     private String $type = "General";
 
-    private array $apis = array(RestCountriesDataRetriever::class);
+    private array $apis = array(RestCountriesDataRetriever::class, TomorrowioDataRetriever::class);
 
     public function getData(String $input): array
-    {
+    {   
+        $data = $this->fetchDataFromDb($input);
+
         // Los cogemos de la db
         if (!$data = $this->fetchDataFromDb($input)) // Si no están los cogemos de la api
         {   
+
             $data = array();
             foreach ($this->apis as $api) {
                 $data = array_merge($data, $this->fetchDataFromApi($input, $api));
@@ -43,7 +46,9 @@ class GeneralDataDecorator extends DataDecorator
 
 
     private function fetchDataFromDb(String $input): array
-    {
+    {   
+        $databaseData = $this->database->fetchCountryData($input, $this->type);
+        //throw new BadRequestException(implode($databaseData));
         if ($databaseData = $this->database->fetchCountryData($input, $this->type))
             return $databaseData;
         return array();
@@ -60,11 +65,7 @@ class GeneralDataDecorator extends DataDecorator
         } 
         else // No se encuentra nada (API caida o no existe el país)
         {
-            return new Response(
-                "Ese país no existe.",
-                Response::HTTP_BAD_REQUEST,
-                ['content-type' => 'application/json']
-            );
+            return array();
         }
         return $data;
     }

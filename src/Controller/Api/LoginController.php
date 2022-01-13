@@ -2,18 +2,14 @@
 
 namespace App\Controller\Api;
 
-use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\BrowserKit\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class LoginController extends AbstractController
 {
