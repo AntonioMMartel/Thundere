@@ -9,6 +9,21 @@ use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
+ * 
+ * https://www.doctrine-project.org/projects/doctrine-orm/en/2.10/reference/inheritance-mapping.html
+ * 
+ * para crear supertipos: tabla Entity.
+ * 
+ * Yo usaria Class Table Inheritance
+ * 
+ *  Mejor a la hora de diseñar
+ * 
+ * Si me cargo un subtipo no me influye en ningun aspecto
+ *  
+ *  Igualmente Single Table es mas eficiente
+ * 
+ *      Tampoco es pa tanto (0.5 ms como mucho para mi caso de uso)
+ * 
  */
 final class Version20211228141206 extends AbstractMigration
 {
