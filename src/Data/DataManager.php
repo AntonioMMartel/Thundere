@@ -19,7 +19,7 @@ class DataManager {
 
     protected $entityManager;
 
-    private array $decorators = array("General" => GeneralDataDecorator::class);
+    private array $decorators = ["General" => GeneralDataDecorator::class];
 
     public function __construct(EntityManagerInterface $entityManager)
     {

@@ -27,7 +27,6 @@ const router = new VueRouter({
         { path: '/history', component: History },
         { path: '/admin', component: Admin },
         { path: '/test', component: VueTest },
-        
         { path: '*', component: NotFound },   
         
     ]

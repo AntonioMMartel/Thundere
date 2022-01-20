@@ -19,17 +19,15 @@ class GeneralDataDecorator extends DataDecorator
      */
     private String $type = "General";
 
-    private array $apis = array(RestCountriesDataRetriever::class, TomorrowioDataRetriever::class);
+    private array $apis = [RestCountriesDataRetriever::class];
 
     public function getData(String $input): array
     {   
-        $data = $this->fetchDataFromDb($input);
 
         // Los cogemos de la db
         if (!$data = $this->fetchDataFromDb($input)) // Si no están los cogemos de la api
         {   
-
-            $data = array();
+            $data = [];
             foreach ($this->apis as $api) {
                 $data = array_merge($data, $this->fetchDataFromApi($input, $api));
             }
@@ -51,7 +49,7 @@ class GeneralDataDecorator extends DataDecorator
         //throw new BadRequestException(implode($databaseData));
         if ($databaseData = $this->database->fetchCountryData($input, $this->type))
             return $databaseData;
-        return array();
+        return [];
     }
 
     private function fetchDataFromApi(String $input, String $api): array
@@ -65,14 +63,14 @@ class GeneralDataDecorator extends DataDecorator
         } 
         else // No se encuentra nada (API caida o no existe el país)
         {
-            return array();
+            return [];
         }
         return $data;
     }
 
     private function getCountryTranslations(array $restCountriesData): array
     {
-        $names = array();
+        $names = [];
 
         foreach ($restCountriesData['translations'] as $entry) {
             $names = array_merge($names, array_values($entry));
@@ -97,7 +95,7 @@ class GeneralDataDecorator extends DataDecorator
         return $restCountriesData['cca2'];
     }
 
-    private function saveDataInDb(array $data, array $names, String $iso): array
+    private function saveDataInDb(array $data, array $translations, String $iso): array
     {
         // Guardamos datos en la db
         // ES UNA LOCURA GUARDAR JSONs con datos desestructurados EN UNA DB RELACIONAL -> Por temas de denormalización
@@ -106,9 +104,9 @@ class GeneralDataDecorator extends DataDecorator
             return null;
 
         // Registras nombres en la db y los vincula a dichos datos.
-        if (!$countryNames = $this->database->createCountries($iso, $names, $countryData)) 
+        if (!$countryNames = $this->database->createCountries($iso, $translations, $countryData)) 
             return null;
             
-        return array($countryData, $countryNames);
+        return [$countryData, $countryNames];
     }
 }

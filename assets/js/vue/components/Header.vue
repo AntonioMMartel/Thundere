@@ -23,9 +23,6 @@ import NavButton from './NavButton.vue'
                 {id: 6, label: "Sign out", href:"/logout", forRole:"user" },
                 {id: 7, label: "Sign out", href:"/logout", forRole:"admin" },
                 {id: 8, label: "Admin", href:"/admin", forRole:"admin" },
-
-
-
             ],
         }),
         methods: {
@@ -36,6 +33,7 @@ import NavButton from './NavButton.vue'
         computed: {
             navButtonsDisplay: function() {
                 let navButtonsRole = [];
+
                 // Mira si el botón está destinado a ese usuario. Si no lo está lo quita
                 for(let key in this.navButtons) {
                     if (this.navButtons[key].forRole == this.userRole || this.navButtons[key].forRole == "all"){

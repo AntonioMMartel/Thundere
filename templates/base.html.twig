@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Controlador base{% endblock %}</title>
+        <title>{% block title %} Thundere{% endblock %}</title>
         {% block head %}
             {# Vas a poner el csfr token aqui y se lo vas a inyectar a Vue.js
             https://stackoverflow.com/questions/41409893/csrf-token-in-vue-component #}
@@ -19,7 +19,9 @@
     </head>
     
     <body>
-        {% set role = is_granted('ROLE_USER') ? 'user' : 'none' %}
+        {% set role = is_granted('ROLE_ADMIN') ? 'admin' : 
+            is_granted('ROLE_USER') ? 'user' : 'none' %}
+   
         <div id="app" > <app user-role="{{ role }}"/> </div>
         {{ encore_entry_script_tags('main') }}
     </body>
