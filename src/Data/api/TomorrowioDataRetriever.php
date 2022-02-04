@@ -1,6 +1,7 @@
 <?php
-use Symfony\Component\HttpFoundation\Response;
 namespace App\Data\Api;
+use Symfony\Component\HttpFoundation\Response;
+
 
 
 class TomorrowioDataRetriever implements DataRetriever 

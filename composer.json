@@ -62,6 +62,10 @@
         "sort-packages": true,
         "platform": {
             "ext-mongo": "1.6.16"
+        },
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "autoload": {
