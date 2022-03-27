@@ -54,8 +54,7 @@ class CountryDataRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?CountryData
+    public function findOneByType($value): ?CountryData
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
@@ -64,5 +63,4 @@ class CountryDataRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
 }
