@@ -1,53 +1,49 @@
 security:
-    # https://symfony.com/doc/current/security/authenticator_manager.html
-    enable_authenticator_manager: true
-    # https://symfony.com/doc/current/security.html#c-hashing-passwords
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-        App\Entity\User:
-            algorithm: auto
+  # https://symfony.com/doc/current/security/authenticator_manager.html
+  enable_authenticator_manager: true
+  # https://symfony.com/doc/current/security.html#c-hashing-passwords
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
+    App\Entity\User:
+      algorithm: auto
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            lazy: true
-            provider: app_user_provider
-            # entry_point = punto de entrada. Redirigue a gente sin privilegios al login
-            entry_point: form_login 
-            logout: true
-            # access_denied_handler: App\Security\AccessDeniedHandler
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    my_mongo_provider:
+      mongodb: { class: App\Document\User, property: email }
 
-            # Autenticador base de symfony. https://symfonycasts.com/screencast/symfony-security/form-login
-            form_login:
-                # "login" is the name of the route created previously
-                login_path: /login
-                check_path: /login
-                # enable_csrf: true
-                username_parameter: email
-                password_parameter: password
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      lazy: true
+      provider: my_mongo_provider
+      # entry_point = punto de entrada. Redirigue a gente sin privilegios al login
+      entry_point: form_login
+      logout: true
+      # access_denied_handler: App\Security\AccessDeniedHandler
 
-            
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+      # Autenticador base de symfony. https://symfonycasts.com/screencast/symfony-security/form-login
+      form_login:
+        # "login" is the name of the route created previously
+        login_path: /login
+        check_path: /login
+        # enable_csrf: true
+        username_parameter: email
+        password_parameter: password
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#firewalls-authentication
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/bookmarks, roles: ROLE_USER }
-         - { path: ^/history, roles: ROLE_USER }
-         - { path: ^/country, roles: ROLE_USER }
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
 
-
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/bookmarks, roles: ROLE_USER }
+    - { path: ^/history, roles: ROLE_USER }
+    - { path: ^/country, roles: ROLE_USER }
