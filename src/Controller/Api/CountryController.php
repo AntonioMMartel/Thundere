@@ -12,7 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class CountryController extends AbstractController
 {   
     // Document manager para trabajar con los documentos de mongo
-    #[Route('/data/countryM', name: 'get_country', methods: ['GET'])]
+    /**
+     * @Route("/data/countryM", name="get_country", methods="GET")
+     */
     public function index(DocumentManager $documentManager): Response
     {   
         // Cursor para capturar datos
@@ -23,8 +25,10 @@ class CountryController extends AbstractController
         return $this->json(['countries' => $cursor->toArray()]);
     }
 
-        // Document manager para trabajar con los documentos de mongo
-    #[Route('/data/countryM', name: 'new_country', methods: ['POST'])]
+    // Document manager para trabajar con los documentos de mongo
+    /**
+     * @Route("/data/countryM", name="new_country", methods="POST")
+     */
     public function new(Request $request, DocumentManager $documentManager): Response
     {   
         $country = new Country($request->request->get('path'));

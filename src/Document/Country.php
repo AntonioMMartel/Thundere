@@ -4,20 +4,21 @@ namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Types\Type as Type;
+use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[MongoDB\Document(db:"Thundere", collection: "countries")]
+/**
+ * @MongoDB\Document(collection="countries", db="Thundere", repositoryClass=CountryRepository::class))
+ */
 class Country {
     
-    #[MongoDB\Id]
+    /**
+     * @MongoDB\Id
+     */
     private $id;
 
-    #[MongoDB\Field(type: Type::STRING)]
-    private $path;
-
-    public function __construct($path)
-    {   
-        $this->path = $path;
-    }
+    public function __construct()
+    {}
 
     /**
      * @return mixed
