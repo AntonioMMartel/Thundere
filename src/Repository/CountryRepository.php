@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\Country;
-use App\Entity\CountryData;
+use App\Document\Country;
+use App\Document\CountryData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Country[]    findAll()
  * @method Country[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CountryRepository extends ServiceEntityRepository
+class CountryRepository extends ServiceDocumentRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -31,7 +32,7 @@ class CountryRepository extends ServiceEntityRepository
 
             array_push($countries, $country);
 
-            $entityManager = $this->getEntityManager();
+            $entityManager = $this->getDocumentManager();
             $entityManager->persist($country);
             $entityManager->flush(); 
         }

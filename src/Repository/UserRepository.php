@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Document\User;
+use Doctrine\Bundle\MongoDBBundle\ManagerRegistry as MongoDBBundleManagerRegistry;
+use Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepository;
+use Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepositoryInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
-use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -18,9 +20,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserLoaderInterface
+class UserRepository extends ServiceDocumentRepository implements PasswordUpgraderInterface, UserLoaderInterface, ServiceDocumentRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(MongoDBBundleManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
@@ -35,27 +37,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         $user->setPassword($newHashedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
+        $this->_dm->persist($user);
+        $this->_dm->flush();
     }
 
-    public function loadUserByIdentifier(string $nameOrEmail): ?User
+    public function loadUserByIdentifier(string $email): ?User
     {
-        $entityManager = $this->getEntityManager();
+        $documentManager = $this->getDocumentManager();
 
-        return $entityManager->createQuery(
-                'SELECT user
-                FROM App\Entity\User user
-                WHERE user.email = :query
-                OR u.name = :query'
-            )
-            ->setParameter('query', $nameOrEmail)
-            ->getOneOrNullResult();
+        return $documentManager->createQueryBuilder(user::class)
+            ->field('email')->equals($email)
+            ->getQuery()
+            ->execute();
     }
 
-    public function loadUserByUsername(string $nameOrEmail): ?User
+    public function loadUserByUsername(string $email): ?User
     {
-        return $this->loadUserByIdentifier($nameOrEmail);
+        return $this->loadUserByIdentifier($email);
     }
     /**
      * @return User
@@ -72,6 +70,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $filter = ["name" => "", "email" => "", "password" => ""];
         if (!array_diff_key($data, $filter) && !array_diff_key($filter, $data)) return null;
         */
+        // Mira si existe
+        if ($this->findOneBy(['email' => $data['email']])) {
+            return null;
+        }
+
         // Creamos objeto del usuario
         $user = new User();
         $user->setName($data['name']);
@@ -93,9 +96,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setConfirmationCode("temp");
 
         // Creamos el usuario en la bd
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($user);
-        $entityManager->flush(); 
+        $documentManager = $this->getDocumentManager();
+        $documentManager->persist($user);
+        $documentManager->flush(); 
 
         return $user;
     }

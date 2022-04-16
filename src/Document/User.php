@@ -5,13 +5,16 @@ namespace App\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Types\Type as Type;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @MongoDB\Document(collection="users", db="Thundere", repositoryClass=UserRepository::class)
+ * @MongoDB\Document(collection="users", db="Thundere", repositoryClass=\App\Repository\UserRepository::class)
  * @MongoDBUnique(fields="email")
  */
-class User {
+class User implements UserInterface, PasswordAuthenticatedUserInterface
+{
     
     /**
      * @MongoDB\Id
@@ -44,12 +47,12 @@ class User {
     private $confirmation_code;
 
     /**
-     * @MongoDB\Field(type="inmutable_datetime")
+     * @MongoDB\Field(type="date_immutable")
     */
     private $confirmation_time;
 
     /**
-     * @MongoDB\Field(type="inmutable_datetime")
+     * @MongoDB\Field(type="date_immutable")
     */
     private $created_time;
 
