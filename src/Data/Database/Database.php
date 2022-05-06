@@ -2,13 +2,12 @@
 
 namespace App\Data\Database;
 
-use App\Entity\Country;
-use App\Entity\CountryData;
+use App\Document\Country;
 use App\Repository\CountryRepository;
 use App\Repository\CountryDataRepository;
-
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+
 
 /**
  * Guarda toda la lógica de base de datos que necesitan los endpoints
@@ -17,22 +16,18 @@ class Database
 {   
     private CountryRepository $countryRepository;
 
-    private CountryDataRepository $countryDataRepository;
+    private DocumentManager $documentManager;
 
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(DocumentManager $documentManager)
     {   
-        $this->entityManager = $entityManager;
-
+        $this->documentManager = $documentManager;
         /*
             @var CountryRepository
+
+            $documentManager = $this->getDocumentManager();
+            $documentManager->persist($user);
+            $documentManager->flush(); 
         */
-        $this->countryRepository =  $this->entityManager->getRepository(Country::class);
-
-
-        
-        $this->countryDataRepository =  $this->entityManager->getRepository(CountryData::class);
         
     }
 
@@ -46,6 +41,7 @@ class Database
     }
 
 
+    // Lee el array de datos dentro del país.
     public function fetchCountryData(String $country, String $type): array
     {   
 
@@ -63,23 +59,13 @@ class Database
         return array();
     }
 
-    /**
-     * Guarda datos de pais en la db
-     */     
-    public function createCountryData(array $json, String $type) : CountryData
-    {
-        if ($countryData = $this->countryDataRepository->createCountryData($json, $type)) 
-            return $countryData;
-
-        return null;
-    }
 
     /**
      * Guarda todos los nombres de un pais en la db
      */     
-    public function createCountries(String $iso, array $names, CountryData $countryData): array
+    public function createCountries(String $iso, array $names, array $json): array
     {
-        if ($countries = $this->countryRepository->createCountries($names, $iso, $countryData)) 
+        if ($countries = $this->countryRepository->createCountries($names, $iso, $json)) 
             return $countries;
 
         return null;

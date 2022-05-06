@@ -21,14 +21,14 @@ class CountryRepository extends ServiceDocumentRepository
         parent::__construct($registry, Country::class);
     }
 
-    public function createCountries(array $names, string $iso, CountryData $countryData): array {
+    public function createCountries(array $names, string $iso, array $data): array {
         
         $countries = array();
         foreach($names as $name){
             $country = new Country();
             $country->setName($name);
             $country->setIsoCode($iso);
-            $country->addCountryData($countryData);
+            $country->setCountryData($data);
 
             array_push($countries, $country);
 

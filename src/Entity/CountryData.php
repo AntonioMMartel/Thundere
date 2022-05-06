@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EntityA;
+namespace App\Entity;
 
 use App\Repository\CountryDataRepository;
 use Doctrine\Common\Collections\ArrayCollection;

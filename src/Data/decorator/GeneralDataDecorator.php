@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Data\Api\RestCountriesDataRetriever;
 use App\Data\Api\DataRetriever;
 use App\Data\Api\TomorrowioDataRetriever;
+use App\Repository\UserRepository;
 
 /**
  * Obtiene datos generales del país.
@@ -96,17 +97,11 @@ class GeneralDataDecorator extends DataDecorator
     }
 
     private function saveDataInDb(array $data, array $translations, String $iso): array
-    {
-        // Guardamos datos en la db
-        // ES UNA LOCURA GUARDAR JSONs con datos desestructurados EN UNA DB RELACIONAL -> Por temas de denormalización
-        // Para mi caso de uso no influye -> No se harán búsquedas en función de dichos datos.
-        if (!$countryData = $this->database->createCountryData($data, $this->type)) 
-            return null;
-
+    {   
+        array_unshift($data, "" + $this->type); // Anadimos el tipo de dato al principio del array
         // Registras nombres en la db y los vincula a dichos datos.
-        if (!$countryNames = $this->database->createCountries($iso, $translations, $countryData)) 
-            return null;
+        if (!$countryNames = $this->database->createCountries($iso, $translations, $data)) return null;
             
-        return [$countryData, $countryNames];
+        return [$data, $countryNames];
     }
 }

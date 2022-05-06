@@ -19,8 +19,8 @@ export default {
   },
   methods: {
     submit() {
-      //window.location.replace("/country/" + this.input);
-      console.log(axios.get("/api/data/countryM"));
+      window.location.replace("/country/" + this.input);
+      //console.log(axios.get("/api/data/countryM"));
     },
 
     updateInputHeight() {
