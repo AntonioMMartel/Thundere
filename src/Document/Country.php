@@ -6,6 +6,7 @@ use App\Repository\CountryRepository;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Types\Type as Type;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,13 +30,14 @@ class Country {
     private $isoCode;
 
     /**
-     * Es un array con 3 elementos: [type, data, dateFetched]
+     * Es una coleccion de datos: {type: data} Dentro de data esta el campo dateFetched
      * type: tipo de datos // data: los datos // dateFetched: antiguedad de los datos
      * @MongoDB\Field(type="collection")
     */
     private $countryData;
 
-    public function __construct(){}
+    public function __construct(){
+    }
 
     /**
      * @return mixed
@@ -73,13 +75,17 @@ class Country {
      */
     public function getCountryData(): Collection
     {
-        return $this->countryData;
+        return $this->countryData? $this->contryData : new ArrayCollection();
     }
 
-    public function setCountryData(array $countryData): self
-    {
-        if (!$this->countryData->contains($countryData)) {
-            $this->countryData[] = $countryData;
+    public function addCountryData(array $countryData, String $type): self
+    {   
+        // Miramos si ya hay datos asociados al tipo al que queremos escribir
+        // AQUI FALTA: 
+        // 1. array de timeouts de tipos
+        // 2. Hacer que cuando los datos sean muy viejos (timeout superado) sean sobreescritos
+        if (!$this->countryData->containsKey($type)) {
+            $this->countryData->add($countryData);
         }
 
         return $this;

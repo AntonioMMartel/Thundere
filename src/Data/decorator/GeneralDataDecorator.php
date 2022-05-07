@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Data\Api\RestCountriesDataRetriever;
 use App\Data\Api\DataRetriever;
 use App\Data\Api\TomorrowioDataRetriever;
-use App\Repository\UserRepository;
 
 /**
  * Obtiene datos generales del país.
@@ -96,11 +95,12 @@ class GeneralDataDecorator extends DataDecorator
         return $restCountriesData['cca2'];
     }
 
+    // Los datos son un array de arrays. El primer elemento de los arrays más internos dice el tipo de datos que es.
     private function saveDataInDb(array $data, array $translations, String $iso): array
     {   
-        array_unshift($data, "" + $this->type); // Anadimos el tipo de dato al principio del array
+        array_unshift($data, $this->type); // Anadimos el tipo de dato al principio del array
         // Registras nombres en la db y los vincula a dichos datos.
-        if (!$countryNames = $this->database->createCountries($iso, $translations, $data)) return null;
+        if (!$countryNames = $this->database->createCountries($iso, $translations, $data, $this->type)) return null;
             
         return [$data, $countryNames];
     }

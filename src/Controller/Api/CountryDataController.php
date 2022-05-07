@@ -20,7 +20,7 @@ class CountryDataController extends AbstractController
 
         // $types se extraerá de la configuración del usuario. Por ahora: solo generales
         $types = array("General");
-
+        
         $data = $dataManager->getData($types, $input);
 
         return new Response(

@@ -2,14 +2,11 @@
 
 namespace App\Data;
 
-
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-
 use App\Data\Database\Database;
 use App\Data\Decorator\GeneralDataDecorator;
 use App\Data\Decorator\DataDecorator;
 use App\Repository\CountryRepository;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 /**
@@ -18,20 +15,20 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
  */
 class DataManager {
 
-    protected $documentManager;
+    protected $countryRepository;
 
     private array $decorators = ["General" => GeneralDataDecorator::class];
 
-    public function __construct(DocumentManager $documentManager)
+    public function __construct(CountryRepository $countryRepository)
     {
-        $this->documentManager = $documentManager;
+        $this->countryRepository = $countryRepository;
     }
     
     // Llama a los decoradores de los tipos que queremos
     public function getData(array $types, String $input): array
     {
         $data = new Data();
-        $database = new Database($this->documentManager);
+        $database = new Database($this->countryRepository);
         foreach ($types as $type){
             $data = new $this->decorators[$type]($data, $database) ?? null;
         }

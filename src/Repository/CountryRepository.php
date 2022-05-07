@@ -4,9 +4,8 @@ namespace App\Repository;
 
 use App\Document\Country;
 use App\Document\CountryData;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\MongoDBBundle\ManagerRegistry as MongoDBBundleManagerRegistry;
 
 /**
  * @method Country|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,19 +15,19 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CountryRepository extends ServiceDocumentRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(MongoDBBundleManagerRegistry $registry)
     {
         parent::__construct($registry, Country::class);
     }
 
-    public function createCountries(array $names, string $iso, array $data): array {
+    public function createCountries(array $names, string $iso, array $data, String $dataType): array {
         
         $countries = array();
         foreach($names as $name){
             $country = new Country();
             $country->setName($name);
             $country->setIsoCode($iso);
-            $country->setCountryData($data);
+            $country->addCountryData($data, $dataType);
 
             array_push($countries, $country);
 

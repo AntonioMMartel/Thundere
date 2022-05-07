@@ -4,7 +4,7 @@ namespace App\Data\Database;
 
 use App\Document\Country;
 use App\Repository\CountryRepository;
-use App\Repository\CountryDataRepository;
+
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
@@ -16,11 +16,8 @@ class Database
 {   
     private CountryRepository $countryRepository;
 
-    private DocumentManager $documentManager;
-
-    public function __construct(DocumentManager $documentManager)
+    public function __construct(CountryRepository $countryRepository)
     {   
-        $this->documentManager = $documentManager;
         /*
             @var CountryRepository
 
@@ -28,6 +25,7 @@ class Database
             $documentManager->persist($user);
             $documentManager->flush(); 
         */
+        $this->countryRepository = $countryRepository;
         
     }
 
@@ -63,9 +61,9 @@ class Database
     /**
      * Guarda todos los nombres de un pais en la db
      */     
-    public function createCountries(String $iso, array $names, array $json): array
+    public function createCountries(String $iso, array $names, array $json, String $dataType): array
     {
-        if ($countries = $this->countryRepository->createCountries($names, $iso, $json)) 
+        if ($countries = $this->countryRepository->createCountries($names, $iso, $json, $dataType)) 
             return $countries;
 
         return null;
