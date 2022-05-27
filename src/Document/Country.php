@@ -20,9 +20,9 @@ class Country {
     private $id;
 
     /**
-     * @MongoDB\Field(type="string")
+     * @MongoDB\Field(type="collection")
     */
-    private $name;
+    private $names;
 
     /**
      * @MongoDB\Field(type="string")
@@ -46,16 +46,26 @@ class Country {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getNames(): ?Collection
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setNames(array $names): self
     {
-        $this->name = $name;
+        $this->names = $names;
 
         return $this;
+    }
+
+    public function addName(string $name): void
+    {
+        $this->names += [$name];
+    }
+
+    public function addNames(array $names): void
+    {
+        $this->names += $names;
     }
 
     public function getIsoCode(): ?string
@@ -84,8 +94,24 @@ class Country {
         // AQUI FALTA: 
         // 1. array de timeouts de tipos
         // 2. Hacer que cuando los datos sean muy viejos (timeout superado) sean sobreescritos
-        if (!$this->countryData->containsKey($type)) {
-            $this->countryData->add($countryData);
+        
+        // Si no hay array de datos
+        if(!$this->countryData){ 
+            $this->countryData=[]; 
+        }   
+        
+        // Si no está ese dato en el array de datos
+        if (!isset($this->countryData[$type])) { 
+            $this->countryData += [$type => $countryData]; 
+        } 
+
+        // Si ya habían datos
+        else {
+            // Si estan anticuados se sobreescriben
+            // (Esto deberia de verlo el DataManager)
+            // Si no estaban de antes se añaden
+            array_merge($this->countryData[$type], $countryData);
+            
         }
 
         return $this;

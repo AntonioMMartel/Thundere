@@ -23,19 +23,17 @@ class CountryRepository extends ServiceDocumentRepository
     public function createCountries(array $names, string $iso, array $data, String $dataType): array {
         
         $countries = array();
-        foreach($names as $name){
-            $country = new Country();
-            $country->setName($name);
-            $country->setIsoCode($iso);
-            $country->addCountryData($data, $dataType);
+        $country = new Country();
+        $country->setNames($names);
+        $country->setIsoCode($iso);
+        $country->addCountryData($data, $dataType);
 
-            array_push($countries, $country);
+        array_push($countries, $country);
 
-            $entityManager = $this->getDocumentManager();
-            $entityManager->persist($country);
-            $entityManager->flush(); 
-        }
-        
+        $entityManager = $this->getDocumentManager();
+        $entityManager->persist($country);
+        $entityManager->flush(); 
+    
         return $countries;
         
     }
