@@ -17,10 +17,10 @@ export default {
       textRows: 1,
     };
   },
+  props: ["to"],
   methods: {
     submit() {
-      window.location.replace("/country/" + this.input);
-      //console.log(axios.get("/api/data/countryM"));
+      window.location.replace(this.to + "/" + this.input);
     },
 
     updateInputHeight() {

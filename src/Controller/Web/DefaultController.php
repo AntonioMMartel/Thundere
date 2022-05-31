@@ -22,7 +22,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/country/{route2}", name="default_country")
+     * @Route("/{route}/{route2}", name="default_GET")
      */
     public function route2(): Response
     {

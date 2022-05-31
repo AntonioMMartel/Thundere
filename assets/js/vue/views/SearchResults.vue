@@ -2,8 +2,7 @@
   <div class="container-main">
     <FadingLightsAnimation />
     <div class="container-ui">
-      <div class="title">Pon una ciudad</div>
-      <CountrySearchInput :to="'/search'" />
+      <div class="title">{{ input }}</div>
     </div>
   </div>
 </template>
@@ -12,8 +11,9 @@
 import CountrySearchInput from "../components/CountrySearchInput.vue";
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
 export default {
-  name: "Home",
+  name: "SearchResults",
   components: { FadingLightsAnimation, CountrySearchInput },
+  props: ["input"],
 };
 </script>
 
