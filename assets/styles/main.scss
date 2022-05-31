@@ -1,14 +1,19 @@
 [v-cloak] {
-    display: none;
+  display: none;
 }
 
-
 body {
-    margin: 0;
-    background: linear-gradient(180deg, rgba(2,0,36,1) 10%, rgba(9,9,121,1) 55%, rgba(0,99,182,1) 100%) fixed;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    height: 100% !important;
-    font-family: Helvetica, Arial, sans-serif;
-    overflow: hidden;
+  margin: 0;
+  background: linear-gradient(180deg, rgba(2, 0, 36, 1) 10%, rgba(9, 9, 121, 1) 55%, rgba(0, 99, 182, 1) 100%) fixed;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  height: 100% !important;
+  font-family: Helvetica, Arial, sans-serif;
+  overflow: hidden;
+
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
