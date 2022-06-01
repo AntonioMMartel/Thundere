@@ -38,6 +38,18 @@ class CountryRepository extends ServiceDocumentRepository
         
     }
 
+    public function findByName(String $name): Country {
+
+        $dm = $this->getDocumentManager();
+
+        $qb = $dm->createQueryBuilder(Article::class)->field('names')->in([$name]);
+
+        $foundCountry = $qb->getQuery()->getSingleResult();
+
+        return $foundCountry;
+    }
+
+
     // /**
     //  * @return Country[] Returns an array of Country objects
     //  */

@@ -23,10 +23,13 @@ class GeneralDataDecorator extends DataDecorator
 
     public function getData(String $input): array
     {   
-
+        
         // Los cogemos de la db
-        if (!$data = $this->fetchDataFromDb($input)) // Si no están los cogemos de la api
+
+        $data = $this->fetchDataFromDb($input);
+        if (!$data) // Si no están los cogemos de la api
         {   
+            
             $data = [];
             foreach ($this->apis as $api) {
                 $data = array_merge($data, $this->fetchDataFromApi($input, $api));
@@ -47,8 +50,11 @@ class GeneralDataDecorator extends DataDecorator
     {   
         $databaseData = $this->database->fetchCountryData($input, $this->type);
         //throw new BadRequestException(implode($databaseData));
-        if ($databaseData = $this->database->fetchCountryData($input, $this->type))
+        if ($databaseData){
             return $databaseData;
+        }
+           
+
         return [];
     }
 
@@ -98,7 +104,6 @@ class GeneralDataDecorator extends DataDecorator
     // Los datos son un array de arrays. El primer elemento de los arrays más internos dice el tipo de datos que es.
     private function saveDataInDb(array $data, array $translations, String $iso): array
     {   
-        array_unshift($data, $this->type); // Anadimos el tipo de dato al principio del array
         // Registras nombres en la db y los vincula a dichos datos.
         if (!$countryNames = $this->database->createCountries($iso, $translations, $data, $this->type)) return null;
             

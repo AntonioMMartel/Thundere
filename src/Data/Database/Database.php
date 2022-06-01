@@ -22,8 +22,6 @@ class Database
             @var CountryRepository
 
             $documentManager = $this->getDocumentManager();
-            $documentManager->persist($user);
-            $documentManager->flush(); 
         */
         $this->countryRepository = $countryRepository;
         
@@ -40,21 +38,18 @@ class Database
 
 
     // Lee el array de datos dentro del país.
-    public function fetchCountryData(String $country, String $type): array
+    public function fetchCountryData(String $input, String $type): array
     {   
-
-        if (!$foundCountry = $this->countryRepository->findOneBy(['name' =>ucwords($country)]))
-            return array();
         
+        $foundCountry = $this->countryRepository->findOneBy(['names' => $input]);
+
+        if (!$foundCountry) return array();
+
         $foundCountryData = $foundCountry->getCountryData();
         
-        // Mira si existe dicho dato con dicho tipo.
-        foreach ($foundCountryData as $countryData)
-            if ($countryData->getDataType() == $type) 
-                return $countryData->getJsonData();
+        throw new BadRequestException(json_encode($foundCountryData));
 
-
-        return array();
+        return $foundCountryData[$type] ?  $foundCountryData[$type] : array();
     }
 
 

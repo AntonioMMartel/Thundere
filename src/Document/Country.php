@@ -8,6 +8,7 @@ use Doctrine\ODM\MongoDB\Types\Type as Type;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -80,12 +81,9 @@ class Country {
         return $this;
     }
 
-    /**
-     * @return Collection|countryData[]
-     */
-    public function getCountryData(): Collection
+    public function getCountryData()
     {
-        return $this->countryData? $this->contryData : new ArrayCollection();
+        return $this->countryData;
     }
 
     public function addCountryData(array $countryData, String $type): self
@@ -102,7 +100,7 @@ class Country {
         
         // Si no está ese dato en el array de datos
         if (!isset($this->countryData[$type])) { 
-            $this->countryData += [$type => $countryData]; 
+            $this->countryData += [$type => [$countryData]]; 
         } 
 
         // Si ya habían datos
