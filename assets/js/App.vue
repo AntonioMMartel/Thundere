@@ -23,5 +23,6 @@ export default {
 <style lang="scss" scoped>
 .forwards {
   z-index: 10;
+  height: 80vh;
 }
 </style>

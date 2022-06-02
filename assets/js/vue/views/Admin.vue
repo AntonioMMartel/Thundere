@@ -1,60 +1,63 @@
 <template>
-  <article>
-    <div class="container-main">
-      <FadingLightsAnimation />
-      <div class="container-ui">
+  <div class="container-main">
+    <FadingLightsAnimation />
+    <div class="container-ui">
+      <div class="select-container">
+        <img class="arrow" src="../../../svgs/ArrowRight.svg" />
         <div class="select capitalize">Countries</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Column 1</th>
-              <th>Column 2</th>
-              <th>Column 3</th>
-              <th>Column 4</th>
-              <th>Column 5</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Cell 1</td>
-              <td>Cell 2</td>
-              <td>Cell 3</td>
-              <td>Cell 4</td>
-              <td>Cell 5</td>
-            </tr>
-            <tr>
-              <td>Cell 1</td>
-              <td>Cell 2</td>
-              <td>Cell 3</td>
-              <td>Cell 4</td>
-              <td>Cell 5</td>
-            </tr>
-            <tr>
-              <td>Cell 1</td>
-              <td>Cell 2</td>
-              <td>Cell 3</td>
-              <td>Cell 4</td>
-              <td>Cell 5</td>
-            </tr>
-            <tr>
-              <td>Cell 1</td>
-              <td>Cell 2</td>
-              <td>Cell 3</td>
-              <td>Cell 4</td>
-              <td>Cell 5</td>
-            </tr>
-            <tr>
-              <td>Cell 1</td>
-              <td>Cell 2</td>
-              <td>Cell 3</td>
-              <td>Cell 4</td>
-              <td>Cell 5</td>
-            </tr>
-          </tbody>
-        </table>
+        <img class="arrow" src="../../../svgs/ArrowLeft.svg" />
       </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+            <th>Column 4</th>
+            <th>Column 5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </article>
+  </div>
 </template>
 
 <script>
@@ -66,8 +69,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.arrow {
+  margin: 1.5em;
+}
+.select-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 .select {
-  font-size: 3rem;
+  font-size: 2.5rem;
   text-align: center;
 }
 
@@ -85,14 +97,14 @@ export default {
 
 .container-ui {
   width: 100%;
-  height: 80vh;
+  min-height: 80vh;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
   div:first-child {
-    padding-bottom: 0.3em;
+    padding-bottom: 1em;
     padding-top: 0.2em;
   }
 }
