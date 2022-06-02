@@ -20,9 +20,12 @@
         <tbody>
           <tr v-for="country in data" :key="country.id">
             <td>{{ country.isoCode }}</td>
-            <td>{{ country.names[3] }}</td>
+            <td><DynamicArrayViewer :array="country.names"></DynamicArrayViewer></td>
             <td>Go to</td>
-            <td>Update Delete</td>
+            <td class="unselectable">
+              <img class="unselectable" src="../../../svgs/EditButton.svg" />
+              <img class="unselectable" src="../../../svgs/Trashcan.svg" />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -32,10 +35,11 @@
 
 <script>
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
+import DynamicArrayViewer from "../components/DynamicArrayViewer.vue";
 import { getAllCountries } from "../../facade/AdminFacade.js";
 export default {
   name: "Admin",
-  components: { FadingLightsAnimation },
+  components: { FadingLightsAnimation, DynamicArrayViewer },
   data() {
     return {
       data: [],
@@ -107,6 +111,14 @@ table {
   -webkit-user-select: text;
   -ms-user-select: text;
   border-radius: 10px;
+}
+
+.unselectable {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-drag: none;
 }
 
 th,
