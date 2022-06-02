@@ -33,7 +33,7 @@ class Country {
     /**
      * Es una coleccion de datos: {type: data} Dentro de data esta el campo dateFetched
      * type: tipo de datos // data: los datos // dateFetched: antiguedad de los datos
-     * @MongoDB\Field(type="collection")
+     * @MongoDB\Field(type="hash")
     */
     private $countryData;
 
@@ -100,7 +100,7 @@ class Country {
         
         // Si no está ese dato en el array de datos
         if (!isset($this->countryData[$type])) { 
-            $this->countryData += [$type => [$countryData]]; 
+            $this->countryData += [$type => $countryData]; 
         } 
 
         // Si ya habían datos

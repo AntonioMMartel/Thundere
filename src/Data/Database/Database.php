@@ -30,7 +30,7 @@ class Database
     public function fetchCountry(String $country): Country
     {   
         // Mira si existe en la db
-        if ($foundCountry = $this->countryRepository->findOneBy(['name' => ucwords($country)])) 
+        if ($foundCountry = $this->countryRepository->findOneBy(['names' => ucwords($country)])) 
             return $foundCountry;
 
         return null;
@@ -46,8 +46,6 @@ class Database
         if (!$foundCountry) return array();
 
         $foundCountryData = $foundCountry->getCountryData();
-        
-        throw new BadRequestException(json_encode($foundCountryData));
 
         return $foundCountryData[$type] ?  $foundCountryData[$type] : array();
     }
