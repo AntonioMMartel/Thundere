@@ -11,48 +11,18 @@
       <table>
         <thead>
           <tr>
-            <th>Column 1</th>
-            <th>Column 2</th>
-            <th>Column 3</th>
-            <th>Column 4</th>
-            <th>Column 5</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Data</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Cell 1</td>
-            <td>Cell 2</td>
-            <td>Cell 3</td>
-            <td>Cell 4</td>
-            <td>Cell 5</td>
-          </tr>
-          <tr>
-            <td>Cell 1</td>
-            <td>Cell 2</td>
-            <td>Cell 3</td>
-            <td>Cell 4</td>
-            <td>Cell 5</td>
-          </tr>
-          <tr>
-            <td>Cell 1</td>
-            <td>Cell 2</td>
-            <td>Cell 3</td>
-            <td>Cell 4</td>
-            <td>Cell 5</td>
-          </tr>
-          <tr>
-            <td>Cell 1</td>
-            <td>Cell 2</td>
-            <td>Cell 3</td>
-            <td>Cell 4</td>
-            <td>Cell 5</td>
-          </tr>
-          <tr>
-            <td>Cell 1</td>
-            <td>Cell 2</td>
-            <td>Cell 3</td>
-            <td>Cell 4</td>
-            <td>Cell 5</td>
+          <tr v-for="country in data" :key="country.id">
+            <td>{{ country.isoCode }}</td>
+            <td>{{ country.names[3] }}</td>
+            <td>Go to</td>
+            <td>Update Delete</td>
           </tr>
         </tbody>
       </table>
@@ -62,9 +32,27 @@
 
 <script>
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
+import { getAllCountries } from "../../facade/AdminFacade.js";
 export default {
   name: "Admin",
   components: { FadingLightsAnimation },
+  data() {
+    return {
+      data: [],
+      message: "Loading data...",
+    };
+  },
+  beforeMount() {
+    getAllCountries()
+      .then((response) => {
+        this.data = response.data.countries;
+        console.log(this.data);
+        this.message = "";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 </script>
 
