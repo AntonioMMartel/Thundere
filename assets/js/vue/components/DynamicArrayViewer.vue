@@ -1,5 +1,5 @@
 <template>
-  <span v-on:wheel.up="increasePointer()" v-on:wheel.down="decreasePointer()" class="container">
+  <span v-on:wheel="increasePointer($event)" class="container">
     {{ this.array[this.pointer] }}
     <img class="unselectable" src="../../../svgs/ArrowsUpDown.svg" alt="" />
   </span>
@@ -10,7 +10,6 @@ export default {
   name: "CountrySearchInput",
   data() {
     return {
-      array: [],
       pointer: 0,
     };
   },
@@ -19,13 +18,24 @@ export default {
     async sleep(ms) {
       return await new Promise((resolve) => setTimeout(resolve, ms));
     },
-    increasePointer() {
-      console.log("AAA");
-      this.pointer + 1 >= this.array.length ? (this.pointer = 0) : this.pointer++;
+    increasePointer(event) {
+      // Hacia arriba
+      if(event.deltaY < 0) {
+        if(this.pointer + 1 >= this.array.length){
+          this.pointer = 0
+        } else {
+          this.pointer++;
+        }
+      } else {
+        if(this.pointer - 1 < 0) {
+          this.pointer = this.array.length - 1
+        } else {
+          this.pointer--;
+        } 
+      }
+      
     },
-    decreasePointer() {
-      this.pointer - 1 < 0 ? (this.pointer = this.array.length) : this.pointer--;
-    },
+
   },
 };
 </script>
