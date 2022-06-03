@@ -23,8 +23,12 @@
             <td><DynamicArrayViewer :array="country.names"></DynamicArrayViewer></td>
             <td>Go to</td>
             <td class="unselectable">
-              <img class="unselectable" src="../../../svgs/EditButton.svg" />
-              <img class="unselectable" src="../../../svgs/Trashcan.svg" />
+              <div class="icons">
+
+                <img class="unselectable" src="../../../svgs/EditButton.svg" />
+                <img class="unselectable" src="../../../svgs/Trashcan.svg" />
+              </div>
+              
             </td>
           </tr>
         </tbody>
@@ -61,6 +65,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.icons{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 .arrow {
   margin: 1.5em;
 }
@@ -69,6 +80,8 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding-bottom: 1em;
+  padding-top: 0.2em;
 }
 .select {
   font-size: 2.5rem;
@@ -95,10 +108,6 @@ export default {
   flex-direction: column;
   align-items: center;
 
-  div:first-child {
-    padding-bottom: 1em;
-    padding-top: 0.2em;
-  }
 }
 
 table {
