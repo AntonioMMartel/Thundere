@@ -6,6 +6,7 @@ use App\Document\Country;
 use App\Document\CountryData;
 use Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepository;
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry as MongoDBBundleManagerRegistry;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @method Country|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,6 +48,19 @@ class CountryRepository extends ServiceDocumentRepository
         $foundCountry = $qb->getQuery()->getSingleResult();
 
         return $foundCountry;
+    }
+
+    public function deleteCountryById($id): bool {
+        $dm = $this->getDocumentManager();
+
+        $foundCountry = $this->findOneBy(["_id" => $id]);
+
+        if(!$foundCountry) return false;
+
+        $dm->remove($foundCountry);
+        $dm->flush();
+
+        return true;
     }
 
 

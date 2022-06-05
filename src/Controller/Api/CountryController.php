@@ -2,39 +2,33 @@
 
 namespace App\Controller\Api;
 
-use App\Document\Country;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Data\DataManager;
+use App\Repository\CountryRepository;
+
 class CountryController extends AbstractController
 {   
-    // Document manager para trabajar con los documentos de mongo
     /**
-     * @Route("/data/countryM", name="get_country", methods="GET")
+     * @Route("/data/country", name="country", methods="POST")
      */
-    public function index(DocumentManager $documentManager): Response
+    public function fetchCountryData(Request $request, DataManager $dataManager): Response
     {   
-        // Cursor para capturar datos
-        $cursor = $documentManager
-                  ->getDocumentCollection(Country:: class)
-                  ->find();
+        $input = $request->toArray()['input'];
 
-        return $this->json(['countries' => $cursor->toArray()]);
+        // $types se extraerá de la configuración del usuario. Por ahora: solo generales
+        $types = array("General");
+        
+        $data = $dataManager->getData($types, $input);
+
+        return new Response(
+            json_encode($data),
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
+        );
     }
 
-    // Document manager para trabajar con los documentos de mongo
-    /**
-     * @Route("/data/countryM", name="new_country", methods="POST")
-     */
-    public function new(Request $request, DocumentManager $documentManager): Response
-    {   
-        $country = new Country($request->request->get('path'));
-        $documentManager->persist($country);
-        $documentManager->flush();
-
-        return $this->json(['countries' => $country->getId()]);
-    }
 }
