@@ -30,7 +30,7 @@
             </td>
           </tr>
           <tr>
-            <td class="unselectable" colspan="100%">
+            <td v-on:wheel="changePageOnScroll($event)" class="unselectable" colspan="100%">
               <div class="page-display">
                 <img v-on:click="decreasePageCounter()" class="page-arrow button" src="../../../svgs/ArrowLeft.svg" />
                 {{ page + 1 }}
@@ -67,7 +67,7 @@
             </td>
           </tr>
           <tr>
-            <td class="unselectable" colspan="100%">
+            <td v-on:wheel="changePageOnScroll($event)" class="unselectable" colspan="100%">
               <div class="page-display">
                 <img v-on:click="decreasePageCounter()" class="page-arrow button" src="../../../svgs/ArrowLeft.svg" />
                 {{ page + 1 }}
@@ -95,6 +95,7 @@ export default {
       targets: ["Countries", "Users"],
       targetSelector: 0,
       page: 0,
+      maxElements: 5,
     };
   },
   beforeMount() {
@@ -156,16 +157,26 @@ export default {
     },
     decreasePageCounter() {
       if (this.page - 1 < 0) {
-        this.page = Math.ceil(this.data[this.targets[this.targetSelector]].length / 5) - 1;
+        this.page = Math.ceil(this.data[this.targets[this.targetSelector]].length / this.maxElements) - 1;
       } else {
         this.page--;
       }
+      console.log("Abajro");
     },
     increasePageCounter() {
-      if (this.page + 1 >= Math.ceil(this.data[this.targets[this.targetSelector]].length / 5)) {
+      if (this.page + 1 >= Math.ceil(this.data[this.targets[this.targetSelector]].length / this.maxElements)) {
         this.page = 0;
       } else {
         this.page++;
+      }
+      console.log("Arriba");
+    },
+    changePageOnScroll(event) {
+      // Hacia arriba
+      if (event.deltaY < 0) {
+        this.increasePageCounter();
+      } else {
+        this.decreasePageCounter();
       }
     },
   },
