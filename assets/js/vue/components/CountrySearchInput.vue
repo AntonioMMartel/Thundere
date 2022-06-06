@@ -22,7 +22,6 @@ export default {
     submit() {
       window.location.replace(this.to + "/" + this.input);
     },
-
     updateInputHeight() {
       if (this.textRows <= 6) this.textRows = this.input.length / 16 + 1;
     },

@@ -1,5 +1,6 @@
 <template>
   <div class="container-main">
+    <UpdateDialog v-if="dialogIsOpen" @closeDialog="closeDialog" :target="targets[targetSelector]" :data="openDialogData" />
     <FadingLightsAnimation />
     <div class="container-ui">
       <div class="select-container">
@@ -22,9 +23,20 @@
             <td>{{ country.isoCode }}</td>
             <td><DynamicArrayViewer :array="country.names"></DynamicArrayViewer></td>
             <td class="button">Go to</td>
+
             <td class="unselectable">
               <div class="icons">
-                <img class="unselectable button" src="../../../svgs/EditButton.svg" />
+                <img
+                  v-on:click="
+                    openDialog({
+                      'Iso code': country.isoCode,
+                      Names: country.names,
+                      Data: 'Go to',
+                    })
+                  "
+                  class="unselectable button"
+                  src="../../../svgs/EditButton.svg"
+                />
                 <img v-on:click="deleteCountry(country._id.$oid)" class="unselectable button" src="../../../svgs/Trashcan.svg" />
               </div>
             </td>
@@ -61,7 +73,19 @@
             <td>{{ longToDate(user.created_time.$date.$numberLong) }}</td>
             <td class="unselectable">
               <div class="icons">
-                <img class="unselectable button" src="../../../svgs/EditButton.svg" />
+                <img
+                  v-on:click="
+                    openDialog({
+                      Name: user.name,
+                      Email: user.email,
+                      Roles: user.roles,
+                      'Confirmation time': longToDate(user.confirmation_time.$date.$numberLong),
+                      'Creation time': longToDate(user.created_time.$date.$numberLong),
+                    })
+                  "
+                  class="unselectable button"
+                  src="../../../svgs/EditButton.svg"
+                />
                 <img v-on:click="deleteUser(user._id.$oid)" class="unselectable button" src="../../../svgs/Trashcan.svg" />
               </div>
             </td>
@@ -84,10 +108,11 @@
 <script>
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
 import DynamicArrayViewer from "../components/DynamicArrayViewer.vue";
+import UpdateDialog from "../components/UpdateDialog.vue";
 import { getAllCountries, deleteCountryByID, getAllUsers, deleteUserByID } from "../../facade/AdminFacade.js";
 export default {
   name: "Admin",
-  components: { FadingLightsAnimation, DynamicArrayViewer },
+  components: { FadingLightsAnimation, DynamicArrayViewer, UpdateDialog },
   data() {
     return {
       data: { Countries: [], Users: [] },
@@ -96,9 +121,12 @@ export default {
       targetSelector: 0,
       page: 0,
       maxElements: 5,
+      openDialogData: {},
+      dialogIsOpen: false,
     };
   },
   beforeMount() {
+    // Pilla todos los datos
     getAllCountries()
       .then((response) => {
         this.data["Countries"] = response.data.countries;
@@ -113,6 +141,8 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    // Los cacheas
+    // // // //
   },
   methods: {
     deleteCountry(id) {
@@ -178,6 +208,13 @@ export default {
       } else {
         this.decreasePageCounter();
       }
+    },
+    openDialog(data) {
+      this.openDialogData = data;
+      this.dialogIsOpen = true;
+    },
+    closeDialog() {
+      this.dialogIsOpen = false;
     },
   },
 };

@@ -1,51 +1,55 @@
 <template>
-    <div class="login">
-      <h1 class="title">Login in to the page</h1>
-      <form class="form" action="/login" method="post" @submit.prevent="login">
+  <div class="login">
+    <h1 class="title">Login in to the page</h1>
+    <form class="form" action="/login" method="post" @submit.prevent="login">
+      <label class="form-label" for="#email">Email:</label>
+      <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email" />
 
-          <label class="form-label" for="#email">Email:</label>
-          <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email">
+      <label class="form-label" for="#password">Password:</label>
+      <input v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password" />
 
-          <label class="form-label" for="#password">Password:</label>
-          <input v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password">
+      <p v-if="error" class="error">{{ errorMessage }}</p>
+      <input class="form-submit" type="submit" value="Login" />
 
-          <p v-if="error" class="error"> {{ errorMessage }} </p>
-          <input class="form-submit" type="submit" value="Login">
-
-          <!-- <input type="hidden" name="_csrf_token"> -->
-        </form>
-    </div>
+      <!-- <input type="hidden" name="_csrf_token"> -->
+    </form>
+  </div>
 </template>
 
 <script>
-  import {login} from "../../facade/AuthorizationFacade";
-    export default {
-        name: "Login",
-        data: () => ({
-            email: "",
-            password: "",
-            error: false,
-            errorMessage: "",
-            loginSuccess: null,
-        }),
-        methods: {
-          // Pq funciona esto?
-          // Symfony no está renderizando vue. Solo renderiza la primera pg y desde ahi vue se busca la vida
-          // La autenticación en Symfony funciona con eventos QUE SE EJECUTAN CUANDO SE RENDERIZAN PAGS EN SYMFONY
-          // Basicamente cuando la autenticación es exitosa recargamos el componente llamando a symfony de nuevo.
-          login() {
-            login(this.email, this.password, this._csrf_token)
-            .then(response => {this.reloadComponent(); window.location.replace('/') })
-            .catch((error) => {this.error=true; this.errorMessage=error});
-            // Deberia redirigir a algo de confirmar usuario con su codigo wapo
-            
-          },
+import { login } from "../../facade/AuthorizationFacade";
+export default {
+  name: "Login",
+  data: () => ({
+    email: "",
+    password: "",
+    error: false,
+    errorMessage: "",
+    loginSuccess: null,
+  }),
+  methods: {
+    // Pq funciona esto?
+    // Symfony no está renderizando vue. Solo renderiza la primera pg y desde ahi vue se busca la vida
+    // La autenticación en Symfony funciona con eventos QUE SE EJECUTAN CUANDO SE RENDERIZAN PAGS EN SYMFONY
+    // Basicamente cuando la autenticación es exitosa recargamos el componente llamando a symfony de nuevo.
+    login() {
+      login(this.email, this.password, this._csrf_token)
+        .then((response) => {
+          this.reloadComponent();
+          window.location.replace("/");
+        })
+        .catch((error) => {
+          this.error = true;
+          this.errorMessage = error;
+        });
+      // Deberia redirigir a algo de confirmar usuario con su codigo wapo
+    },
 
-          reloadComponent() {
-            this.$forceUpdate(); // Recargamos el componente -> Se vuelve a llamar a symfony
-          }
-        }
-    };
+    reloadComponent() {
+      this.$forceUpdate(); // Recargamos el componente -> Se vuelve a llamar a symfony
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
