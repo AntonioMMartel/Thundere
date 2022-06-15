@@ -25,6 +25,7 @@
 
 <script>
 import DynamicArrayUpdater from './DynamicArrayUpdater.vue';
+import { updateCountryById } from  '../../facade/AdminFacade.js';
 export default {
   name: "UpdateDialog",
   data() {
@@ -40,7 +41,11 @@ export default {
       this.$emit("closeDialog");
     },
     updateTarget(id, target) {
-      console.log(id, target, this.data)
+      if(target === "Countries" ){
+        updateCountryById(id, this.data)
+      }
+      
+
     },
     updateArray(newArray, label) {
       this.data[label] = newArray

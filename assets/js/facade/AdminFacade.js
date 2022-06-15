@@ -16,4 +16,8 @@ function deleteUserByID(id) {
   return axios.delete("/api/user/" + id);
 }
 
-export { getAllCountries, deleteCountryByID, getAllUsers, deleteUserByID };
+function updateCountryById(id, data) {
+  return axios.put("/api/country/" + id, data);
+}
+
+export { getAllCountries, deleteCountryByID, getAllUsers, deleteUserByID, updateCountryById };

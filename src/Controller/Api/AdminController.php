@@ -11,6 +11,7 @@ use App\Document\User;
 use App\Data\DataManager;
 use App\Repository\CountryRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends AbstractController
 {   
@@ -56,6 +57,28 @@ class AdminController extends AbstractController
     { 
         $result = $userRepository->deleteUserById($id);
         return $result ? new Response('', 204) : new Response('', 204) ;
+    }
+
+
+    /**
+     * @Route("/country/{id}", name="update_country", methods="PUT")
+     */
+    public function updateCountry(CountryRepository $countryRepository, $id, Request $request): Response 
+    {
+        $foundCountry = $countryRepository->findOneBy(["_id" => $id]);
+
+        if (!$foundCountry) {
+            throw $this->createNotFoundException(sprintf(
+                'No country found with id "%s"',
+                $id
+            ));
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        throw $this->createNotFoundException(serialize($data));
+
+
     }
 
 }

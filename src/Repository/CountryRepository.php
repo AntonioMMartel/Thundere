@@ -43,7 +43,7 @@ class CountryRepository extends ServiceDocumentRepository
 
         $dm = $this->getDocumentManager();
 
-        $qb = $dm->createQueryBuilder(Article::class)->field('names')->in([$name]);
+        $qb = $dm->createQueryBuilder(Country::class)->field('names')->in([$name]);
 
         $foundCountry = $qb->getQuery()->getSingleResult();
 
@@ -62,7 +62,6 @@ class CountryRepository extends ServiceDocumentRepository
 
         return true;
     }
-
 
     // /**
     //  * @return Country[] Returns an array of Country objects
