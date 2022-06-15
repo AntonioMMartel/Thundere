@@ -1,6 +1,6 @@
 <template>
   <div class="container-main">
-    <UpdateDialog v-if="dialogIsOpen" @closeDialog="closeDialog" :target="targets[targetSelector]" :data="openDialogData" />
+    <UpdateDialog v-if="dialogIsOpen" @closeDialog="closeDialog" :target="targets[targetSelector]" :data="openDialogData" :id="selectedId"/>
     <FadingLightsAnimation />
     <div class="container-ui">
       <div class="select-container">
@@ -31,8 +31,8 @@
                     openDialog({
                       'Iso code': country.isoCode,
                       Names: country.names,
-                      Data: 'Go to',
-                    })
+                    },
+                    country._id.$oid)
                   "
                   class="unselectable button"
                   src="../../../svgs/EditButton.svg"
@@ -81,7 +81,8 @@
                       Roles: user.roles,
                       'Confirmation time': longToDate(user.confirmation_time.$date.$numberLong),
                       'Creation time': longToDate(user.created_time.$date.$numberLong),
-                    })
+                    },
+                    user._id.$oid)
                   "
                   class="unselectable button"
                   src="../../../svgs/EditButton.svg"
@@ -123,6 +124,7 @@ export default {
       maxElements: 5,
       openDialogData: {},
       dialogIsOpen: false,
+      selectedId: 0
     };
   },
   beforeMount() {
@@ -209,8 +211,9 @@ export default {
         this.decreasePageCounter();
       }
     },
-    openDialog(data) {
+    openDialog(data, id) {
       this.openDialogData = data;
+      this.selectedId = id;
       this.dialogIsOpen = true;
     },
     closeDialog() {

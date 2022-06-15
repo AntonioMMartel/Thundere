@@ -2,26 +2,29 @@
   <div class="dialog-container">
     <div v-on:click="closeDialog()" class="dialog-area"></div>
     <div class="dialog-body">
-      <form class="form" action="/login" method="post" @submit.prevent="login">
+      <div class="form">
         <div class="form-title">Editing {{ target }}</div>
-        <label class="form-label" for="#email"> Email: </label>
-        <input name="email" class="form-input" type="email" id="email" required placeholder="Email" />
-
-        <label class="form-label" for="#password">Password:</label>
-        <input name="password" class="form-input" type="password" id="password" placeholder="Password" />
+        <div v-for="(field, label) in data" :key="label" class="field-container">
+          <label class="form-label" for="#email"> {{ label }} </label>
+          <input v-if="typeof(field) === 'string'" :name="field" class="form-input" type="text" :value="field" />
+          <input v-if="typeof(field) === 'number'" :name="field" class="form-input" type="number" :value="field" />
+          <div v-if="field instanceof Array">
+           <DynamicArrayUpdater @arrayUpdated="updateArray()" :label="label" :array="field"></DynamicArrayUpdater>
+          </div>
+        </div>
 
         <p v-if="error" class="error">{{ errorMessage }}</p>
         <div class="dialog-buttons">
           <button class="button cancel" v-on:click="closeDialog()">Cancel</button>
-
-          <input class="button confirm" type="submit" value="Confirm" />
+          <button class="button confirm" v-on:click="updateTarget(id, target)">Confirm</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import DynamicArrayUpdater from './DynamicArrayUpdater.vue';
 export default {
   name: "UpdateDialog",
   data() {
@@ -31,21 +34,36 @@ export default {
       errorMessage: "Ha habido un error inesperado",
     };
   },
+  components: {DynamicArrayUpdater},
   methods: {
     closeDialog() {
       this.$emit("closeDialog");
     },
+    updateTarget(id, target) {
+      console.log(id, target, this.data)
+    },
+    updateArray(newArray, label) {
+      this.data[label] = newArray
+    }
   },
-  props: ["data", "target"],
+  props: ["data", "target", "id"],
 };
 </script>
 
 <style lang="scss" scoped>
+
+.field-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25em
+}
 .dialog-buttons {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  height: fit-content;
+  margin-top: 1.25em;
 }
 .form-title {
   align-self: center;
@@ -132,7 +150,6 @@ export default {
 .button {
   border: none;
   color: white;
-  margin-top: 3rem;
   padding: 1rem 0;
   cursor: pointer;
   transition: background 0.2s;
