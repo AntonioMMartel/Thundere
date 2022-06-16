@@ -6,8 +6,8 @@
         <div class="form-title">Editing {{ target }}</div>
         <div v-for="(field, label) in data" :key="label" class="field-container">
           <label class="form-label" for="#email"> {{ label }} </label>
-          <input v-if="typeof(field) === 'string'" :name="field" class="form-input" type="text" :value="field" />
-          <input v-if="typeof(field) === 'number'" :name="field" class="form-input" type="number" :value="field" />
+          <input v-if="typeof(field) === 'string'" :name="field" :id="label" class="form-input" type="text" :value="field" />
+          <input v-if="typeof(field) === 'number'" :name="field" :id="label" class="form-input" type="number" :value="field" />
           <div v-if="field instanceof Array">
            <DynamicArrayUpdater @arrayUpdated="updateArray()" :label="label" :array="field"></DynamicArrayUpdater>
           </div>
@@ -41,12 +41,16 @@ export default {
       this.$emit("closeDialog");
     },
     updateTarget(id, target) {
-      console.log(this.data)
+      // Cargamos todos los datos del formulario
+      for (const label in this.data) {
+        if (!(this.data[label] instanceof Array)){
+          this.data[label] = document.getElementById(label).value;
+        }
+      }
       if(target === "Countries" ){
         updateCountryById(id, this.data)
       }
-      
-
+      this.closeDialog();
     },
     updateArray(newArray, label) {
       this.data[label] = newArray
