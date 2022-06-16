@@ -63,7 +63,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/country/{id}", name="update_country", methods="PUT")
      */
-    public function updateCountry(CountryRepository $countryRepository, $id, Request $request): Response 
+    public function updateCountry(CountryRepository $countryRepository, $id, Request $request, DocumentManager $documentManager): Response 
     {
         $foundCountry = $countryRepository->findOneBy(["_id" => $id]);
 
@@ -74,10 +74,31 @@ class AdminController extends AbstractController
             ));
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = $request->toArray();
+        
+        if (isset($data["Iso code"])) {
+             $documentManager->createQueryBuilder(Country::class)
+            ->findAndUpdate()
+            ->field('_id')->equals($id)
+            ->field('isoCode')->set($data["Iso code"])
+            ->getQuery()
+            ->execute();
+        }
 
-        throw $this->createNotFoundException(serialize($data));
+        if (isset($data["Names"])) {
+            $documentManager->createQueryBuilder(Country::class)
+            ->findAndUpdate()
+            ->field('_id')->equals($id)
+            ->field('names')->set($data["Names"])
+            ->getQuery()
+            ->execute();
+        }
 
+        // Country data.
+        
+        return new Response(
+            Response::HTTP_OK
+        );
 
     }
 

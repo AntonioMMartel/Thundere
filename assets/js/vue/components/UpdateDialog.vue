@@ -41,6 +41,7 @@ export default {
       this.$emit("closeDialog");
     },
     updateTarget(id, target) {
+      console.log(this.data)
       if(target === "Countries" ){
         updateCountryById(id, this.data)
       }
