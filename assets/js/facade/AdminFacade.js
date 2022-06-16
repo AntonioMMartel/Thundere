@@ -1,11 +1,11 @@
 import axios from "axios";
 
 function getAllCountries() {
-  return axios.get("/api/admin/countries");
+  return axios.get("/api/country");
 }
 
 function getAllUsers() {
-  return axios.get("/api/admin/users");
+  return axios.get("/api/user");
 }
 
 function deleteCountryByID(id) {
@@ -20,4 +20,13 @@ function updateCountryById(id, data) {
   return axios.put("/api/country/" + id, data);
 }
 
-export { getAllCountries, deleteCountryByID, getAllUsers, deleteUserByID, updateCountryById };
+function updateUseryById(id, data) {
+  return axios.put("/api/user/" + id, data);
+}
+
+export { getAllCountries, 
+         deleteCountryByID, 
+         getAllUsers, 
+         deleteUserByID, 
+         updateCountryById, 
+         updateUseryById };

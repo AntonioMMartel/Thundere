@@ -5,9 +5,9 @@
       <div class="form">
         <div class="form-title">Editing {{ target }}</div>
         <div v-for="(field, label) in data" :key="label" class="field-container">
-          <label class="form-label" for="#email"> {{ label }} </label>
-          <input v-if="typeof(field) === 'string'" :name="field" :id="label" class="form-input" type="text" :value="field" />
-          <input v-if="typeof(field) === 'number'" :name="field" :id="label" class="form-input" type="number" :value="field" />
+          <label class="form-label" :for="field"> {{ label }} </label>
+          <input v-if="typeof(field) === 'string'" :name="label" :id="label" class="form-input" type="text" :value="field" />
+          <input v-if="typeof(field) === 'number'" :name="label" :id="label" class="form-input" type="number" :value="field" />          
           <div v-if="field instanceof Array">
            <DynamicArrayUpdater @arrayUpdated="updateArray()" :label="label" :array="field"></DynamicArrayUpdater>
           </div>
@@ -25,7 +25,7 @@
 
 <script>
 import DynamicArrayUpdater from './DynamicArrayUpdater.vue';
-import { updateCountryById } from  '../../facade/AdminFacade.js';
+import { updateCountryById, updateUseryById } from  '../../facade/AdminFacade.js';
 export default {
   name: "UpdateDialog",
   data() {
@@ -44,12 +44,15 @@ export default {
       // Cargamos todos los datos del formulario
       for (const label in this.data) {
         if (!(this.data[label] instanceof Array)){
-          this.data[label] = document.getElementById(label).value;
+            this.data[label] = document.getElementById(label).value;
         }
       }
-      if(target === "Countries" ){
-        updateCountryById(id, this.data)
+
+      if(target === "Countries" ) updateCountryById(id, this.data)
+      if(target === "Users" ) {
+        updateUseryById(id, Object.assign(this.data, { "clientTimeOffset": new Date().getTimezoneOffset() } ))
       }
+
       this.closeDialog();
     },
     updateArray(newArray, label) {

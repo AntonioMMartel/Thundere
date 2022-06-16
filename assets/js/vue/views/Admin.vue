@@ -102,6 +102,9 @@
           </tr>
         </tbody>
       </table>
+
+      <img v-on:click="addElement(targets[targetSelector])" class="add button" src="../../../svgs/add.svg" />
+      
     </div>
   </div>
 </template>
@@ -219,11 +222,32 @@ export default {
     closeDialog() {
       this.dialogIsOpen = false;
     },
+    addElement(target) {
+      if(target === "Countries") {
+
+      }
+      if(target === "Users") {
+
+      }
+    },
+    
+
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.add {
+  margin-top: 1.5em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.1);
+  &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  
+}
+
 .page-display {
   display: flex;
   align-items: center;
