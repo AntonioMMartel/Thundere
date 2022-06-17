@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use App\Document\User;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -21,11 +22,6 @@ class UserController extends AbstractController
      */
     public function registerUser(Request $request, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository): Response
     {   
-        // Aseguramos que se haya mandado todo
-        $name = $request->get('name');
-        $email = $request->get('email');
-        $password = $request->get('password');
-
         // Lo creamos
         $user = $userRepository->createUser($request->toArray(), $passwordHasher);
         if(!$user) throw new BadRequestHttpException('This e-mail is already used!', null, 400);
@@ -50,6 +46,7 @@ class UserController extends AbstractController
                                Request $request, 
                                DocumentManager $documentManager,
                                $id, 
+                               UserPasswordHasherInterface $passwordHasher
                                ): Response 
     {
         $founduser = $userRepository->findOneBy(["_id" => $id]);
@@ -74,6 +71,17 @@ class UserController extends AbstractController
             ->findAndUpdate()
             ->field('_id')->equals($id)
             ->field('name')->set($data["Name"])
+            ->getQuery()
+            ->execute();
+        }
+        
+        if (isset($data["Password"])) {
+
+            $hashedPassword = $passwordHasher->hashPassword($founduser, $data["Password"]);
+            $documentManager->createQueryBuilder(User::class)
+            ->findAndUpdate()
+            ->field('_id')->equals($id)
+            ->field('password')->set($hashedPassword)
             ->getQuery()
             ->execute();
         }

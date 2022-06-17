@@ -81,8 +81,8 @@
                     openDialog({
                       Name: user.name,
                       Email: user.email,
-                      Roles: user.roles,
                       Password: user.password,
+                      Roles: user.roles,
                       'Confirmation time': longToDate(user.confirmation_time.$date.$numberLong),
                       'Creation time': longToDate(user.created_time.$date.$numberLong),
                     },
@@ -357,7 +357,8 @@ td {
   padding: 15px;
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
-  max-width: 20%
+  max-width: 20vw;
+  word-wrap: break-word;
 
 }
 
