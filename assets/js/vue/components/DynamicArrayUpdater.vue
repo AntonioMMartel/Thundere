@@ -29,6 +29,11 @@ export default {
     };
   },
   props: ["array", "label"],
+  mounted: function() {
+    if(this.array.length == 0) {
+      this.addingNewElement = true;
+    }
+  },
   methods: {
     async sleep(ms) {
       return await new Promise((resolve) => setTimeout(resolve, ms));
@@ -42,10 +47,12 @@ export default {
           this.pointer++;
         }
       } else {
-        if (this.pointer - 1 < 0) {
+        if (this.array.length == 0) {
+          this.pointer = 0
+        } else if (this.pointer - 1 < 0) {
           this.pointer = this.array.length - 1;
         } else {
-          this.pointer--;
+          this.pointer--
         }
       }
     },
@@ -53,9 +60,7 @@ export default {
       if(!this.addingNewElement) this.array[this.pointer] = document.getElementById("form-input").value;
       if(this.addingNewElement){
         this.array.push(document.getElementById("form-input").value);
-
       } 
-
       this.addingNewElement = false;
       this.$emit('arrayUpdated', this.array, this.label)
     },

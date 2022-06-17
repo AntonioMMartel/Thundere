@@ -24,9 +24,20 @@ function updateUseryById(id, data) {
   return axios.put("/api/user/" + id, data);
 }
 
+function addCountry(data) {
+  return axios.post("/api/country", data)
+}
+
+function addUser(data) {
+  return axios.post("/api/user", data)
+}
+
 export { getAllCountries, 
          deleteCountryByID, 
          getAllUsers, 
          deleteUserByID, 
          updateCountryById, 
-         updateUseryById };
+         updateUseryById,
+         addCountry,
+         addUser
+         };

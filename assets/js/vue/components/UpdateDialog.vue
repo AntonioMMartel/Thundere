@@ -7,8 +7,8 @@
         <div v-if="!dialogIsUpdating" class="form-title">Adding {{ target }}</div>
         <div v-for="(field, label) in data" :key="label" class="field-container">
           <label class="form-label" :for="field"> {{ label }} </label>
-          <input v-if="typeof(field) === 'string'" :name="label" :id="label" class="form-input" type="text" :value="field" />
-          <input v-if="typeof(field) === 'number'" :name="label" :id="label" class="form-input" type="number" :value="field" />          
+          <input v-if="typeof(field) === 'string'" required :name="label" :id="label" class="form-input" type="text" :value="field" />
+          <input v-if="typeof(field) === 'number'" required :name="label" :id="label" class="form-input" type="number" :value="field" />          
           <div v-if="field instanceof Array">
            <DynamicArrayUpdater @arrayUpdated="updateArray" :label="label" :array="field"></DynamicArrayUpdater>
           </div>
@@ -50,21 +50,35 @@ export default {
         }
       }
 
-      if(target === "Countries" ) updateCountryById(id, this.data)
-      if(target === "Users" ) {
-        updateUseryById(id, Object.assign(this.data, { "clientTimeOffset": new Date().getTimezoneOffset() } ))
-      }
+      // Añadimos la zona horaria del usuario para registrar cambios
+      Object.assign(
+            this.data, {
+              "clientTimeOffset": new Date().getTimezoneOffset() 
+            } 
+          )
 
+
+      if(target === "Countries" ) updateCountryById(id, this.data)
+      if(target === "Users" ) updateUseryById(id, this.data)
       this.closeDialog();
     },
     updateArray(newArray, label) {
-      console.log(label)
-      console.log(newArray)
       this.data[label] = newArray
     },
     addTarget(id, target){
-      this.addingData = false;
-      this.closeDialog();
+      for (const label in this.data) {
+        if (!(this.data[label] instanceof Array)){
+            this.data[label] = document.getElementById(label).value;
+        }
+      }
+      Object.assign(
+            this.data, {
+              "clientTimeOffset": new Date().getTimezoneOffset() 
+            } 
+          )
+
+      if(target === "Countries" ) addCountry(this.data)
+      if(target === "Users" ) addUser(this.data)
 
     }
   },

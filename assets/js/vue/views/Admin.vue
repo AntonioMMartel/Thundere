@@ -59,6 +59,7 @@
           <tr>
             <th>Name</th>
             <th>Email</th>
+            <th> Password</th>
             <th>Roles</th>
             <th>Confirmation Time</th>
             <th>Created Time</th>
@@ -69,6 +70,7 @@
           <tr v-for="user in data['Users'].slice(page * 5, page + 1 * 5)" :key="user._id.$oid" v-bind:id="user._id.$oid">
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
+            <td>{{ user.password }}</td>
             <td><DynamicArrayViewer :array="user.roles"></DynamicArrayViewer></td>
             <td>{{ longToDate(user.confirmation_time.$date.$numberLong) }}</td>
             <td>{{ longToDate(user.created_time.$date.$numberLong) }}</td>
@@ -80,6 +82,7 @@
                       Name: user.name,
                       Email: user.email,
                       Roles: user.roles,
+                      Password: user.password,
                       'Confirmation time': longToDate(user.confirmation_time.$date.$numberLong),
                       'Creation time': longToDate(user.created_time.$date.$numberLong),
                     },
@@ -199,7 +202,6 @@ export default {
       } else {
         this.page--;
       }
-      console.log("Abajro");
     },
     increasePageCounter() {
       if (this.page + 1 >= Math.ceil(this.data[this.targets[this.targetSelector]].length / this.maxElements)) {
@@ -207,7 +209,6 @@ export default {
       } else {
         this.page++;
       }
-      console.log("Arriba");
     },
     changePageOnScroll(event) {
       // Hacia arriba
@@ -356,6 +357,8 @@ td {
   padding: 15px;
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
+  max-width: 20%
+
 }
 
 th {
