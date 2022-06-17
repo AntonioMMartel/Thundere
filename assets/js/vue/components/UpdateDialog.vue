@@ -7,8 +7,9 @@
         <div v-if="!dialogIsUpdating" class="form-title">Adding {{ target }}</div>
         <div v-for="(field, label) in data" :key="label" class="field-container">
           <label class="form-label" :for="field"> {{ label }} </label>
-          <input v-if="typeof(field) === 'string'" required :name="label" :id="label" class="form-input" type="text" :value="field" />
-          <input v-if="typeof(field) === 'number'" required :name="label" :id="label" class="form-input" type="number" :value="field" />          
+          <input v-on:blur="saveInput(label)" v-if="typeof(field) === 'string' && label !== 'Password'" required :name="label" :id="label" class="form-input" type="text" :value="field" />
+          <input v-on:blur="saveInput(label)" v-if="typeof(field) === 'number'" required :name="label" :id="label" class="form-input" type="number" :value="field" />          
+          <input v-on:blur="saveInput(label)" v-if="label === 'Password'" required :name="label" :id="label" class="form-input" type="password" :value="field" />          
           <div v-if="field instanceof Array">
            <DynamicArrayUpdater @arrayUpdated="updateArray" :label="label" :array="field"></DynamicArrayUpdater>
           </div>
@@ -27,7 +28,7 @@
 
 <script>
 import DynamicArrayUpdater from './DynamicArrayUpdater.vue';
-import { updateCountryById, updateUseryById } from  '../../facade/AdminFacade.js';
+import { updateCountryById, updateUseryById, addUser, addCountry } from  '../../facade/AdminFacade.js';
 export default {
   name: "UpdateDialog",
   data() {
@@ -56,8 +57,6 @@ export default {
               "clientTimeOffset": new Date().getTimezoneOffset() 
             } 
           )
-
-
       if(target === "Countries" ) updateCountryById(id, this.data)
       if(target === "Users" ) updateUseryById(id, this.data)
       this.closeDialog();
@@ -79,7 +78,16 @@ export default {
 
       if(target === "Countries" ) addCountry(this.data)
       if(target === "Users" ) addUser(this.data)
+      
+      this.closeDialog();
+      
 
+    },
+    saveInput(label) {
+      console.log("GUARDAO")
+      console.log(document.getElementById(label).value)
+
+      this.data[label]=document.getElementById(label).value
     }
   },
   props: ["data", "target", "id", "dialogIsUpdating"],

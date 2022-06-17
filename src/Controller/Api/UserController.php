@@ -18,7 +18,7 @@ class UserController extends AbstractController
 {
 
     /**
-     * @Route("/register/user", name="registerUser", methods="POST")
+     * @Route("/user", name="registerUser", methods="POST")
      */
     public function registerUser(Request $request, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository): Response
     {   
@@ -76,7 +76,6 @@ class UserController extends AbstractController
         }
         
         if (isset($data["Password"])) {
-
             $hashedPassword = $passwordHasher->hashPassword($founduser, $data["Password"]);
             $documentManager->createQueryBuilder(User::class)
             ->findAndUpdate()

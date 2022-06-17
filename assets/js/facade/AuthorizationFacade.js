@@ -1,7 +1,7 @@
 import axios from "axios";
 
 function register(email, name, password) {
-  return axios.post("/api/register/user", {
+  return axios.post("/api/user", {
     email,
     name,
     password,

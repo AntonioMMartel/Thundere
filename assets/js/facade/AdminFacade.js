@@ -29,6 +29,10 @@ function addCountry(data) {
 }
 
 function addUser(data) {
+  for (const label in data) {
+      data[label.toLowerCase().replaceAll(' ', '_')] = data[label]
+      delete data[label]
+  }
   return axios.post("/api/user", data)
 }
 

@@ -81,7 +81,7 @@
                     openDialog({
                       Name: user.name,
                       Email: user.email,
-                      Password: user.password,
+                      Password: '',
                       Roles: user.roles,
                       'Confirmation time': longToDate(user.confirmation_time.$date.$numberLong),
                       'Creation time': longToDate(user.created_time.$date.$numberLong),
@@ -229,6 +229,7 @@ export default {
           this.openDialogData = {
                                   Name: '',
                                   Email:'',
+                                  Password: '',
                                   Roles: [],
                                   'Confirmation time': this.longToDate(Date.now()),
                                   'Creation time': this.longToDate(Date.now()),
