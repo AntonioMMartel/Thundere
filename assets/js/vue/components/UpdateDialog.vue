@@ -3,20 +3,22 @@
     <div v-on:click="closeDialog()" class="dialog-area"></div>
     <div class="dialog-body">
       <div class="form">
-        <div class="form-title">Editing {{ target }}</div>
+        <div v-if="dialogIsUpdating" class="form-title">Editing {{ target }}</div>
+        <div v-if="!dialogIsUpdating" class="form-title">Adding {{ target }}</div>
         <div v-for="(field, label) in data" :key="label" class="field-container">
           <label class="form-label" :for="field"> {{ label }} </label>
           <input v-if="typeof(field) === 'string'" :name="label" :id="label" class="form-input" type="text" :value="field" />
           <input v-if="typeof(field) === 'number'" :name="label" :id="label" class="form-input" type="number" :value="field" />          
           <div v-if="field instanceof Array">
-           <DynamicArrayUpdater @arrayUpdated="updateArray()" :label="label" :array="field"></DynamicArrayUpdater>
+           <DynamicArrayUpdater @arrayUpdated="updateArray" :label="label" :array="field"></DynamicArrayUpdater>
           </div>
         </div>
 
         <p v-if="error" class="error">{{ errorMessage }}</p>
         <div class="dialog-buttons">
           <button class="button cancel" v-on:click="closeDialog()">Cancel</button>
-          <button class="button confirm" v-on:click="updateTarget(id, target)">Confirm</button>
+          <button v-if="dialogIsUpdating" class="button confirm" v-on:click="updateTarget(id, target)"> Confirm </button>
+          <button v-if="!dialogIsUpdating" class="button confirm" v-on:click="addTarget(id, target)"> Add </button>
         </div>
       </div>
     </div>
@@ -56,10 +58,17 @@ export default {
       this.closeDialog();
     },
     updateArray(newArray, label) {
+      console.log(label)
+      console.log(newArray)
       this.data[label] = newArray
+    },
+    addTarget(id, target){
+      this.addingData = false;
+      this.closeDialog();
+
     }
   },
-  props: ["data", "target", "id"],
+  props: ["data", "target", "id", "dialogIsUpdating"],
 };
 </script>
 
@@ -130,15 +139,11 @@ export default {
   margin: 0.5em auto 0;
   display: flex;
   flex-direction: column;
-  // width: 20%;
-  // min-width: 350px;
-  // max-width: 100%;
   border-radius: 5px;
   padding-left: 40px;
   padding-right: 40px;
   padding-top: 20px;
   padding-bottom: 30px;
-
   height: 100%;
 }
 .form-label {

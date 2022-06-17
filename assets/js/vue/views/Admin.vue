@@ -1,6 +1,6 @@
 <template>
   <div class="container-main">
-    <UpdateDialog v-if="dialogIsOpen" @closeDialog="closeDialog" :target="targets[targetSelector]" :data="openDialogData" :id="selectedId"/>
+    <UpdateDialog v-if="dialogIsOpen" @closeDialog="closeDialog" :dialogIsUpdating="dialogIsUpdating" :target="targets[targetSelector]" :data="openDialogData" :id="selectedId"/>
     <FadingLightsAnimation />
     <div class="container-ui">
       <div class="select-container">
@@ -32,7 +32,8 @@
                       'Iso code': country.isoCode,
                       Names: country.names,
                     },
-                    country._id.$oid)
+                    country._id.$oid,
+                    true)
                   "
                   class="unselectable button"
                   src="../../../svgs/EditButton.svg"
@@ -82,7 +83,8 @@
                       'Confirmation time': longToDate(user.confirmation_time.$date.$numberLong),
                       'Creation time': longToDate(user.created_time.$date.$numberLong),
                     },
-                    user._id.$oid)
+                    user._id.$oid,
+                    true)
                   "
                   class="unselectable button"
                   src="../../../svgs/EditButton.svg"
@@ -103,7 +105,7 @@
         </tbody>
       </table>
 
-      <img v-on:click="addElement(targets[targetSelector])" class="add button" src="../../../svgs/add.svg" />
+      <img v-on:click="openDialog({}, 0, false)" class="add button" src="../../../svgs/add.svg" />
       
     </div>
   </div>
@@ -127,7 +129,8 @@ export default {
       maxElements: 5,
       openDialogData: {},
       dialogIsOpen: false,
-      selectedId: 0
+      selectedId: 0,
+      dialogIsUpdating: false
     };
   },
   beforeMount() {
@@ -214,9 +217,29 @@ export default {
         this.decreasePageCounter();
       }
     },
-    openDialog(data, id) {
-      this.openDialogData = data;
-      this.selectedId = id;
+    openDialog(data, id, dialogIsUpdating) {
+      if(dialogIsUpdating){
+        this.dialogIsUpdating = true
+        this.openDialogData = data;
+        this.selectedId = id;
+      } else {
+        this.dialogIsUpdating = false
+        if(this.targets[this.targetSelector] == "Users"){
+          this.openDialogData = {
+                                  Name: '',
+                                  Email:'',
+                                  Roles: [],
+                                  'Confirmation time': this.longToDate(Date.now()),
+                                  'Creation time': this.longToDate(Date.now()),
+                                }
+        } else {
+          this.openDialogData = {
+                                  'Iso code': "",
+                                  Names: [],
+                                }
+        }
+      }
+      
       this.dialogIsOpen = true;
     },
     closeDialog() {
