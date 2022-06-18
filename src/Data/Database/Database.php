@@ -32,13 +32,11 @@ class Database
         // Mira si existe en la db
         if ($foundCountry = $this->countryRepository->findOneBy(['names' => ucwords($country)])) 
             return $foundCountry;
-
         return null;
     }
 
-
     // Lee el array de datos dentro del país.
-    public function fetchCountryData(String $input, String $type): array
+    public function fetchCountryData(String $input, String $type)
     {   
         $foundCountry = $this->countryRepository->findOneBy(['names' => $input]);
 
@@ -46,7 +44,7 @@ class Database
 
         $foundCountryData = $foundCountry->getCountryData();
 
-        return $foundCountryData[$type] ?  $foundCountryData[$type] : array();
+        return isset($foundCountryData[$type]) ?  $foundCountryData[$type] : array();
     }
 
 

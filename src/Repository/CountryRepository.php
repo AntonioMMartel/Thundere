@@ -28,9 +28,10 @@ class CountryRepository extends ServiceDocumentRepository
         $country = new Country();
         $country->setNames($names);
         $country->setIsoCode($iso);
-
-        if(!($dataType == "NO_DATA")) // El admin puede crear paises sin datos.
-            $country->addCountryData($data, $dataType);
+        
+        // El admin puede crear paises sin datos.
+        $country->addCountryData($data, $dataType);
+            
         
         $entityManager = $this->getDocumentManager();
         $entityManager->persist($country);
