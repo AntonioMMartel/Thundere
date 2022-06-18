@@ -40,7 +40,6 @@ class Database
     // Lee el array de datos dentro del país.
     public function fetchCountryData(String $input, String $type): array
     {   
-        
         $foundCountry = $this->countryRepository->findOneBy(['names' => $input]);
 
         if (!$foundCountry) return array();
@@ -54,10 +53,10 @@ class Database
     /**
      * Crea un nuevo pais.
      */     
-    public function createCountry(String $iso, array $names, array $json, String $dataType): array
+    public function createCountry(String $iso, array $names, array $json, String $dataType): Country
     {
-        if ($countries = $this->countryRepository->createCountry($names, $iso, $json, $dataType)) 
-            return $countries;
+        if ($country = $this->countryRepository->createCountry($names, $iso, $json, $dataType)) 
+            return $country;
 
         return null;
     }

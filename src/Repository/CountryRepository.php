@@ -7,6 +7,8 @@ use App\Document\CountryData;
 use Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepository;
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry as MongoDBBundleManagerRegistry;
 use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+
 
 /**
  * @method Country|null find($id, $lockMode = null, $lockVersion = null)
@@ -27,9 +29,9 @@ class CountryRepository extends ServiceDocumentRepository
         $country->setNames($names);
         $country->setIsoCode($iso);
 
-        if(!$dataType == "NO_DATA") // El admin puede crear paises sin datos.
+        if(!($dataType == "NO_DATA")) // El admin puede crear paises sin datos.
             $country->addCountryData($data, $dataType);
-
+        
         $entityManager = $this->getDocumentManager();
         $entityManager->persist($country);
         $entityManager->flush(); 

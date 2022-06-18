@@ -41,15 +41,5 @@ class AdminController extends AbstractController
         return $this->json(['users' => $cursor->toArray()]);
     }
 
-
-    /**
-     * @Route("/country", name="add_country", methods="POST")
-     */
-    public function addCountry(DocumentManager $documentManager): Response
-    {
-        
-    }
-
-
     
 }

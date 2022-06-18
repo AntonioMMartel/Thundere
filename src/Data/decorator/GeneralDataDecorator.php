@@ -4,7 +4,7 @@ namespace App\Data\Decorator;
 
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
-
+use APp\Document\Country;
 use App\Data\Api\RestCountriesDataRetriever;
 use App\Data\Api\DataRetriever;
 use App\Data\Api\TomorrowioDataRetriever;
@@ -39,8 +39,7 @@ class GeneralDataDecorator extends DataDecorator
             $iso = $this->getCountryIso($data);
 
             // Guardamos los datos en la db
-            $this->saveDataInDb($data, $translations, $iso);
-
+            $country = $this->saveDataInDb($data, $translations, $iso);
         }
         return array_merge(parent::getData($input), $data);
     }
@@ -102,11 +101,11 @@ class GeneralDataDecorator extends DataDecorator
     }
 
     // Los datos son un array de arrays. El primer elemento de los arrays más internos dice el tipo de datos que es.
-    private function saveDataInDb(array $data, array $translations, String $iso): array
+    private function saveDataInDb(array $data, array $translations, String $iso): Country
     {   
         // Registras nombres en la db y los vincula a dichos datos.
-        if (!$countryNames = $this->database->createCountry($iso, $translations, $data, $this->type)) return null;
+        if (!$country = $this->database->createCountry($iso, $translations, $data, $this->type)) return null;
             
-        return [$data, $countryNames];
+        return $country;
     }
 }

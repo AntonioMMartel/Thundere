@@ -25,8 +25,7 @@ export default {
   },
   props: ["country"],
   beforeMount() {
-    console.log(this.country);
-    search(this.country)
+    search(this.country, ["General"])
       .then((response) => {
         this.data = response.data;
         this.message = this.data.cca2;

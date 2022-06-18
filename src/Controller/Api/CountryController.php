@@ -18,9 +18,9 @@ class CountryController extends AbstractController
     public function fetchCountryData(Request $request, DataManager $dataManager): Response
     {   
         $input = $request->toArray()['input'];
+        $types = $request->toArray()['types'];
 
-        // $types se extraerá de la configuración del usuario. Por ahora: solo generales
-        $types = array("General");
+
         
         $data = $dataManager->getData($types, $input);
 
