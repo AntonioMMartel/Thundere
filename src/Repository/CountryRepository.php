@@ -21,20 +21,31 @@ class CountryRepository extends ServiceDocumentRepository
         parent::__construct($registry, Country::class);
     }
 
-    public function createCountries(array $names, string $iso, array $data, String $dataType): array {
+    public function createCountry(array $names, string $iso, array $data, String $dataType): Country {
         
-        $countries = array();
         $country = new Country();
         $country->setNames($names);
         $country->setIsoCode($iso);
-        $country->addCountryData($data, $dataType);
 
-        array_push($countries, $country);
+        if(!$dataType == "NO_DATA") // El admin puede crear paises sin datos.
+            $country->addCountryData($data, $dataType);
 
         $entityManager = $this->getDocumentManager();
         $entityManager->persist($country);
         $entityManager->flush(); 
     
+        return $country;
+        
+    }
+
+    public function createCountrie(array $data): array {
+        
+        $countries = array();
+        // Sacas de $data cada pais con un for y lo hincas aqui
+            $country = createCountry();
+
+            array_push($countries, $country);
+        // end for
         return $countries;
         
     }
@@ -63,32 +74,4 @@ class CountryRepository extends ServiceDocumentRepository
         return true;
     }
 
-    // /**
-    //  * @return Country[] Returns an array of Country objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Country
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

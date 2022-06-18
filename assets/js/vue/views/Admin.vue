@@ -1,6 +1,14 @@
 <template>
   <div class="container-main">
-    <UpdateDialog v-if="dialogIsOpen" @closeDialog="closeDialog" :dialogIsUpdating="dialogIsUpdating" :target="targets[targetSelector]" :data="openDialogData" :id="selectedId"/>
+    <UpdateDialog 
+      v-if="dialogIsOpen" 
+      @closeDialog="closeDialog" 
+      :dialogIsUpdating="dialogIsUpdating" 
+      :target="targets[targetSelector]" 
+      :data="openDialogData" 
+      :id="selectedId"
+      :message="dialogMessage"
+      :mode="dialogModes[selectedDialogMode]" />
     <FadingLightsAnimation />
     <div class="container-ui">
       <div class="select-container">
@@ -109,6 +117,13 @@
       </table>
 
       <img v-on:click="openDialog({}, 0, false)" class="add button" src="../../../svgs/add.svg" />
+        <div class="select-container"> 
+          <img v-on:click="moveDialogModeBackwards()" class="arrow button" src="../../../svgs/ArrowLeft.svg" />
+          <div class="sub-title">{{ dialogModes[selectedDialogMode] }} </div>
+          <img v-on:click="moveDialogModeForwards()" class="arrow button" src="../../../svgs/ArrowRight.svg" />
+        </div>
+
+      
       
     </div>
   </div>
@@ -133,7 +148,10 @@ export default {
       openDialogData: {},
       dialogIsOpen: false,
       selectedId: 0,
-      dialogIsUpdating: false
+      dialogIsUpdating: false,
+      dialogMessage: "",
+      dialogModes: ["Add one normally", "Add one using api", "Add all using api"],
+      selectedDialogMode: 0
     };
   },
   beforeMount() {
@@ -219,13 +237,17 @@ export default {
       }
     },
     openDialog(data, id, dialogIsUpdating) {
-      if(dialogIsUpdating){
+
+      
+      if(dialogIsUpdating){ // Update
         this.dialogIsUpdating = true
         this.openDialogData = data;
         this.selectedId = id;
-      } else {
+        this.dialogIsOpen = true;
+
+      } else { // Add
         this.dialogIsUpdating = false
-        if(this.targets[this.targetSelector] == "Users"){
+        if(this.targets[this.targetSelector] === "Users"){ // User
           this.openDialogData = {
                                   Name: '',
                                   Email:'',
@@ -234,34 +256,64 @@ export default {
                                   'Confirmation time': this.longToDate(Date.now()),
                                   'Creation time': this.longToDate(Date.now()),
                                 }
-        } else {
-          this.openDialogData = {
-                                  'Iso code': "",
-                                  Names: [],
-                                }
+          this.dialogIsOpen = true;
+
+        } else if (this.targets[this.targetSelector] === "Countries"){ //Country
+
+          if(this.dialogModes[this.selectedDialogMode] === "Add one using api") {
+            this.openDialogData = {'Name': "", }
+            this.dialogMessage = "Put the name of the country you want to add and well call our apis to have it completed automatically for you :)"
+            this.dialogIsOpen = true;
+
+          } else if (this.dialogModes[this.selectedDialogMode] === "Add all using api") {
+            // Llamada a la api
+
+          } else if (this.dialogModes[this.selectedDialogMode] === "Add one normally") { // Solamente va a añadir
+            this.openDialogData = {
+                                    'Iso Code': "",
+                                    'Names': []
+                                  }
+            this.dialogMessage = "Be sure to include something in names so you can search it and modify it via the country viewer"
+            this.dialogIsOpen = true;
+
+          }
+         
         }
       }
       
-      this.dialogIsOpen = true;
     },
     closeDialog() {
       this.dialogIsOpen = false;
+      this.dialogMessage = '';
     },
-    addElement(target) {
-      if(target === "Countries") {
-
-      }
-      if(target === "Users") {
-
+    moveDialogModeBackwards() {
+      if (this.selectedDialogMode - 1 < 0) {
+        this.selectedDialogMode = this.dialogModes.length - 1;
+      } else {
+        this.selectedDialogMode--;
       }
     },
-    
-
+    moveDialogModeForwards() {
+      if (this.selectedDialogMode + 1 >= this.dialogModes.length) {
+        this.selectedDialogMode = 0;
+      } else {
+        this.selectedDialogMode++;
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+
+.sub-title {
+  font-size: 1.5em;
+  text-align: center;
+  width: 100px;
+  margin-top: 0.5em;
+
+}
+
 .add {
   margin-top: 1.5em;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

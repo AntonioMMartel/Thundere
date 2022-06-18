@@ -16,10 +16,11 @@
         </div>
 
         <p v-if="error" class="error">{{ errorMessage }}</p>
+        <div class="text-center"> {{ message }}</div>
         <div class="dialog-buttons">
           <button class="button cancel" v-on:click="closeDialog()">Cancel</button>
           <button v-if="dialogIsUpdating" class="button confirm" v-on:click="updateTarget(id, target)"> Confirm </button>
-          <button v-if="!dialogIsUpdating" class="button confirm" v-on:click="addTarget(id, target)"> Add </button>
+          <button v-if="!dialogIsUpdating" class="button confirm" v-on:click="addTarget(target)"> Add </button>
         </div>
       </div>
     </div>
@@ -64,7 +65,7 @@ export default {
     updateArray(newArray, label) {
       this.data[label] = newArray
     },
-    addTarget(id, target){
+    addTarget(target){
       for (const label in this.data) {
         if (!(this.data[label] instanceof Array)){
             this.data[label] = document.getElementById(label).value;
@@ -75,7 +76,6 @@ export default {
               "clientTimeOffset": new Date().getTimezoneOffset() 
             } 
           )
-
       if(target === "Countries" ) addCountry(this.data)
       if(target === "Users" ) addUser(this.data)
       
@@ -84,18 +84,18 @@ export default {
 
     },
     saveInput(label) {
-      console.log("GUARDAO")
-      console.log(document.getElementById(label).value)
-
       this.data[label]=document.getElementById(label).value
     }
   },
-  props: ["data", "target", "id", "dialogIsUpdating"],
+  props: ["data", "target", "id", "dialogIsUpdating", "message"],
 };
 </script>
 
 <style lang="scss" scoped>
 
+.text-center {
+  text-align: center;
+}
 .field-container {
   display: flex;
   flex-direction: column;

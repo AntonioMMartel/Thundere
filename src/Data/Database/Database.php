@@ -52,11 +52,11 @@ class Database
 
 
     /**
-     * Guarda todos los nombres de un pais en la db
+     * Crea un nuevo pais.
      */     
-    public function createCountries(String $iso, array $names, array $json, String $dataType): array
+    public function createCountry(String $iso, array $names, array $json, String $dataType): array
     {
-        if ($countries = $this->countryRepository->createCountries($names, $iso, $json, $dataType)) 
+        if ($countries = $this->countryRepository->createCountry($names, $iso, $json, $dataType)) 
             return $countries;
 
         return null;

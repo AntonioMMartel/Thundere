@@ -83,4 +83,18 @@ class CountryController extends AbstractController
         return new Response('', 204);
     }
 
+    /**
+     * @Route("/country", name="add_country", methods="POST")
+     */
+    public function addCountry(CountryRepository $countryRepository, Request $request): Response
+    {   
+ 
+        $data = $request->toArray();
+        $countryRepository->createCountry($data["Names"], $data["Iso Code"], [], "NO_DATA");
+
+        return new Response(
+            Response::HTTP_OK
+        );
+    }
+
 }

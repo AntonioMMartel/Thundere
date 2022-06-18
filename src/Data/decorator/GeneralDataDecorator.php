@@ -105,7 +105,7 @@ class GeneralDataDecorator extends DataDecorator
     private function saveDataInDb(array $data, array $translations, String $iso): array
     {   
         // Registras nombres en la db y los vincula a dichos datos.
-        if (!$countryNames = $this->database->createCountries($iso, $translations, $data, $this->type)) return null;
+        if (!$countryNames = $this->database->createCountry($iso, $translations, $data, $this->type)) return null;
             
         return [$data, $countryNames];
     }
