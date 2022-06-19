@@ -9,9 +9,10 @@ use App\Document\Country;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Data\Api\RestCountriesDataRetriever;
 use App\Data\DataManager;
 use App\Repository\CountryRepository;
+use App\Data\Decorator\GeneralDataDecorator;
 
 class CountryController extends AbstractController
 {   
@@ -23,8 +24,6 @@ class CountryController extends AbstractController
         $input = $request->toArray()['input'];
         $types = $request->toArray()['types'];
 
-
-        
         $data = $dataManager->getData($types, $input);
 
         return new Response(
@@ -89,14 +88,38 @@ class CountryController extends AbstractController
     /**
      * @Route("/country", name="add_country", methods="POST")
      */
-    public function addCountry(CountryRepository $countryRepository, Request $request): Response
+    public function addCountry(RestCountriesDataRetriever $restCountriesDataRetriever, CountryRepository $countryRepository, Request $request, GeneralDataDecorator $generalDataDecorator): Response
     {   
- 
+        
         $data = $request->toArray();
+        
+        if(isset($data["Mode"])){
+            if($data["Mode"] == "ADD_ALL"){
+                $savedData = $this->addAllCountries($countryRepository, $restCountriesDataRetriever, $generalDataDecorator);
+                return new Response(
+                    $savedData,
+                    Response::HTTP_OK,
+                  ['content-type' => 'application/json']
+                );
+            }
+        }
+
         $countryRepository->createCountry($data["Names"], $data["Iso Code"], [], "NO_DATA");
 
         return new Response(
             Response::HTTP_OK
+        );
+    }
+
+    private function addAllCountries(CountryRepository $countryRepository, RestCountriesDataRetriever $restCountriesDataRetriever, GeneralDataDecorator $generalDataDecorator){
+        // String con todos los datos -> array de objetos
+        $allData =json_decode($restCountriesDataRetriever->fetchAllData(), true);
+
+        // Llamamos al decorador que me pone los datos generales:
+        $savedData = $generalDataDecorator->saveAllData($allData);
+
+        return new Response(
+            Response::HTTP_OK,
         );
     }
 

@@ -133,7 +133,7 @@
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
 import DynamicArrayViewer from "../components/DynamicArrayViewer.vue";
 import UpdateDialog from "../components/UpdateDialog.vue";
-import { getAllCountries, deleteCountryByID, getAllUsers, deleteUserByID } from "../../facade/AdminFacade.js";
+import { getAllCountries, deleteCountryByID, getAllUsers, deleteUserByID,addAllCountries } from "../../facade/AdminFacade.js";
 export default {
   name: "Admin",
   components: { FadingLightsAnimation, DynamicArrayViewer, UpdateDialog },
@@ -266,7 +266,7 @@ export default {
             this.dialogIsOpen = true;
 
           } else if (this.dialogModes[this.selectedDialogMode] === "Add all using api") {
-            // Llamada a la api
+            addAllCountries({"Mode": "ADD_ALL"});
 
           } else if (this.dialogModes[this.selectedDialogMode] === "Add one normally") { // Solamente va a añadir
             this.openDialogData = {

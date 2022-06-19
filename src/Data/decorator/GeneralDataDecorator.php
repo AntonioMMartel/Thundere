@@ -44,6 +44,18 @@ class GeneralDataDecorator extends DataDecorator
         return array_merge(parent::getData($input), $data);
     }
 
+    public function saveAllData($data) {
+        foreach ($data as $countryData) {
+            $country = $this->fetchDataFromDb($countryData["name"]["common"]);
+            if (!$country){  // Si no están los ponemos de la api
+                $translations = $this->getCountryTranslations($countryData);
+                $iso = $this->getCountryIso($countryData);
+                // Guardamos los datos en la db
+                $country = $this->saveDataInDb($countryData, $translations, $iso);
+            }
+        }
+        return $data;
+    }
 
     private function fetchDataFromDb(String $input): array
     {   
@@ -80,12 +92,16 @@ class GeneralDataDecorator extends DataDecorator
         foreach ($restCountriesData['translations'] as $entry) {
             $names = array_merge($names, array_values($entry));
         }
-        array_push($names, $restCountriesData['name']['common']);
-        array_push($names, $restCountriesData['name']['official']);
+        if(isset($restCountriesData['name']['common'])) 
+            array_push($names, $restCountriesData['name']['common']);
 
-        foreach ($restCountriesData['name']['nativeName'] as $entry) {
-            $names = array_merge($names, array_values($entry));
-        }
+        if(isset($restCountriesData['name']['official'])) 
+            array_push($names, $restCountriesData['name']['official']);
+
+        if(isset($restCountriesData['name']['nativeName'])) 
+            foreach ($restCountriesData['name']['nativeName'] as $entry) {
+                $names = array_merge($names, array_values($entry));
+            }
 
         // Quita los repes.
         return array_unique($names);

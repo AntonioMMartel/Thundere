@@ -32,24 +32,11 @@ class CountryRepository extends ServiceDocumentRepository
         // El admin puede crear paises sin datos.
         $country->addCountryData($data, $dataType);
             
-        
         $entityManager = $this->getDocumentManager();
         $entityManager->persist($country);
         $entityManager->flush(); 
     
         return $country;
-        
-    }
-
-    public function createCountrie(array $data): array {
-        
-        $countries = array();
-        // Sacas de $data cada pais con un for y lo hincas aqui
-            $country = createCountry();
-
-            array_push($countries, $country);
-        // end for
-        return $countries;
         
     }
 

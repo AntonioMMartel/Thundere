@@ -33,7 +33,11 @@ function addUser(data) {
       data[label.toLowerCase().replaceAll(' ', '_')] = data[label]
       delete data[label]
   }
-  return axios.post("/api/user", data)
+  return axios.post("/api/user", data);
+}
+
+function addAllCountries(data) {
+  return axios.post("/api/country", data)
 }
 
 export { getAllCountries, 
@@ -43,5 +47,6 @@ export { getAllCountries,
          updateCountryById, 
          updateUseryById,
          addCountry,
-         addUser
+         addUser,
+         addAllCountries
          };

@@ -29,6 +29,7 @@
 
 <script>
 import DynamicArrayUpdater from './DynamicArrayUpdater.vue';
+import { search } from '../../facade/SearchFacade';
 import { updateCountryById, updateUseryById, addUser, addCountry } from  '../../facade/AdminFacade.js';
 export default {
   name: "UpdateDialog",
@@ -76,18 +77,23 @@ export default {
               "clientTimeOffset": new Date().getTimezoneOffset() 
             } 
           )
-      if(target === "Countries" ) addCountry(this.data)
+      if(target === "Countries" ){
+        if (this.mode === "Add one normally")
+          addCountry(this.data)
+
+        if (this.mode === "Add one using api")
+          search(this.data["Name"], ["General"]);
+
+      } 
       if(target === "Users" ) addUser(this.data)
-      
       this.closeDialog();
-      
 
     },
     saveInput(label) {
       this.data[label]=document.getElementById(label).value
     }
   },
-  props: ["data", "target", "id", "dialogIsUpdating", "message"],
+  props: ["data", "target", "id", "dialogIsUpdating", "message", "mode"],
 };
 </script>
 
