@@ -12,7 +12,7 @@
 
 <script>
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
-import { search } from "../../facade/SearchFacade";
+import { view } from "../../facade/SearchFacade";
 
 export default {
   name: "CountryViewer",
@@ -25,7 +25,7 @@ export default {
   },
   props: ["country"],
   beforeMount() {
-    search(this.country, ["General"])
+    view(this.country, ["General"])
       .then((response) => {
         this.data = response.data;
         this.message = this.data.cca2;

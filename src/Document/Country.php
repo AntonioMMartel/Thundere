@@ -47,9 +47,9 @@ class Country {
         return $this->id;
     }
 
-    public function getNames(): ?Collection
+    public function getNames(): array
     {
-        return $this->name;
+        return $this->names;
     }
 
     public function setNames(array $names): self
@@ -84,6 +84,11 @@ class Country {
     public function getCountryData()
     {
         return $this->countryData;
+    }
+
+    public function getCommonName()
+    {
+        return $this->countryData["General"]["name"]["common"];
     }
 
     public function addCountryData(array $countryData, String $type): self

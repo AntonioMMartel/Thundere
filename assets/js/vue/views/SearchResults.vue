@@ -10,10 +10,18 @@
 <script>
 import CountrySearchInput from "../components/CountrySearchInput.vue";
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
+import { search } from "../../facade/SearchFacade";
+
 export default {
   name: "SearchResults",
   components: { FadingLightsAnimation, CountrySearchInput },
   props: ["input"],
+  methods: {
+
+  },
+  beforeMount() {
+    console.log(search(this.input));
+  } 
 };
 </script>
 

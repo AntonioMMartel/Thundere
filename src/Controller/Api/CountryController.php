@@ -5,6 +5,8 @@ namespace App\Controller\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use MongoDB\BSON\Regex;
+
 use App\Document\Country;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -108,6 +110,30 @@ class CountryController extends AbstractController
 
         return new Response(
             Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @Route("/search/country/{input}", name="search_countries", methods="GET")
+     */
+    public function searchCountriesByName($input, DocumentManager $documentManager) {
+
+        // Array de countries
+        $countries = $documentManager->createQueryBuilder(Country::class)
+        ->field('names')->equals(new Regex("^".$input, "im"))
+        ->getQuery()
+        ->execute()
+        ->toArray();
+
+        $names = [];
+        foreach($countries as $country){
+            $names += [$country->getCommonName() => $country->getNames()];
+        }
+
+        return new Response(
+            json_encode($names),
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
         );
     }
 

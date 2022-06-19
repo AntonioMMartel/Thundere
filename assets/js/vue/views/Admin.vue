@@ -31,7 +31,6 @@
             <td>{{ country.isoCode }}</td>
             <td><DynamicArrayViewer :array="country.names"></DynamicArrayViewer></td>
             <td class="button">Go to</td>
-
             <td class="unselectable">
               <div class="icons">
                 <img
