@@ -27,7 +27,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="country in data['Countries'].slice(page * 5, page + 1 * 5)" :key="country._id.$oid" v-bind:id="country._id.$oid">
+          <tr v-for="country in data['Countries'].slice(page * 5, (page + 1) * 5)" :key="country._id.$oid" v-bind:id="country._id.$oid">
             <td>{{ country.isoCode }}</td>
             <td><DynamicArrayViewer :array="country.names"></DynamicArrayViewer></td>
             <td class="button">Go to</td>
@@ -75,7 +75,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in data['Users'].slice(page * 5, page + 1 * 5)" :key="user._id.$oid" v-bind:id="user._id.$oid">
+          <tr v-for="user in data['Users'].slice(page * 5, (page + 1) * 5)" :key="user._id.$oid" v-bind:id="user._id.$oid">
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.password }}</td>
