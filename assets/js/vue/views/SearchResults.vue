@@ -1,30 +1,38 @@
 <template>
-  <div class="container-main">
+  <div v-on:wheel="changePageOnScroll($event)" class="container-main">
     <FadingLightsAnimation />
     <div class="container-ui">
       <CountrySearchInput :inputValue="input" :to="'/search'" />
-      <div class="grid">
-          <div v-for="(country, key) in  Object.entries(data).slice(page * 6, (page + 1) * 6)" 
-          :key="key" :id="key">
-            <div class="country-container">
-              <img class="flag" :src="country[1]" :alt="country[0] + 'flag'">
-              <div class="divider">
-                <div class=" country-title">
-                  {{ country[0] }}
+      <div class="country-view">    
+        <img v-if="Object.keys(this.data).length > 6" v-on:click="decreasePageCounter()" class="page-arrow left-arrow button" src="../../../svgs/ArrowLeft.svg" />
+        <div class="grid">
+            <div v-for="(country, key) in  Object.entries(data).slice(page * 6, (page + 1) * 6)" 
+            :key="key" :id="key">
+              <div v-on:click="viewCountry(country[0])" class="country-container button">
+                <img class="flag" :src="country[1]" :alt="country[0] + 'flag'">
+                <div class="divider">
+                  <div class=" country-title">
+                    {{ country[0] }}
+                  </div>
                 </div>
               </div>
-              
             </div>
-          </div>
+        </div>
+        <img v-if="Object.keys(this.data).length > 6" v-on:click="increasePageCounter()" class="page-arrow right-arrow button" src="../../../svgs/ArrowRight.svg" />
+      </div>
+      <div v-if="Object.keys(this.data).length > 6" class="page-display">
+        {{ page + 1 }}
       </div>
     </div>
+
   </div>
+
 </template>
 
 <script>
 import CountrySearchInput from "../components/CountrySearchInput.vue";
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
-import { search } from "../../facade/SearchFacade";
+import { search, view } from "../../facade/SearchFacade";
 
 export default {
   name: "SearchResults",
@@ -37,22 +45,62 @@ export default {
     }
   },
   methods: {
-    
+    decreasePageCounter() {
+      if (this.page - 1 < 0) {
+        console.log(Object.keys(this.data).length)
+        this.page = Math.ceil(Object.keys(this.data).length / 6) - 1;
+      } else {
+        this.page--;
+      }
+    },
+    increasePageCounter() {
+      if (this.page + 1 >= Math.ceil(Object.keys(this.data).length / 6)) {
+        this.page = 0;
+      } else {
+        this.page++;
+      }
+    },
+    changePageOnScroll(event) {
+      // Hacia arriba
+      if (event.deltaY < 0) {
+        this.increasePageCounter();
+      } else {
+        this.decreasePageCounter();
+      }
+    },
+    viewCountry(input) {
+      window.location.replace("/country/" + input);
+    }
   },
   beforeMount() {
     search(this.input)
     .then((response) => {
       this.data = response.data
-      console.log(this.data)
     })
     .catch( (error) => {
       console.log(error)
     })
-  }
+  },
+
 };
 </script>
 
 <style lang="scss" scoped>
+
+.left-arrow {
+  margin-right: 5em;
+}
+
+.right-arrow {
+  margin-left: 5em;
+}
+.country-view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 
 .country-title {
   text-align: center;
@@ -99,7 +147,9 @@ export default {
 
 .flag {
   width: 300px;
+  min-width: 300px;
   height: 200px;
+  min-height: 200px;
   border-radius: 20px 20px 0 0;
 }
 
@@ -133,5 +183,21 @@ export default {
   .divider::before{
     background-size: 100% calc(2vw + 66px);
   }
+}
+
+.page-display {
+  font-size: 1.75rem;
+}
+
+.button {
+  cursor: pointer;
+}
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.page-arrow {
+  height: 10%;
 }
 </style>

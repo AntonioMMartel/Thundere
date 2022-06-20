@@ -40,8 +40,10 @@ export default {
 
 <style lang="scss" scoped>
 .title {
-  font-size: 7rem;
+  font-size: 4rem;
   text-align: center;
+  padding-bottom: 0.3em;
+  padding-top: 0.25em;
 }
 
 .capitalize {
@@ -59,15 +61,11 @@ export default {
 .container-ui {
   width: 100%;
   height: 80vh;
+  flex-direction: column;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  div:first-child {
-    padding-bottom: 0.3em;
-    padding-top: 1.2em;
-  }
 }
 
 .texto {
