@@ -127,7 +127,7 @@ class CountryController extends AbstractController
 
         $names = [];
         foreach($countries as $country){
-            $names += [$country->getCommonName() => $country->getNames()];
+            $names += [$country->getCommonName() => $country->getFlag()];
         }
 
         return new Response(

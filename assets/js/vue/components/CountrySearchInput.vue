@@ -1,6 +1,9 @@
 <template>
   <div class="contenedor-flex">
-    <textarea id="text-input" maxlength="74" :rows="textRows" @keydown.enter.prevent="submit" v-model="input"></textarea>
+    <textarea id="text-input" maxlength="74" 
+    @keydown.enter.prevent="submit" 
+    v-model="inputValue"
+    :rows="textRows"></textarea>
     <div class="texto-error" v-if="error">{{ errorMessage }}</div>
   </div>
 </template>
@@ -11,16 +14,15 @@ export default {
   name: "CountrySearchInput",
   data() {
     return {
-      input: "",
       error: false,
       errorMessage: "Ha habido un error inesperado",
       textRows: 1,
     };
   },
-  props: ["to"],
+  props: ["to", "inputValue"],
   methods: {
     submit() {
-      window.location.replace(this.to + "/" + this.input);
+      window.location.replace(this.to + "/" + this.inputValue);
     },
     updateInputHeight() {
       if (this.textRows <= 6) this.textRows = this.input.length / 16 + 1;

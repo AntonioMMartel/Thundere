@@ -132,5 +132,8 @@ class Country {
         return $this;
     }
 
+    public function getFlag() {
+        return $this->countryData["General"]["flags"]["png"];
+    }
 
 }
