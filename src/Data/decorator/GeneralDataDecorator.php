@@ -17,9 +17,9 @@ class GeneralDataDecorator extends DataDecorator
     /**
      * @var String Muestra el tipo de dato en la db
      */
-    private String $type = "General";
+    protected String $type = "General";
 
-    private array $apis = [RestCountriesDataRetriever::class];
+    protected array $apis = [RestCountriesDataRetriever::class];
 
     public function getData(String $input): array
     {   
@@ -53,34 +53,6 @@ class GeneralDataDecorator extends DataDecorator
                 // Guardamos los datos en la db
                 $country = $this->saveDataInDb($countryData, $translations, $iso);
             }
-        }
-        return $data;
-    }
-
-    private function fetchDataFromDb(String $input): array
-    {   
-        $databaseData = $this->database->fetchCountryData($input, $this->type);
-        //throw new BadRequestException(implode($databaseData));
-        if ($databaseData){
-            return $databaseData;
-        }
-           
-
-        return [];
-    }
-
-    private function fetchDataFromApi(String $input, String $api): array
-    {
-
-        $rawData = $api::fetchData($input);
-        $data = json_decode($rawData, true);
-
-        if (is_array($data)) {
-            $data = array_pop($data);
-        } 
-        else // No se encuentra nada (API caida o no existe el país)
-        {
-            return [];
         }
         return $data;
     }

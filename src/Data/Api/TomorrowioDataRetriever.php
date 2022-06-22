@@ -8,7 +8,7 @@ class TomorrowioDataRetriever implements DataRetriever
 {
     public static function fetchData($input): string
     {
-        return ''; //'[{"tomorrowio":"Siuuuuuuu"}]';
+        return ''; //'[{"Weahter":"Siuuuuuuu"}]';
     }
 
 }

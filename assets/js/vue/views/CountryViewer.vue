@@ -19,7 +19,7 @@ export default {
   components: { FadingLightsAnimation },
   data() {
     return {
-      data: "",
+      data: [],
       message: "Loading data...",
     };
   },
@@ -28,7 +28,6 @@ export default {
     view(this.country, ["General"])
       .then((response) => {
         this.data = response.data;
-        this.message = this.data.cca2;
       })
       .catch((error) => {
         console.log(error);
