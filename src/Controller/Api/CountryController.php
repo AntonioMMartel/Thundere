@@ -26,7 +26,7 @@ class CountryController extends AbstractController
         $input = $request->toArray()['input'];
         $types = $request->toArray()['types'];
 
-        $data = $dataManager->getData($types, $input);
+        $data = $dataManager->getData(["General", "Weather"], $input);
 
         return new Response(
             json_encode($data),

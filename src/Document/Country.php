@@ -99,18 +99,15 @@ class Country {
         // 2. Hacer que cuando los datos sean muy viejos (timeout superado) sean sobreescritos
         
         // Si no hay array de datos
-        if(!$this->countryData && $type=="NO_DATA"){ 
-            $this->countryData=[]; 
-        }   
-        if($type=="NO_DATA"){
-            return $this;
-        }
+        if(!$this->countryData && $type=="NO_DATA") $this->countryData=[]; 
+          
+        if($type=="NO_DATA") return $this;
+        
         // Si no está ese dato en el array de datos
         if (!isset($this->countryData[$type]) && !isset($this->countryData)) { 
             $this->countryData = [$type => $countryData]; 
         } else if (!isset($this->countryData[$type])) {
             $this->countryData += [$type => $countryData]; 
-
         }
 
         // Si ya habían datos
@@ -119,7 +116,6 @@ class Country {
             // (Esto deberia de verlo el DataManager)
             // Si no estaban de antes se añaden
             array_merge($this->countryData[$type], $countryData);
-            
         }
 
         return $this;

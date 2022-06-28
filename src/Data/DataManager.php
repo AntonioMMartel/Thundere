@@ -4,6 +4,8 @@ namespace App\Data;
 
 use App\Data\Database\Database;
 use App\Data\Decorator\GeneralDataDecorator;
+use App\Data\Decorator\WeatherDataDecorator;
+
 use App\Data\Decorator\DataDecorator;
 use App\Repository\CountryRepository;
 use App\Repository\UserRepository;
@@ -17,7 +19,8 @@ class DataManager {
 
     protected $countryRepository;
 
-    private array $decorators = ["General" => GeneralDataDecorator::class];
+    private array $decorators = ["Weather" => WeatherDataDecorator::class,
+                                 "General" => GeneralDataDecorator::class];
 
     public function __construct(CountryRepository $countryRepository)
     {

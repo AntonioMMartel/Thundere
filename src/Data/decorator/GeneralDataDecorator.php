@@ -23,9 +23,7 @@ class GeneralDataDecorator extends DataDecorator
 
     public function getData(String $input): array
     {   
-        
         // Los cogemos de la db
-
         $data = $this->fetchDataFromDb($input);
         if (!$data) // Si no están los cogemos de la api
         {   

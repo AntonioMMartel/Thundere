@@ -58,4 +58,33 @@ class Database
 
         return null;
     }
+
+    public function getCountryPosition(String $input) 
+    {
+        $foundCountry = $this->countryRepository->findOneBy(['names' => $input]);
+
+        if (!$foundCountry) return array();
+
+        $foundCountryData = $foundCountry->getCountryData();
+
+        if (!$foundCountryData) return array();
+
+        $capitalCoordinates = $foundCountryData["General"]["capitalInfo"]["latlng"];
+
+        return $capitalCoordinates;
+
+    }
+
+    public function addData(String $input, $data, String $type)
+    {   
+        // Miramos si existe el dato correspondiente
+        $foundCountryData = $this->countryRepository->addDataToCountry($input, $data, $type);
+
+        // Revisamos su actualidad
+
+        return $foundCountryData;
+    }
+
+
+
 }

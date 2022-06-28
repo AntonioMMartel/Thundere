@@ -32,9 +32,9 @@ class CountryRepository extends ServiceDocumentRepository
         // El admin puede crear paises sin datos.
         $country->addCountryData($data, $dataType);
             
-        $entityManager = $this->getDocumentManager();
-        $entityManager->persist($country);
-        $entityManager->flush(); 
+        $documentManager = $this->getDocumentManager();
+        $documentManager->persist($country);
+        $documentManager->flush(); 
     
         return $country;
         
@@ -52,16 +52,32 @@ class CountryRepository extends ServiceDocumentRepository
     }
 
     public function deleteCountryById($id): bool {
-        $dm = $this->getDocumentManager();
 
         $foundCountry = $this->findOneBy(["_id" => $id]);
 
         if(!$foundCountry) return false;
 
-        $dm->remove($foundCountry);
-        $dm->flush();
+        $documentManager = $this->getDocumentManager();
+        $documentManager->persist($country);
+        $documentManager->flush(); 
 
         return true;
+    }
+
+     public function addDataToCountry(String $input, $data, String $type)
+    {
+        $foundCountry = $this->findOneBy(['names' => $input]);
+
+        if (!$foundCountry) return array();
+
+        $foundCountry->addCountryData($data, $type);
+
+        $documentManager = $this->getDocumentManager();
+        $documentManager->persist($foundCountry);
+        $documentManager->flush(); 
+
+        return $foundCountry;
+
     }
 
 }

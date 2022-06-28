@@ -9,7 +9,7 @@ use App\Data\DataInterface;
 
 abstract class DataDecorator implements DataInterface
 {
-    protected Data $data;
+    protected DataInterface $data;
     protected Database $database;
     protected String $type;
     /**
@@ -17,7 +17,7 @@ abstract class DataDecorator implements DataInterface
      */
     protected array $apis;
 
-    public function __construct(Data $data, Database $database)
+    public function __construct(DataInterface $data, Database $database)
     {
         $this->data = $data;
         $this->database = $database;
@@ -38,7 +38,7 @@ abstract class DataDecorator implements DataInterface
         return [];
     }
 
-    protected function fetchDataFromApi(String $input, String $api): array
+    protected function fetchDataFromApi($input, String $api): array
     {
 
         $rawData = $api::fetchData($input);

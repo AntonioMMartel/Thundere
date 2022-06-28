@@ -7,6 +7,8 @@ use APp\Document\Country;
 use App\Data\Api\RestCountriesDataRetriever;
 use App\Data\Api\TomorrowioDataRetriever;
 
+
+
 use App\Data\Api\DataRetriever;
 
 /**
@@ -22,15 +24,27 @@ class WeatherDataDecorator extends DataDecorator
     protected array $apis = [TomorrowioDataRetriever::class];
 
     public function getData(String $input): array 
-    {
+    {   
+        $data = $this->fetchDataFromDb($input);
+        if (!isset($data["Weather"])) // Si no están los cogemos de la api
+        {    
+            // Get lat,long pair for coordinates
+            $position = $this->database->getCountryPosition($input);
 
+            $data = [];
+            foreach ($this->apis as $api) {
+                $data = array_merge($data, $this->fetchDataFromApi($position, $api));
+            }
+
+            // Guardamos los datos en la db
+            $country = $this->saveDataInDb($data, $input);
+        }
+        return array_merge(parent::getData($input), $data);
     }
 
-    private function saveDataInDb(array $data, array $translations, String $iso): Country
+    private function saveDataInDb(array $data, String $input): Country
     {   
-        // Añade los datos en el este.
-        // if (!$country = $this->database->addData($iso, $translations, $data, $this->type)) return null;
-            
+        if (!$country = $this->database->addData($input, $data, $this->type)) return null;
         return $country;
     }
 }

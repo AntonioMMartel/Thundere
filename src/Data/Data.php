@@ -2,7 +2,7 @@
 namespace App\Data;
 
 
-class Data 
+class Data implements DataInterface
 {   
 
     public function getData(String $input): array

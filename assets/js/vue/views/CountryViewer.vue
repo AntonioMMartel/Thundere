@@ -25,7 +25,7 @@ export default {
   },
   props: ["country"],
   beforeMount() {
-    view(this.country, ["General"])
+    view(this.country, ["General", "Weather"])
       .then((response) => {
         this.data = response.data;
       })
@@ -61,7 +61,6 @@ export default {
   width: 100%;
   height: 80vh;
   flex-direction: column;
-
   display: flex;
   flex-direction: column;
   align-items: center;
