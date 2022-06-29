@@ -7,8 +7,6 @@ use APp\Document\Country;
 use App\Data\Api\RestCountriesDataRetriever;
 use App\Data\Api\TomorrowioDataRetriever;
 
-
-
 use App\Data\Api\DataRetriever;
 
 /**
@@ -25,8 +23,9 @@ class WeatherDataDecorator extends DataDecorator
 
     public function getData(String $input): array 
     {   
+        
         $data = $this->fetchDataFromDb($input);
-        if (!isset($data["Weather"])) // Si no están los cogemos de la api
+        if (!$data || !isset($data[date("Y-m-d")]) || !isset($data[date("Y-m-d")][date("H").":00:00"] )  ) // Si no están los cogemos de la api
         {    
             // Get lat,long pair for coordinates
             $position = $this->database->getCountryPosition($input);
@@ -36,8 +35,24 @@ class WeatherDataDecorator extends DataDecorator
                 $data = array_merge($data, $this->fetchDataFromApi($position, $api));
             }
 
+            $parsedData = [];
+
+            // Organizas los datos
+            foreach ($data["timelines"][0]["intervals"] as $timeInterval) {
+                // $parsedData[substr($timeInterval["startTime"], 0, 11)] = año-dia-mesT
+                // Si no esta esa fecha añadida la añadimos
+                if(!isset($parsedData[substr($timeInterval["startTime"], 0, 10)])) {
+                    // Añadimos esa fecha
+                    $parsedData += [substr($timeInterval["startTime"], 0, 10) => []];
+                }
+                // Si no estan los datos de la hora dentro del dia añadidos los añadimos
+                if(!isset($parsedData[substr($timeInterval["startTime"], 0, 10)][substr(substr($timeInterval["startTime"], 11, 19), 0, 8)])) {
+                    // Añadimos a dicha fecha la hora y los datos meteorológicos dentro de la misma.
+                    $parsedData[substr($timeInterval["startTime"], 0, 10)] += [substr(substr($timeInterval["startTime"], 11, 19), 0, 8) => $timeInterval["values"]];
+                }
+            }
             // Guardamos los datos en la db
-            $country = $this->saveDataInDb($data, $input);
+            $country = $this->saveDataInDb($parsedData, $input);
         }
         return array_merge(parent::getData($input), $data);
     }

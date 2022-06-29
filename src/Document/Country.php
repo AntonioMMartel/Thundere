@@ -104,12 +104,13 @@ class Country {
         if($type=="NO_DATA") return $this;
         
         // Si no está ese dato en el array de datos
-        if (!isset($this->countryData[$type]) && !isset($this->countryData)) { 
+        if (!isset($this->countryData)) { 
             $this->countryData = [$type => $countryData]; 
         } else if (!isset($this->countryData[$type])) {
             $this->countryData += [$type => $countryData]; 
+        } else if(isset($this->countryData["Weather"]) && $type=="Weather") {
+            $this->countryData[$type] = $countryData;
         }
-
         // Si ya habían datos
         else {
             // Si estan anticuados se sobreescriben
@@ -117,6 +118,7 @@ class Country {
             // Si no estaban de antes se añaden
             array_merge($this->countryData[$type], $countryData);
         }
+
 
         return $this;
     }

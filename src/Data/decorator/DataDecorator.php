@@ -5,6 +5,7 @@ namespace App\Data\Decorator;
 use App\Data\Data;
 use App\Data\Database\Database;
 use App\Data\DataInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
 abstract class DataDecorator implements DataInterface
@@ -31,7 +32,6 @@ abstract class DataDecorator implements DataInterface
     protected function fetchDataFromDb(String $input): array
     {   
         $databaseData = $this->database->fetchCountryData($input, $this->type);
-        //throw new BadRequestException(implode($databaseData));
         if ($databaseData){
             return $databaseData;
         }
