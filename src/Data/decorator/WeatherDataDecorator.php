@@ -54,7 +54,7 @@ class WeatherDataDecorator extends DataDecorator
             // Guardamos los datos en la db
             $country = $this->saveDataInDb($parsedData, $input);
         }
-        return array_merge(parent::getData($input), $data);
+        return array_merge(parent::getData($input), ["Weather" => $data]);
     }
 
     private function saveDataInDb(array $data, String $input): Country

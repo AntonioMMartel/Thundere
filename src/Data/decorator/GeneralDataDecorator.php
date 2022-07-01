@@ -1,7 +1,6 @@
 <?php
 namespace App\Data\Decorator;
 
-
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
 use APp\Document\Country;
@@ -39,7 +38,7 @@ class GeneralDataDecorator extends DataDecorator
             // Guardamos los datos en la db
             $country = $this->saveDataInDb($data, $translations, $iso);
         }
-        return array_merge(parent::getData($input), $data);
+        return array_merge(parent::getData($input), ["General" => $data]);
     }
 
     public function saveAllData($data) {
