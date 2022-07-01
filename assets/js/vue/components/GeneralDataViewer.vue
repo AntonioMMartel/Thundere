@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <div class="data-container">
+    <div v-if="data" class="data-container">
       <div class="data-view" v-for="(data, key) in  Object.entries(data).slice(page * 8, (page + 1) * 8)" 
             :key="key" :id="key">
         <div class="data-title"> {{ data[0] }} 
@@ -16,12 +16,12 @@
           <DynamicArrayViewer :array="data[1]"></DynamicArrayViewer> 
         </div>
 
-        <div class="data-content-array" v-else-if="typeof(data[1]) === 'object'">
+        <div class="data-content-object" v-else-if="typeof(data[1]) === 'object'">
           <DynamicObjectViewer :data="data[1]"></DynamicObjectViewer> 
         </div>
       </div>        
     </div>
-    <div v-if="Object.keys(this.data).length > 6" class="page-display">
+    <div v-if="Object.keys(data).length > 6" class="page-display">
       {{ page + 1 }}
     </div>
   </div>
@@ -53,6 +53,11 @@ export default {
   font-size: 1.25rem;
   margin: auto;
   width: 50%;
+}
+
+.data-content-object {
+  font-size: 1.25rem;
+  margin-top: 0.5em
 }
 
 .data-content {
