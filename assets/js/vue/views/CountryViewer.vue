@@ -5,12 +5,13 @@
       <div class="container-ui">
         <div class="title capitalize">{{ name || "Loading" }}</div>
         <div class="select-container">
-          <img v-on:click="moveTargetBackwards()" class="arrow button" src="../../../svgs/ArrowLeft.svg" />
+          <img v-on:click="moveTypeSelectorBackwards()" class="arrow button" src="../../../svgs/ArrowLeft.svg" />
           <div class="select texto">{{  types[typeSelector] || "Loading data..." }}</div>
-          <img v-on:click="moveTargetForwards()" class="arrow button" src="../../../svgs/ArrowRight.svg" />
+          <img v-on:click="moveTypeSelectorForwards()" class="arrow button" src="../../../svgs/ArrowRight.svg" />
         </div>
-        <GeneralDataViewer :data="data[types[typeSelector]]"></GeneralDataViewer>
-
+        
+        <GeneralDataViewer v-if="types[typeSelector] ==='General'" :data="data['General']"></GeneralDataViewer>
+        <WeatherDataViewer v-if="types[typeSelector] ==='Weather'" :data="data['Weather']"></WeatherDataViewer>
       </div>
     </div>
   </article>
@@ -21,10 +22,11 @@ import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
 import GeneralDataViewer from "../components/GeneralDataViewer.vue";
 
 import { view } from "../../facade/SearchFacade";
+import WeatherDataViewer from "../components/WeatherDataViewer.vue";
 
 export default {
   name: "CountryViewer",
-  components: { FadingLightsAnimation, GeneralDataViewer },
+  components: { FadingLightsAnimation, GeneralDataViewer, WeatherDataViewer },
   data() {
     return {
       data: [],
@@ -34,11 +36,27 @@ export default {
     };
   },
   props: ["country"],
+  methods: {
+    moveTypeSelectorBackwards() {
+      if (this.typeSelector - 1 < 0) {
+        this.typeSelector = this.types.length - 1;
+      } else {
+        this.typeSelector--;
+      }
+
+    },
+    moveTypeSelectorForwards() {
+      if (this.typeSelector + 1 >= this.types.length) {
+        this.typeSelector = 0;
+      } else {
+        this.typeSelector++;
+      }
+    },
+  },
   beforeMount() {
     view(this.country, this.types)
       .then((response) => {
         this.data = response.data;
-        console.log(this.data)
         this.name = this.data.General.name.common
       })
       .catch((error) => {

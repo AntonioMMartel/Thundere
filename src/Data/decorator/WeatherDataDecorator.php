@@ -25,11 +25,12 @@ class WeatherDataDecorator extends DataDecorator
     {   
         
         $data = $this->fetchDataFromDb($input);
-        if (!$data || !isset($data[date("Y-m-d")]) || !isset($data[date("Y-m-d")][date("H").":00:00"] )  ) // Si no están los cogemos de la api
+        $tomorrow = date("Y-m-d", strtotime(" +1 days", time()));
+
+        if (!$data || !isset($data[$tomorrow]) || !isset($data[$tomorrow][date("H").":00:00"] )  ) // Si no están los cogemos de la api
         {    
             // Get lat,long pair for coordinates
             $position = $this->database->getCountryPosition($input);
-
             $data = [];
             foreach ($this->apis as $api) {
                 $data = array_merge($data, $this->fetchDataFromApi($position, $api));
