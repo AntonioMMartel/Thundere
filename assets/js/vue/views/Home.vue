@@ -2,8 +2,9 @@
   <div class="container-main">
     <FadingLightsAnimation />
     <div class="container-ui">
-      <div class="title">Pon una ciudad</div>
+      <div class="title">Pon un país</div>
       <CountrySearchInput :inputValue="inputValue" :to="'/search'" />
+      <FiltersMenu></FiltersMenu>
     </div>
   </div>
 </template>
@@ -11,9 +12,11 @@
 <script>
 import CountrySearchInput from "../components/CountrySearchInput.vue";
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
+import FiltersMenu from "../components/FiltersMenu.vue";
+
 export default {
   name: "Home",
-  components: { FadingLightsAnimation, CountrySearchInput },
+  components: { FadingLightsAnimation, CountrySearchInput, FiltersMenu },
   data () {
     return {
       inputValue: ""
@@ -38,11 +41,9 @@ export default {
 .container-ui {
   width: 100%;
   height: 80vh;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   div:first-child {
     padding-bottom: 0.3em;
     padding-top: 1.2em;

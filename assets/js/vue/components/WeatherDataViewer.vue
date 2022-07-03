@@ -19,7 +19,7 @@
           </div> 
 
           <div class="data-content" v-else-if="typeof(data[1]) === 'string' || typeof(data[1]) === 'number' && data[0] === 'weatherCode'" >
-            <span> {{ data[1].length === 4? weatherCodeFullDay[data[1]] : weatherCodeFullDay[data[1].substring(0,4)] }} </span>
+            <span> {{ data[1].length === 4? weatherCodeFullDay[data[1]] : weatherCodeFullDay[data[1].toString().substring(0,4)] }} </span>
           </div> 
 
           <div class="data-content" v-if="typeof(data[1]) === 'boolean'">
