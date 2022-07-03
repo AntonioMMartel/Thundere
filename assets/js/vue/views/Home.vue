@@ -2,7 +2,7 @@
   <div class="container-main">
     <FadingLightsAnimation />
     <div class="container-ui">
-      <div class="title">Pon un país</div>
+      <div class="title"> Thundere </div>
       <CountrySearchInput :inputValue="inputValue" :to="'/search'" />
       <FiltersMenu></FiltersMenu>
     </div>
@@ -46,7 +46,7 @@ export default {
   align-items: center;
   div:first-child {
     padding-bottom: 0.3em;
-    padding-top: 1.2em;
+    padding-top: 0.4em;
   }
 }
 </style>

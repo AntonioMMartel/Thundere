@@ -3,7 +3,8 @@
     <textarea id="text-input" maxlength="74" 
     @keydown.enter.prevent="submit" 
     v-model="inputValue"
-    :rows="textRows"></textarea>
+    :rows="textRows"
+    placeholder="Pon un país"> </textarea>
     <div class="texto-error" v-if="error">{{ errorMessage }}</div>
   </div>
 </template>
@@ -79,4 +80,9 @@ export default {
   padding: 1em;
   color: red;
 }
+
+::placeholder {
+  color: darkgrey;
+}
+
 </style>
