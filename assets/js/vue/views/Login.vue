@@ -1,23 +1,31 @@
 <template>
-  <div class="login">
-    <h1 class="title">Login in to the page</h1>
-    <form class="form" action="/login" method="post" @submit.prevent="login">
-      <label class="form-label" for="#email">Email:</label>
-      <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email" />
+  <div class="container-main">
+    <FadingLightsAnimation />
+    <div class="container-ui">
+      <div class="login">
+        <h1 class="title">Login in to the page</h1>
+        <form class="form" action="/login" method="post" @submit.prevent="login">
+          <label class="form-label" for="#email">Email:</label>
+          <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email" />
 
-      <label class="form-label" for="#password">Password:</label>
-      <input v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password" />
+          <label class="form-label" for="#password">Password:</label>
+          <input v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password" />
 
-      <p v-if="error" class="error">{{ errorMessage }}</p>
-      <input class="form-submit" type="submit" value="Login" />
+          <p v-if="error" class="error">{{ errorMessage }}</p>
+          <input class="form-submit" type="submit" value="Login" />
 
-      <!-- <input type="hidden" name="_csrf_token"> -->
-    </form>
+          <!-- <input type="hidden" name="_csrf_token"> -->
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { login } from "../../facade/AuthorizationFacade";
+import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
+
+
 export default {
   name: "Login",
   data: () => ({
@@ -48,7 +56,9 @@ export default {
     reloadComponent() {
       this.$forceUpdate(); // Recargamos el componente -> Se vuelve a llamar a symfony
     },
+    
   },
+  components: {FadingLightsAnimation}
 };
 </script>
 
@@ -71,14 +81,13 @@ export default {
   width: 20%;
   min-width: 350px;
   max-width: 100%;
-  background: rgba(19, 35, 47, 0.9);
-  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
   padding: 40px;
-  box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.1);
 }
 .form-label {
   margin-top: 2rem;
-  color: white;
   margin-bottom: 0.5rem;
   &:first-of-type {
     margin-top: 0rem;
@@ -88,23 +97,37 @@ export default {
   padding: 10px 15px;
   background: none;
   background-image: none;
-  border: 1px solid white;
-  color: white;
+  border: 2pt solid rgba(255, 225, 255, 0.7);
+  border-radius: 6px;
   &:focus {
     outline: 0;
-    border-color: #1ab188;
+    border-color: rgba(0, 225, 255, 0.7);
   }
 }
 .form-submit {
-  background: #1ab188;
+  background-color: rgba(255, 255, 255, 0.2);
   border: none;
-  color: white;
+  border-radius: 7px;
   margin-top: 3rem;
   padding: 1rem 0;
   cursor: pointer;
   transition: background 0.2s;
   &:hover {
-    background: #0b9185;
+    background-color: rgba(0, 225, 255, 0.4);
   }
+}
+.container-main {
+  display: flex;
+  height: 80vh;
+  flex-wrap: wrap;
+  color: $primary-color;
+}
+
+.container-ui {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

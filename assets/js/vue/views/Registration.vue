@@ -1,47 +1,53 @@
 <template>
-    <div class="login">
-        <h1 class="title"> Make an account</h1>
-        <form class="form" @submit.prevent="register">
+  <div class="container-main">
+    <FadingLightsAnimation />
+    <div class="container-ui">
+      <div class="login">
+          <h1 class="title"> Make an account</h1>
+          <form class="form" @submit.prevent="register">
 
-            <label class="form-label" for="#username">Username:</label>
-            <input v-model="username" class="form-input" id="username" required placeholder="Username">
+              <label class="form-label" for="#username">Username:</label>
+              <input v-model="username" class="form-input" id="username" required placeholder="Username">
 
-            <label class="form-label" for="#email">Email:</label>
-            <input v-model="email" class="form-input" type="email" id="email" required placeholder="Email">
+              <label class="form-label" for="#email">Email:</label>
+              <input v-model="email" class="form-input" type="email" id="email" required placeholder="Email">
 
-            <label class="form-label" for="#password">Password:</label>
-            <input v-model="password" class="form-input" type="password" id="password" placeholder="Password">
+              <label class="form-label" for="#password">Password:</label>
+              <input v-model="password" class="form-input" type="password" id="password" placeholder="Password">
 
-            <label class="form-label" for="#password-repeat"> Repeat your password:</label>
-            <input v-model="passwordRepeat" class="form-input" type="password" id="password-repeat" placeholder="Password">
+              <label class="form-label" for="#password-repeat"> Repeat your password:</label>
+              <input v-model="passwordRepeat" class="form-input" type="password" id="password-repeat" placeholder="Password">
 
-            <p v-if="error" class="error"> {{ errorMessage }} </p>
-            <input class="form-submit" type="submit" value="Register">
-        </form>
+              <p v-if="error" class="error"> {{ errorMessage }} </p>
+              <input class="form-submit" type="submit" value="Register">
+          </form>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-    import {register} from "../../facade/AuthorizationFacade";
-
-    export default {
-        data: () => ({
-            email: "",
-            password: "",
-            passwordRepeat: "",
-            username: "",
-            error: false,
-            errorMessage: ""
-        }),
-        methods: {
-          register() {
-            register(this.email, this.username, this.password)
-            .then(response => {console.log(response); window.location.replace('/login');})
-            .catch((error) => { this.error=true; this.errorMessage=error});
-            // Deberia redirigir a algo de confirmar usuario con su codigo que le llega al email
-          }
-        }
-    };
+import {register} from "../../facade/AuthorizationFacade";
+import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
+export default {
+  data: () => ({
+    email: "",
+    password: "",
+    passwordRepeat: "",
+    username: "",
+    error: false,
+    errorMessage: ""
+  }),
+  methods: {
+    register() {
+      register(this.email, this.username, this.password)
+      .then(response => {console.log(response); window.location.replace('/login');})
+      .catch((error) => { this.error=true; this.errorMessage=error});
+      // Deberia redirigir a algo de confirmar usuario con su codigo que le llega al email
+    }
+  },
+  components: {FadingLightsAnimation}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -63,10 +69,11 @@
   width: 20%;
   min-width: 350px;
   max-width: 100%;
-  background: rgba(19, 35, 47, 0.9);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 5px;
-  padding: 40px;
-  box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.3);
+  padding: 40px;   
+  box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.1);
+
 }
 .form-label {
   margin-top: 2rem;
@@ -80,15 +87,16 @@
   padding: 10px 15px;
   background: none;
   background-image: none;
-  border: 1px solid white;
-  color: white;
+  border: 2pt solid rgba(255, 225, 255, 0.7);
+  border-radius: 6px;
   &:focus {
     outline: 0;
-    border-color: #1ab188;
+    border-color: rgba(0, 225, 255, 0.7);
   }
 }
 .form-submit {
-  background: #1ab188;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 7px;
   border: none;
   color: white;
   margin-top: 3rem;
@@ -96,7 +104,24 @@
   cursor: pointer;
   transition: background 0.2s;
   &:hover {
-    background: #0b9185;
+    background-color: rgba(0, 225, 255, 0.4);
   }
 }
+
+.container-main {
+  display: flex;
+  height: 80vh;
+  flex-wrap: wrap;
+  color: $primary-color;
+}
+
+
+.container-ui {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 </style>
