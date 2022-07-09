@@ -45,7 +45,7 @@ class UserController extends AbstractController
     public function updateUser(UserRepository $userRepository, 
                                Request $request, 
                                DocumentManager $documentManager,
-                               $id, 
+                               String $id, 
                                UserPasswordHasherInterface $passwordHasher
                                ): Response 
     {
@@ -131,6 +131,19 @@ class UserController extends AbstractController
             Response::HTTP_OK
         );
 
+    }
+
+    /**
+     * @Route("/user", name="get_all_users", methods="GET")
+     */
+    public function getAllUsers(DocumentManager $documentManager): Response
+    {   
+        // Cursor para capturar datos
+        $cursor = $documentManager
+                  ->getDocumentCollection(User::class)
+                  ->find();
+
+        return $this->json(['users' => $cursor->toArray()]);
     }
 
 

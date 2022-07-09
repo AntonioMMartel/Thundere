@@ -41,7 +41,7 @@ class GeneralDataDecorator extends DataDecorator
         return array_merge(parent::getData($input), ["General" => $data]);
     }
 
-    public function saveAllData($data) {
+    public function saveAllData(array $data): array {
         foreach ($data as $countryData) {
             $country = $this->fetchDataFromDb($countryData["name"]["common"]);
             if (!$country){  // Si no están los ponemos de la api
@@ -76,7 +76,7 @@ class GeneralDataDecorator extends DataDecorator
         return array_unique($names);
     }
 
-    private function getCountryIso(array $restCountriesData)
+    private function getCountryIso(array $restCountriesData): string
     {
         // Obtenemos el código ISO. Usaremos alpha-2
         // Según iso.org: alpha-2 para uso general

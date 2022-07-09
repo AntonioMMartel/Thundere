@@ -36,7 +36,7 @@ class Database
     }
 
     // Lee el array de datos dentro del país.
-    public function fetchCountryData(String $input, String $type)
+    public function fetchCountryData(String $input, String $type) : array
     {   
         $foundCountry = $this->countryRepository->findOneBy(['names' => $input]);
 
@@ -59,7 +59,7 @@ class Database
         return null;
     }
 
-    public function getCountryPosition(String $input) 
+    public function getCountryPosition(String $input) : array
     {
         $foundCountry = $this->countryRepository->findOneBy(['names' => $input]);
 

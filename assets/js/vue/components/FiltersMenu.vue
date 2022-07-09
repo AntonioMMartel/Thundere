@@ -1,9 +1,9 @@
 <template>
   <div class="filters-container">
     <img v-if="dataIsPrepared" v-on:click="addNewFilter()" class="add button" src="../../../svgs/add.svg" />
-    <div class="filters-grid">
-      <div v-for="(filter, key) in filters" :key="key">
-        <FilterInstance @deleteFilter="deleteFilter" :data="data" :index="key"></FilterInstance>
+    <div v-if="dataIsPrepared" class="filters-grid">
+      <div ref="filters" v-if="filters[key]" :class="filterClass" v-for="(index, key) in filters" :key="key">
+        <FilterInstance ref="key" @deleteFilter="deleteFilter" :data="data" :index="key"></FilterInstance>
       </div>
     </div>
   </div>
@@ -17,17 +17,32 @@ export default {
   name: "FiltersMenu",
   data() {
     return {
-      filters: [],
+      filters: [false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                ],
       data: {},
       dataIsPrepared: false,
+      filterClass: "filter"
     };
   },
   methods: {
     addNewFilter() {
-      if(this.filters.length < 10) this.filters.push({});
-    },
+      if(this.filters.indexOf(false) !== -1) {
+        this.filters.splice(this.filters.length)
+        this.filters[this.filters.indexOf(false)] = true
+      }
+    } ,
     deleteFilter(index) {
-      this.filters.splice(index, 1);
+      this.filters.splice(this.filters.length)
+      this.filters[index] = false
     }
   },
   beforeMount() {
@@ -46,6 +61,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 
 .filters-grid {
   display: grid;

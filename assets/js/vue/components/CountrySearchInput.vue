@@ -2,7 +2,7 @@
   <div class="contenedor-flex">
     <textarea id="text-input" maxlength="74" 
     @keydown.enter.prevent="submit" 
-    v-model="inputValue"
+    v-model="input"
     :rows="textRows"
     placeholder="Pon un país"> </textarea>
     <div class="texto-error" v-if="error">{{ errorMessage }}</div>
@@ -20,10 +20,10 @@ export default {
       textRows: 1,
     };
   },
-  props: ["to", "inputValue"],
+  props: ["to", "input"],
   methods: {
     submit() {
-      window.location.replace(this.to + "/" + this.inputValue);
+      window.location.replace(this.to + "/" + this.input);
     },
     updateInputHeight() {
       if (this.textRows <= 6) this.textRows = this.input.length / 16 + 1;
@@ -42,7 +42,7 @@ export default {
   updated() {
     this.updateInputHeight();
     this.preventUselessWhitespaces();
-  },
+  }
 };
 </script>
 

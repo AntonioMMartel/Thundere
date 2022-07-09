@@ -16,7 +16,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/{route}", name="default")
      */
-    public function route(): Response
+    public function routeToIndex(): Response
     {
         return $this->render('index.html.twig');
     }
@@ -24,7 +24,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/{route}/{route2}", name="default_GET")
      */
-    public function route2(): Response
+    public function compositeRouteToIndex(): Response
     {
         return $this->render('index.html.twig');
     }
@@ -32,7 +32,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function emptyRouteToIndex(): Response
     {
         return $this->render('index.html.twig');
     }

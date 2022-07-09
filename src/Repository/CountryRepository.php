@@ -51,20 +51,20 @@ class CountryRepository extends ServiceDocumentRepository
         return $foundCountry;
     }
 
-    public function deleteCountryById($id): bool {
+    public function deleteCountryById(String $id): bool {
 
         $foundCountry = $this->findOneBy(["_id" => $id]);
 
         if(!$foundCountry) return false;
 
         $documentManager = $this->getDocumentManager();
-        $documentManager->persist($country);
+        $documentManager->persist($foundCountry);
         $documentManager->flush(); 
 
         return true;
     }
 
-     public function addDataToCountry(String $input, $data, String $type)
+    public function addDataToCountry(String $input, array $data, String $type): Country
     {
         $foundCountry = $this->findOneBy(['names' => $input]);
 

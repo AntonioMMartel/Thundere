@@ -103,7 +103,7 @@ class UserRepository extends ServiceDocumentRepository implements PasswordUpgrad
         return $user;
     }
 
-    public function deleteUserById($id): bool {
+    public function deleteUserById(String $id): bool {
         $dm = $this->getDocumentManager();
 
         $foundUser = $this->findOneBy(["_id" => $id]);

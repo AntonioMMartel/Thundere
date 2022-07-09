@@ -39,7 +39,7 @@ class CountryController extends AbstractController
     /**
      * @Route("/country/{id}", name="update_country", methods="PUT")
      */
-    public function updateCountry(CountryRepository $countryRepository, $id, Request $request, DocumentManager $documentManager): Response 
+    public function updateCountry(CountryRepository $countryRepository, String $id, Request $request, DocumentManager $documentManager): Response 
     {
         $foundCountry = $countryRepository->findOneBy(["_id" => $id]);
 
@@ -148,5 +148,19 @@ class CountryController extends AbstractController
             Response::HTTP_OK,
         );
     }
+
+    /**
+     * @Route("/country", name="get_all_countries", methods="GET")
+     */
+    public function getAllCountries(DocumentManager $documentManager): Response
+    {   
+        // Cursor para capturar datos
+        $cursor = $documentManager
+                  ->getDocumentCollection(Country::class)
+                  ->find();
+
+        return $this->json(['countries' => $cursor->toArray()]);
+    }
+
 
 }
