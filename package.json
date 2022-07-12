@@ -25,7 +25,8 @@
         "doctriMigrationHistory": "php bin/console doctrine:migrations:status",
         "composerDeleteCache": "composer dump-autoload",
         "sqlQuery": "php bin/console doctrine:query:sql",
-        "makeController": "php bin/console make:controller"
+        "makeController": "php bin/console make:controller",
+        "test": "./node_modules/.bin/jest"
     },
     "dependencies": {
         "axios": "^0.24.0",
