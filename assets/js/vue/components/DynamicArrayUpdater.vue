@@ -3,15 +3,13 @@
     <div class="pointer-data">
       <span v-if="!addingNewElement">{{ this.array[this.pointer] }} </span>
       <span v-if="addingNewElement"> Adding new element </span>
-
     </div>
 
-      <div ref="options" class="options-menu" >
-        <img class="unselectable"  src="../../../svgs/ArrowsUpDown.svg" alt="" />
-        <input v-if="showingOptionsMenu" ref="pointerInput" class="bubble pointer-input down" type="number" v-model="pointer"/>
-        <div  v-if="showingOptionsMenu" v-on:click="startAddingNewElement()"  class="bubble up" > + </div>
-
-      </div>
+    <div ref="options" class="options-menu" >
+      <img class="unselectable"  src="../../../svgs/ArrowsUpDown.svg" alt="" />
+      <input v-if="showingOptionsMenu" ref="pointerInput" class="bubble pointer-input down" type="number" v-model="pointer"/>
+      <div  v-if="showingOptionsMenu" v-on:click="startAddingNewElement()"  class="bubble up" > + </div>
+    </div>
     <input  name="input" id="form-input" type="text" :value="this.array[this.pointer]" />
     <img v-on:click="confirmChanges()" class="confirm-button" src="../../../svgs/Tic.svg" />
   </div>

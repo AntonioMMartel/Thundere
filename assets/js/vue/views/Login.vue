@@ -3,16 +3,16 @@
     <FadingLightsAnimation />
     <div class="container-ui">
       <div class="login">
-        <h1 class="title">Login in to the page</h1>
+        <h1 data-test="title" class="title">Login to the page</h1>
         <form class="form" action="/login" method="post" @submit.prevent="login">
           <label class="form-label" for="#email">Email:</label>
-          <input v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email" />
+          <input data-test="input" v-model="email" name="email" class="form-input" type="email" id="email" required placeholder="Email" />
 
           <label class="form-label" for="#password">Password:</label>
-          <input v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password" />
+          <input data-test="input" v-model="password" name="password" class="form-input" type="password" id="password" placeholder="Password" />
 
           <p v-if="error" class="error">{{ errorMessage }}</p>
-          <input class="form-submit" type="submit" value="Login" />
+          <input data-test="submit" class="form-submit" type="submit" value="Login" />
 
           <!-- <input type="hidden" name="_csrf_token"> -->
         </form>
@@ -24,7 +24,6 @@
 <script>
 import { login } from "../../facade/AuthorizationFacade";
 import FadingLightsAnimation from "../components/FadingLightsAnimation.vue";
-
 
 export default {
   name: "Login",

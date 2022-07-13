@@ -1,33 +1,30 @@
-import Home from '../../vue/views/Home.vue';
+import NotFound from '../../vue/views/NotFound.vue';
 import {mount, shallowMount} from "@vue/test-utils";
 
-import FiltersMenu from '../../vue/components/FiltersMenu.vue';
-import CountrySearchInput from '../../vue/components/CountrySearchInput.vue';
 import FadingLightsAnimation from '../../vue/components/FadingLightsAnimation.vue';
 
 
-describe("Home.vue", () => {
-  it("Carga el título de la aplicación", () => {
-    const wrapper = mount(Home);
+describe("NotFound.vue", () => {
+  it("Carga la animación", () => {
+    const wrapper = shallowMount(NotFound);
+    expect(wrapper.findComponent(FadingLightsAnimation).exists()).toBe(true)
+  });
+
+  it("Carga el título", () => {
+    const wrapper = mount(NotFound);
 
     const title = wrapper.get('[data-test="title"]')
 
-    expect(title.text()).toBe("Thundere")
+    expect(title.text()).toMatch("Page not found")
+  });
+  
+  it("Carga el testo", () => {
+    const wrapper = mount(NotFound);
+
+    const text = wrapper.get('[data-test="text"]')
+
+    expect(text.text()).toMatch("The page you were looking for doesn't exist.")
   });
 
-  it("Carga el menú de filtros", () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(FiltersMenu).exists()).toBe(true)
-  });
-
-  it("Carga el buscador de países", async () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(CountrySearchInput).exists()).toBe(true)
-  });
-
-  it("Carga la animación", async () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(FadingLightsAnimation).exists()).toBe(true)
-  });
 })
 
