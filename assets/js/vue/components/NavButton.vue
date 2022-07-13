@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="href" class="contenedor-nav-item"> {{ label }} </router-link>
+  <router-link data-test="button" :to="href" class="contenedor-nav-item"> {{ label }} </router-link>
 </template>
 
 <script>

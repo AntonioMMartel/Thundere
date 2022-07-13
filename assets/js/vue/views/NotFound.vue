@@ -3,8 +3,8 @@
         <div class="container-main">
             <FadingLightsAnimation/>
             <div class="container-ui">
-                <div class="title capitalize"> Page not found </div> 
-                <div class="texto"> The page you were looking for doesn't exist. </div>
+                <div data-test="title" class="title capitalize"> Page not found </div> 
+                <div data-test="text" class="texto"> The page you were looking for doesn't exist. </div>
             </div>
         </div>
     </article>

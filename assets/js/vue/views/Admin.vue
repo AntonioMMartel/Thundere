@@ -12,12 +12,12 @@
     <FadingLightsAnimation />
     <div class="container-ui">
       <div class="select-container">
-        <img v-on:click="moveTargetBackwards()" class="arrow button" src="../../../svgs/ArrowLeft.svg" />
-        <div class="select capitalize title">{{ targets[targetSelector] }}</div>
-        <img v-on:click="moveTargetForwards()" class="arrow button" src="../../../svgs/ArrowRight.svg" />
+        <img data-test="moveTargetBackwards" v-on:click="moveTargetBackwards()" class="arrow button" src="../../../svgs/ArrowLeft.svg" />
+        <div data-test="selectedTarget" class="select capitalize title">{{ targets[targetSelector] }}</div>
+        <img data-test="moveTargetForwards" v-on:click="moveTargetForwards()" class="arrow button" src="../../../svgs/ArrowRight.svg" />
       </div>
 
-      <table v-if="targets[targetSelector] == 'Countries'">
+      <table data-test="countriesTable" v-if="targets[targetSelector] == 'Countries'">
         <thead>
           <tr>
             <th>Code</th>
@@ -27,13 +27,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="country in data['Countries'].slice(page * 5, (page + 1) * 5)" :key="country._id.$oid" v-bind:id="country._id.$oid">
+          <tr data-test="dataRow" v-for="country in data['Countries'].slice(page * 5, (page + 1) * 5)" :key="country._id.$oid" v-bind:id="country._id.$oid">
             <td>{{ country.isoCode }}</td>
             <td><DynamicArrayViewer :array="country.names"></DynamicArrayViewer></td>
             <td class="button">Go to</td>
             <td class="unselectable">
               <div class="icons">
                 <img
+                  data-test="updateButton"
                   v-on:click="
                     openDialog({
                       'Iso code': country.isoCode,
@@ -61,7 +62,7 @@
         </tbody>
       </table>
 
-      <table v-if="targets[targetSelector] == 'Users'">
+      <table data-test="usersTable" v-if="targets[targetSelector] == 'Users'">
         <thead>
           <tr>
             <th>Name</th>
@@ -74,7 +75,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in data['Users'].slice(page * 5, (page + 1) * 5)" :key="user._id.$oid" v-bind:id="user._id.$oid">
+          <tr data-test="dataRow" v-for="user in data['Users'].slice(page * 5, (page + 1) * 5)" :key="user._id.$oid" v-bind:id="user._id.$oid">
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.password }}</td>
@@ -115,7 +116,7 @@
         </tbody>
       </table>
 
-      <img v-on:click="openDialog({}, 0, false)" class="add button" src="../../../svgs/add.svg" />
+      <img data-test="addButton" v-on:click="openDialog({}, 0, false)" class="add button" src="../../../svgs/add.svg" />
         <div class="select-container"> 
           <img v-on:click="moveDialogModeBackwards()" class="arrow button" src="../../../svgs/ArrowLeft.svg" />
           <div class="sub-title">{{ dialogModes[selectedDialogMode] }} </div>

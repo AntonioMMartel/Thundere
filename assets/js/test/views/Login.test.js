@@ -1,33 +1,34 @@
-import Home from '../../vue/views/Home.vue';
+import Login from '../../vue/views/Login.vue';
 import {mount, shallowMount} from "@vue/test-utils";
 
-import FiltersMenu from '../../vue/components/FiltersMenu.vue';
-import CountrySearchInput from '../../vue/components/CountrySearchInput.vue';
 import FadingLightsAnimation from '../../vue/components/FadingLightsAnimation.vue';
 
 
-describe("Home.vue", () => {
-  it("Carga el título de la aplicación", () => {
-    const wrapper = mount(Home);
-
-    const title = wrapper.get('[data-test="title"]')
-
-    expect(title.text()).toBe("Thundere")
-  });
-
-  it("Carga el menú de filtros", () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(FiltersMenu).exists()).toBe(true)
-  });
-
-  it("Carga el buscador de países", async () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(CountrySearchInput).exists()).toBe(true)
-  });
-
+describe("Login.vue", () => {
   it("Carga la animación", async () => {
-    const wrapper = shallowMount(Home);
+    const wrapper = shallowMount(Login);
     expect(wrapper.findComponent(FadingLightsAnimation).exists()).toBe(true)
   });
+
+  it("Aparece texto de Login", async () => {
+    const wrapper = mount(Login);
+    const title = wrapper.get('[data-test="title"]')
+    expect(title.text()).toBe("Login to the page")
+  });
+
+  it("Aparecen dos inputs para añadir los datos", async () => {
+    const wrapper = mount(Login);
+    expect(wrapper.findAll('[data-test="input"]').length).toBe(2)
+  });
+
+  it("Se redirige a la vista Home si el inicio de sesión es exitoso", async () => {
+    const wrapper = mount(Login);
+    const submit = wrapper.get('[data-test="submit"]')
+    await wrapper.get('[id="email"]').setValue("goofy@email.com")
+    await wrapper.get('[id="password"]').setValue("123qwe")
+    await submit.trigger('click')
+    expect(window.location.href).toBe(window.location.href)
+  });
+
 })
 

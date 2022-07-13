@@ -1,9 +1,10 @@
 <template>
     <nav class="contenedor-nav">
-        <NavButton
+        <NavButton data-test="navButton"
         v-for="navButton in navButtonsDisplay"
         :key="navButton.id"
         :label="navButton.label"
+        :id="navButton.id"
         :href="navButton.href"
         ></NavButton>            
     </nav>
@@ -25,9 +26,6 @@ import NavButton from './NavButton.vue'
                 {id: 8, label: "Admin", href:"/admin", forRole:"admin" },
             ],
         }),
-        methods: {
-            
-        },
         components: { NavButton },
         props:["userRole"],
         computed: {

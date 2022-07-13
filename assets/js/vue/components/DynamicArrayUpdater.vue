@@ -1,19 +1,16 @@
 <template>
-  <div @mouseover="openMenu()"  @mouseleave="tryToCloseMenu()" v-on:wheel="modifyPointer($event)" class="container">
+  <div data-test="arrayViewer" @mouseover="openMenu()"  @mouseleave="tryToCloseMenu()" v-on:wheel="modifyPointer($event)" class="container">
     <div class="pointer-data">
-      <span v-if="!addingNewElement">{{ this.array[this.pointer] }} </span>
-      <span v-if="addingNewElement"> Adding new element </span>
-
+      <span data-test="dataValue" v-if="!addingNewElement">{{ this.array[this.pointer] }} </span>
+      <span data-test="addingNewElement" v-if="addingNewElement"> Adding new element </span>
     </div>
-
-      <div ref="options" class="options-menu" >
-        <img class="unselectable"  src="../../../svgs/ArrowsUpDown.svg" alt="" />
-        <input v-if="showingOptionsMenu" ref="pointerInput" class="bubble pointer-input down" type="number" v-model="pointer"/>
-        <div  v-if="showingOptionsMenu" v-on:click="startAddingNewElement()"  class="bubble up" > + </div>
-
-      </div>
-    <input  name="input" id="form-input" type="text" :value="this.array[this.pointer]" />
-    <img v-on:click="confirmChanges()" class="confirm-button" src="../../../svgs/Tic.svg" />
+    <div data-test="optionsMenu" ref="options" class="options-menu" >
+      <img class="unselectable"  src="../../../svgs/ArrowsUpDown.svg" alt="" />
+      <input data-test="indexInput" v-if="showingOptionsMenu" ref="pointerInput" class="bubble pointer-input down" type="number" v-model="pointer"/>
+      <div data-test="addElementButton" v-if="showingOptionsMenu" v-on:click="startAddingNewElement()" class="bubble up" > + </div>
+    </div>
+    <input data-test="updateValueInput" name="input" id="form-input" type="text" :value="this.array[this.pointer]" />
+    <img data-test="confirmButton" v-on:click="confirmChanges()" class="confirm-button" src="../../../svgs/Tic.svg" />
   </div>
 </template>
 

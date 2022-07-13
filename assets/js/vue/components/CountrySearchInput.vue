@@ -1,11 +1,11 @@
 <template>
   <div class="contenedor-flex">
-    <textarea id="text-input" maxlength="74" 
+    <textarea data-test="textArea" id="text-input" maxlength="74" 
     @keydown.enter.prevent="submit" 
     v-model="input"
     :rows="textRows"
     placeholder="Pon un país"> </textarea>
-    <div class="texto-error" v-if="error">{{ errorMessage }}</div>
+    <div data-test="error" class="texto-error" v-if="error">{{ errorMessage }}</div>
   </div>
 </template>
 

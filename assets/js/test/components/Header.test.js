@@ -1,33 +1,72 @@
-import Home from '../../vue/views/Home.vue';
-import {mount, shallowMount} from "@vue/test-utils";
+import Header from '../../vue/components/Header.vue';
+import NavButton from '../../vue/components/NavButton.vue';
 
-import FiltersMenu from '../../vue/components/FiltersMenu.vue';
-import CountrySearchInput from '../../vue/components/CountrySearchInput.vue';
-import FadingLightsAnimation from '../../vue/components/FadingLightsAnimation.vue';
+import {mount} from "@vue/test-utils";
 
-
-describe("Home.vue", () => {
-  it("Carga el título de la aplicación", () => {
-    const wrapper = mount(Home);
-
-    const title = wrapper.get('[data-test="title"]')
-
-    expect(title.text()).toBe("Thundere")
+describe("CountrySearch.vue", () => {
+  it("Si se es usuario se cargan los botones para su rol.", () => {
+    const wrapper = mount(Header, {
+      data: () => ({
+        navButtons: [
+          {id: 1, label: "History", href:"/history", forRole:"user" }, // 1
+          {id: 2, label: "Sign in", href:"/login", forRole:"none" },
+          {id: 3, label: "Home", href:"/", forRole:"all" }, // 2
+          {id: 4, label: "Bookmarks", href:"/bookmarks", forRole:"user" }, // 3
+          {id: 5, label: "Sign up", href:"/register", forRole:"none" },
+          {id: 6, label: "Sign out", href:"/logout", forRole:"user" }, // 4
+          {id: 7, label: "Sign out", href:"/logout", forRole:"admin" },
+          {id: 8, label: "Admin", href:"/admin", forRole:"admin" },
+        ],
+      }),
+      propsData: {
+        userRole: "user"
+      }
+    });
+    expect(wrapper.findAll('[data-test="navButton"]').length).toBe(4)
   });
 
-  it("Carga el menú de filtros", () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(FiltersMenu).exists()).toBe(true)
+  it("Si se es administrador se cargan los botones para su rol.", () => {
+    const wrapper = mount(Header, {
+      data: () => ({
+        navButtons: [
+          {id: 1, label: "History", href:"/history", forRole:"user" }, 
+          {id: 2, label: "Sign in", href:"/login", forRole:"none" },
+          {id: 3, label: "Home", href:"/", forRole:"all" }, // 1
+          {id: 4, label: "Bookmarks", href:"/bookmarks", forRole:"user" }, 
+          {id: 5, label: "Sign up", href:"/register", forRole:"none" },
+          {id: 6, label: "Sign out", href:"/logout", forRole:"user" },
+          {id: 7, label: "Sign out", href:"/logout", forRole:"admin" }, // 2
+          {id: 8, label: "Admin", href:"/admin", forRole:"admin" }, // 3
+        ],
+      }),
+      propsData: {
+        userRole: "admin"
+      }
+    });
+    expect(wrapper.findAll('[data-test="navButton"]').length).toBe(3)
   });
 
-  it("Carga el buscador de países", async () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(CountrySearchInput).exists()).toBe(true)
-  });
-
-  it("Carga la animación", async () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(FadingLightsAnimation).exists()).toBe(true)
+    it("Si se es un usuario no registrado se cargan los botones para su rol.", () => {
+    const wrapper = mount(Header, {
+      data: () => ({
+        navButtons: [
+          {id: 1, label: "History", href:"/history", forRole:"user" }, 
+          {id: 2, label: "Sign in", href:"/login", forRole:"none" }, // 1
+          {id: 3, label: "Home", href:"/", forRole:"all" },  // 2
+          {id: 4, label: "Bookmarks", href:"/bookmarks", forRole:"user" }, 
+          {id: 5, label: "Sign up", href:"/register", forRole:"none" }, // 3
+          {id: 6, label: "Sign out", href:"/logout", forRole:"user" },
+          {id: 7, label: "Sign out", href:"/logout", forRole:"admin" }, 
+          {id: 8, label: "Admin", href:"/admin", forRole:"admin" }, 
+          {id: 9, label: "OtroMas", href:"/otro", forRole:"none" }, // 4
+          {id: 19, label: "OtroMas2", href:"/otro2", forRole:"none" }, // 5
+        ],
+      }),
+      propsData: {
+        userRole: "none"
+      }
+    });
+    expect(wrapper.findAll('[data-test="navButton"]').length).toBe(5)
   });
 })
 

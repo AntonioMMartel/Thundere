@@ -3,7 +3,7 @@
     <div class="container-main">
       <FadingLightsAnimation />
       <div class="container-ui">
-        <div class="title capitalize">{{ name || "Loading" }}</div>
+        <div data-test="title" class="title capitalize">{{ name || "Loading" }}</div>
         <div class="select-container">
           <img v-on:click="moveTypeSelectorBackwards()" class="arrow button" src="../../../svgs/ArrowLeft.svg" />
           <div class="select texto">{{  types[typeSelector] || "Loading data..." }}</div>

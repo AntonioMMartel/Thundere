@@ -3,8 +3,8 @@
     <div v-on:click="closeDialog()" class="dialog-area"></div>
     <div class="dialog-body">
       <div class="form">
-        <div v-if="dialogIsUpdating" class="form-title">Editing {{ target }}</div>
-        <div v-if="!dialogIsUpdating" class="form-title">Adding {{ target }}</div>
+        <div data-test="editingTitle" v-if="dialogIsUpdating" class="form-title">Editing {{ target }}</div>
+        <div data-test="addingTitle" v-if="!dialogIsUpdating" class="form-title">Adding {{ target }}</div>
         <div v-for="(field, label) in data" :key="label" class="field-container">
           <label class="form-label" :for="field"> {{ label }} </label>
           <input v-on:blur="saveInput(label)" v-if="typeof(field) === 'string' && label !== 'Password'" required :name="label" :id="label" class="form-input" type="text" :value="field" />
@@ -16,11 +16,11 @@
         </div>
 
         <p v-if="error" class="error">{{ errorMessage }}</p>
-        <div class="text-center"> {{ message }}</div>
+        <div data-test="messageText" class="text-center"> {{ message }}</div>
         <div class="dialog-buttons">
           <button class="button cancel" v-on:click="closeDialog()">Cancel</button>
-          <button v-if="dialogIsUpdating" class="button confirm" v-on:click="updateTarget(id, target)"> Confirm </button>
-          <button v-if="!dialogIsUpdating" class="button confirm" v-on:click="addTarget(target)"> Add </button>
+          <button data-test="updateButton" v-if="dialogIsUpdating" class="button confirm" v-on:click="updateTarget(id, target)"> Confirm </button>
+          <button data-test="addButton" v-if="!dialogIsUpdating" class="button confirm" v-on:click="addTarget(target)"> Add </button>
         </div>
       </div>
     </div>

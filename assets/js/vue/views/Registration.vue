@@ -3,23 +3,23 @@
     <FadingLightsAnimation />
     <div class="container-ui">
       <div class="login">
-          <h1 class="title"> Make an account</h1>
+          <h1 data-test="title" class="title"> Make an account</h1>
           <form class="form" @submit.prevent="register">
 
-              <label class="form-label" for="#username">Username:</label>
-              <input v-model="username" class="form-input" id="username" required placeholder="Username">
+              <label data-test="username" class="form-label" for="#username">Username:</label>
+              <input data-test="input" v-model="username" class="form-input" id="username" required placeholder="Username">
 
-              <label class="form-label" for="#email">Email:</label>
-              <input v-model="email" class="form-input" type="email" id="email" required placeholder="Email">
+              <label data-test="email" class="form-label" for="#email">Email:</label>
+              <input data-test="input" v-model="email" class="form-input" type="email" id="email" required placeholder="Email">
 
-              <label class="form-label" for="#password">Password:</label>
-              <input v-model="password" class="form-input" type="password" id="password" placeholder="Password">
+              <label data-test="password" class="form-label" for="#password">Password:</label>
+              <input data-test="input" v-model="password" class="form-input" type="password" id="password" placeholder="Password">
 
-              <label class="form-label" for="#password-repeat"> Repeat your password:</label>
-              <input v-model="passwordRepeat" class="form-input" type="password" id="password-repeat" placeholder="Password">
+              <label data-test="passwordRepeat" class="form-label" for="#password-repeat"> Repeat your password:</label>
+              <input data-test="input" v-model="passwordRepeat" class="form-input" type="password" id="password-repeat" placeholder="Password">
 
               <p v-if="error" class="error"> {{ errorMessage }} </p>
-              <input class="form-submit" type="submit" value="Register">
+              <input data-test="submit" class="form-submit" type="submit" value="Register">
           </form>
       </div>
     </div>

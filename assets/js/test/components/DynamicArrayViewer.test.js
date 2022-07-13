@@ -1,33 +1,30 @@
-import Home from '../../vue/views/Home.vue';
-import {mount, shallowMount} from "@vue/test-utils";
+import DynamicArrayViewer from '../../vue/components/DynamicArrayViewer.vue';
+import {mount} from "@vue/test-utils";
 
-import FiltersMenu from '../../vue/components/FiltersMenu.vue';
-import CountrySearchInput from '../../vue/components/CountrySearchInput.vue';
-import FadingLightsAnimation from '../../vue/components/FadingLightsAnimation.vue';
-
-
-describe("Home.vue", () => {
-  it("Carga el título de la aplicación", () => {
-    const wrapper = mount(Home);
-
-    const title = wrapper.get('[data-test="title"]')
-
-    expect(title.text()).toBe("Thundere")
+describe("DynamicArrayViewer.vue", () => {
+  it("Carga el primer valor del vector por defecto", () => {
+    const wrapper = mount(DynamicArrayViewer, {
+      propsData: {
+        array: ["1","2","3"],
+      }
+    });
+    const dataValue = wrapper.get('[data-test="dataValue"]')
+    expect(dataValue.text()).toBe("1")
+  });
+  it("Carga correctamente el valor del índice al que se apunta al cambiar el puntero", () => {
+    const wrapper = mount(DynamicArrayViewer, {
+      data() {
+        return {
+          pointer: 1,
+        };
+      },
+      propsData: {
+        array: ["1","2","3"],
+      }
+    });
+    const dataValue = wrapper.get('[data-test="dataValue"]')
+    expect(dataValue.text()).toBe("2")
   });
 
-  it("Carga el menú de filtros", () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(FiltersMenu).exists()).toBe(true)
-  });
-
-  it("Carga el buscador de países", async () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(CountrySearchInput).exists()).toBe(true)
-  });
-
-  it("Carga la animación", async () => {
-    const wrapper = shallowMount(Home);
-    expect(wrapper.findComponent(FadingLightsAnimation).exists()).toBe(true)
-  });
 })
 
