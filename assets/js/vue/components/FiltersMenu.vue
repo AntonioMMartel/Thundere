@@ -2,8 +2,9 @@
   <div class="filters-container">
     <img v-if="dataIsPrepared" v-on:click="addNewFilter()" class="add button" src="../../../svgs/add.svg" />
     <div v-if="dataIsPrepared" class="filters-grid">
+    
       <div ref="filters" v-if="filters[key]" :class="filterClass" v-for="(index, key) in filters" :key="key">
-        <FilterInstance ref="key" @deleteFilter="deleteFilter" :data="data" :index="key"></FilterInstance>
+        <FilterInstance  ref="key" @deleteFilter="deleteFilter" :data="data" :index="key"></FilterInstance>
       </div>
     </div>
   </div>

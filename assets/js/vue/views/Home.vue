@@ -2,7 +2,7 @@
   <div class="container-main">
     <FadingLightsAnimation />
     <div class="container-ui">
-      <div class="title"> Thundere </div>
+      <div data-test="title" class="title"> Thundere </div>
       <CountrySearchInput :inputValue="inputValue" :to="'/search'" />
       <FiltersMenu></FiltersMenu>
     </div>
